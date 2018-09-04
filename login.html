@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="renderer" content="webkit">
     <title>登录</title>
-    <link rel="stylesheet" href="css/layui.css">
-    <link rel="stylesheet" href="css/layui.mobile.css">
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="layui/css/layui.mobile.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
@@ -20,22 +20,25 @@
                 <li class="login_li">
                     <p>
                         <!-- <span>用户账户：</span> -->
-                        <input type="text" class="login_input" placeholder="请输入账户" />
+                        <input type="text" id="userName" class="login_input" placeholder="请输入账户" />
                     </p>
                 </li>
                 <li class="login_li">
                     <p>
                         <!-- <span>登录密码：</span> -->
-                        <input type="text" class="login_input" placeholder="请输入密码" />
+                        <input type="text" id="userPass" class="login_input" placeholder="请输入密码" />
                     </p>
                 </li>
                 <li class="login_li">
                     <p class="login_button">
-                        <button type="button">登录</button>
+                        <button type="button" id="loginSumbit">登录</button>
                     </p>
                 </li>
             </ul>
         </div>
     </div>
 </body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="layui/layui.js"></script>
+<script src="js/login.js"></script>
 </html>
