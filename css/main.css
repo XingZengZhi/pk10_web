@@ -3,9 +3,12 @@
 .main_content{width:100%;transition: all .3s;}
 .main_header{display: flex;justify-content: space-between;padding:0 25px;box-sizing:border-box;background:#EA4758;}
 .icon-menu{display: block;width:25px;height:3px;padding:5px 0;border-top:3px solid;border-bottom:3px solid;background-color:currentColor;background-clip: content-box;}
-.main_header_title{display:block;font-size:1.6rem;padding:20px 0;color:white;width:100%;}
+.main_header_title{display:block;font-size:1.6rem;padding:11px 0;color:white;width:100%;}
 .main_header_title:hover{color:white;}
 /* 基础信息 */
+.data_base_icon{display:inline-block;width:20px;height:15px;background-size:100% 15px;background-repeat: no-repeat;background-position: 0 0;position: relative;top:2px;right:5px;}
+.data_base_img{background-image:url('/imgs/base_data.png');}
+.data_base_new{background-image:url('/imgs/base_new.png');}
 .icon-li{position: absolute;left:-10px;top:0;bottom:0;margin:auto;width:3px;height:3px;border-radius:100%;}
 .data_base_icon1{background:rgb(18, 150, 219);}
 .data_base_icon2{background:rgb(245, 166, 35);}
@@ -15,16 +18,43 @@
 .data_base_icon6{background:rgb(121, 68, 125);}
 .data_base_icon7{background:rgb(18, 150, 219);}
 .data_base_icon8{background:rgb(245, 166, 35);}
-.data_content{width:800px;margin:0 auto;}
+.data_content{width:800px;margin:45px auto 75px;}
 .data_base{background:white;border-radius:5px;margin-top:10px;}
-.data_base_title{font-size:1.6rem;padding:20px 0;text-align:center;}
-.data_base_list li{display:flex;justify-content: space-between;font-size:1.4rem;border-bottom:1px dotted rgb(153,153,153);margin:0 25px;height:45px;box-sizing:border-box;}
+.data_base_title{font-size:1.6rem;padding:10px 0;text-align:center;}
+.data_base_list li{display:flex;justify-content: space-between;font-size:1.4rem;border-bottom:1px dotted rgb(153,153,153);margin:0 10px 0 15px;height:45px;box-sizing:border-box;}
 .data_base_list li:last-child{border:none;}
 .data_base_span{display:inline-block;height:45px;line-height:45px;}
 .data_base_titleLeft{color:rgb(153,153,153);position: relative;}
 .data_base_titleRight{color:rgb(68,68,68);}
-.div_li{padding:0 0 5px 0;border-bottom:1px dotted rgb(153,153,153);}
-.data_base_div{display: flex;justify-content: space-between;margin:20px 25px;}
-.div_left_title{font-weight:bold;font-size:1.4rem;display: block;width:80%;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
+.div_li{margin:0px 10px;padding:10px 0;border-bottom:1px dotted rgb(153,153,153);}
+.div_li:last-child{border:none;}
+.data_base_div{display: flex;justify-content: space-between;}
+.div_left_title{font-weight:bold;font-size:1.4rem;display: block;width:70%;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
 .div_right_date{color:rgb(153,153,153);line-height:30px;}
-.div_detail{font-size:1.3rem;}
+.div_base_detail{color:rgb(153,153,153);}
+.div_detail{font-size:1.3rem;width:100%;position: relative;}
+.link_span{display: inline-block;width:85%;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
+.main_link_icon_right{margin-right:5px;}
+.link_more{font-size:1.3rem;color:#4A90E2;display:block;width:100%;height:45px;line-height:45px;text-align:center;}
+.link_more a{color:#4A90E2;}
+.footer{background:white;height:65px;position:fixed;bottom:0;width:100%;display:flex;justify-content: space-around;box-shadow:0 -5px 10px rgb(235, 233, 233);}
+.footer a{text-align:center;color:#535353;}
+.footer a:active{color:#EA4758;}
+.footer_icon{display:block;width:24px;height:29.7px;margin:10px auto 0;background-position: 0 0;background-repeat: no-repeat;background-size:100%;}
+.index_icon{background-image:url('/imgs/index1.png');}
+.recreation_icon{background-image:url('/imgs/recreation1.png');}
+.user_icon{background-image:url('/imgs/user1.png');}
+
+@media screen and (max-width:750px) {
+    html,body{width:100%;height:100%;}
+    .main_header{position:fixed;top:0;width:100%;z-index:999;}
+
+    .data_content{width:95%;}
+    .main_header_title{font-size:1.3rem;}
+    .data_base_title{font-size:1.2rem;}
+    .data_base_span{font-size:1rem;}
+
+    .div_left_title{font-size:1.1rem;}
+    .div_right_date{font-size:1rem;}
+    .link_span{font-size:1rem;}
+}

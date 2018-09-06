@@ -12,24 +12,28 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+    <header class="main_header">
+        <p class="main_header_title textCenter">PK10</p>
+        <!-- <section>
+            <a href="javascript:;" id="leftBar" class="main_header_title" data-isshow="false">
+                <i class="icon-menu"></i>
+            </a>
+        </section>
+        <section>
+            <a href="#" class="main_header_title marginRight15">首页</a>
+            <a href="#" class="main_header_title">娱乐平台</a>
+        </section> -->
+    </header>
     <div class="content">
         <div class="navlist" id="navlist"></div>
         <div class="main_content" id="main_content">
-            <header class="main_header">
-                <p class="main_header_title textCenter">PK10</p>
-                <!-- <section>
-                    <a href="javascript:;" id="leftBar" class="main_header_title" data-isshow="false">
-                        <i class="icon-menu"></i>
-                    </a>
-                </section>
-                <section>
-                    <a href="#" class="main_header_title marginRight15">首页</a>
-                    <a href="#" class="main_header_title">娱乐平台</a>
-                </section> -->
-            </header>
+            
             <div class="data_content">
                 <div class="data_base">
-                    <h3 class="data_base_title">基础信息</h3>
+                    <h3 class="data_base_title">
+                        <i class="data_base_icon data_base_img"></i>
+                        基础信息
+                    </h3>
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -91,7 +95,10 @@
                 </div>
 
                 <div class="data_base">
-                        <h3 class="data_base_title">最新公告</h3>
+                        <h3 class="data_base_title">
+                            <i class="data_base_icon data_base_new"></i>
+                            最新公告
+                        </h3>
                         <ul>
                             <li class="div_li">
                                 <div class="data_base_div">
@@ -99,20 +106,75 @@
                                     <span class="div_right_date">2018-09-07</span>
                                 </div>
                                 <div class="data_base_div">
-                                    <span class="div_right_date div_detail">公告详情</span>
-                                    <span></span>
+                                    <a class="div_base_detail div_detail">
+                                        <span class="link_span">公告详情</span>
+                                        <i class="link_icon_right main_link_icon_right"></i>
+                                    </a>
                                 </div>
                             </li>
-                            <li>
+                            <li class="div_li">
+                                <div class="data_base_div">
+                                    <span class="div_left_title">公告</span>
+                                    <span class="div_right_date">2018-09-07</span>
+                                </div>
+                                <div class="data_base_div">
+                                    <a class="div_base_detail div_detail">
+                                        <span class="link_span">公告详情</span>
+                                        <i class="link_icon_right main_link_icon_right"></i>
+                                    </a>
+                                </div>
                             </li>
-                            <li>
+                            <li class="div_li">
+                                <div class="data_base_div">
+                                    <span class="div_left_title">公告</span>
+                                    <span class="div_right_date">2018-09-07</span>
+                                </div>
+                                <div class="data_base_div">
+                                    <a class="div_base_detail div_detail">
+                                        <span class="link_span">公告详情</span>
+                                        <i class="link_icon_right main_link_icon_right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="div_li">
+                                <div class="data_base_div">
+                                    <span class="div_left_title">公告</span>
+                                    <span class="div_right_date">2018-09-07</span>
+                                </div>
+                                <div class="data_base_div">
+                                    <a class="div_base_detail div_detail">
+                                        <span class="link_span">公告详情</span>
+                                        <i class="link_icon_right main_link_icon_right"></i>
+                                    </a>
+                                </div>
                             </li>
                         </ul>
+                        <div class="link_more">
+                                <a href="#">查看更多</a>
+                        </div>
                     </div>
             </div>
             
         </div>
     </div>
+    <footer>
+        <section>
+            <div class="footer">
+                <a href="#">
+                    <i class="footer_icon index_icon"></i>
+                    首页
+                </a>
+                <a href="#">
+                    <i class="footer_icon recreation_icon"></i>
+                    娱乐平台
+                </a>
+                <a href="#">
+                    <i class="footer_icon user_icon"></i>
+                    我的
+                </a>
+            </div>
+        </section>
+    </footer>
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/layui/layui.js"></script>
