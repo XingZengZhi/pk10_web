@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="renderer" content="webkit">
     <title>首页</title>
-    <link rel="stylesheet" href="/pk10_web/layui/css/layui.css">
-    <link rel="stylesheet" href="/pk10_web/layui/css/layui.mobile.css">
-    <link rel="stylesheet" href="/pk10_web/css/reset.css">
-    <link rel="stylesheet" href="/pk10_web/css/main.css">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/layui/css/layui.mobile.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <header class="main_header">
@@ -24,11 +24,12 @@
             <a href="#" class="main_header_title">娱乐平台</a>
         </section> -->
     </header>
+
     <div class="content">
         <div class="navlist" id="navlist"></div>
         <div class="main_content" id="main_content">
-            
-            <div class="data_content">
+            <!-- 首页 -->
+            <div class="data_content index_data">
                 <div class="data_base">
                     <h3 class="data_base_title">
                         <i class="data_base_icon data_base_img"></i>
@@ -154,21 +155,77 @@
                         </div>
                     </div>
             </div>
+            <!-- 个人中心 -->
+            <div class="data_content personal_data">
+                <div class="data_base">
+                    <h3 class="data_base_title">
+                        个人资料
+                    </h3>
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon1"></i>
+                                账号
+                            </span>
+                            <span class="data_base_span data_base_titleRight">B12</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                真是姓名
+                            </span>
+                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                手机号码
+                            </span>
+                            <span class="data_base_span data_base_titleRight">1805673221</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                银行卡资料
+                            </span>
+                            <span class="data_base_span data_base_titleRight">农业银行/3471738383838383838</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon5"></i>
+                                支付宝收款吗
+                            </span>
+                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon6"></i>
+                                微信收款码
+                            </span>
+                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                        </li>
+                    </ul>
+                    <div class="editButtonBox">
+                        <button type="button" class="editUserInfo">确认修改</button>
+                    </div>
+                </div>
+            </div>
             
         </div>
     </div>
+
     <footer>
         <section>
             <div class="footer">
-                <a href="#">
+                <a href="javascript:;" id="index_data">
                     <i class="footer_icon index_icon"></i>
                     首页
                 </a>
-                <a href="#">
+                <a href="javascript:;" id="recreation_platform">
                     <i class="footer_icon recreation_icon"></i>
                     娱乐平台
                 </a>
-                <a href="#">
+                <a href="javascript:;" id="personal_data">
                     <i class="footer_icon user_icon"></i>
                     我的
                 </a>
