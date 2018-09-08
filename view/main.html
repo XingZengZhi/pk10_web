@@ -25,7 +25,59 @@
         </section> -->
     </header>
 
-    <div class="content">
+    <!-- 顶部导航栏 -->
+    <div class="data_content_top" id="data_content_top">
+        <span id="personale_item">
+            个人中心
+            <i class="down"></i>
+            <i class="line"></i>
+        </span>
+        <span id="tradingHall">
+            交易大厅
+            <i class="down"></i>
+            <i class="line"></i>
+        </span>
+        <span id="vipCenter">
+            会员中心
+            <i class="down"></i>
+            <i class="line"></i>
+        </span>
+        <span id="conversion">
+            积分转换
+            <i class="down"></i>
+            <i class="line"></i>
+        </span>
+        <span id="createAccount">
+            开通账号
+            <i class="down"></i>
+            <i class="line"></i>
+        </span>
+        <span id="feedBack">
+            留言反馈
+            <i class="down"></i>
+            <i class="line"></i>
+        </span>
+        <span id="missionCenter">
+            任务中心
+            <i class="down"></i>
+        </span>
+
+    </div>
+
+    <!-- 子菜单 -->
+    <div class="data_content_top_bottom" id="data_content_top_bottom">
+        <p>
+            <span class="dataTopLeft">个人信息</span>
+            <span class="yes"></span>
+        </p>
+        <p>
+            <span class="dataTopLeft">修改密码</span>
+            <span></span>
+        </p>
+    </div>
+
+    <!-- 主体内容 -->
+    <div class="content" id="content">
         <div class="navlist" id="navlist"></div>
         <div class="main_content" id="main_content">
             <!-- 首页 -->
@@ -157,6 +209,7 @@
             </div>
             <!-- 个人中心 -->
             <div class="data_content personal_data">
+                
                 <div class="data_base">
                     <h3 class="data_base_title">
                         个人资料
@@ -213,7 +266,7 @@
             
         </div>
     </div>
-
+    <!-- 页脚 -->
     <footer>
         <section>
             <div class="footer">
@@ -232,6 +285,10 @@
             </div>
         </section>
     </footer>
+
+    <div class="mask" id="mask">
+
+    </div>
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/layui/layui.js"></script>

@@ -33,12 +33,16 @@ window.onload = function(){
     }
 
     // 头部标题
-    var topTitle = $(".main_header_title");
+    var topTitle = $(".main_header_title"),
+        contentTop = document.getElementById("data_content_top"),
+        contentTopBottom = document.getElementById("data_content_top_bottom"),
+        mask = document.getElementById("mask");
+        content = document.getElementById("content");
 
     // 底部Tabar切换
     $("#index_data, #recreation_platform, #personal_data").on("click", function(){
         var id = $(this).prop("id");
-        $("." + id).fadeIn(0).siblings().fadeOut(0);
+        $("." + id).fadeIn(0.3).siblings().fadeOut(0.3);
         // 改变选中字体颜色
         $(this).css('color', '#EA4758').siblings().css('color', '#535353');
         // 改变icon图标
@@ -52,9 +56,64 @@ window.onload = function(){
         });
         // 切换顶部标题
         switch(id) {
-            case 'index_data': topTitle.text('pk10');break;
-            case 'recreation_platform': topTitle.text('娱乐中心');break;
-            case 'personal_data': topTitle.text('个人资料');break;
+            case 'index_data': 
+            contentTop.style.transform = "translateY(0)";
+            content.style.transform = "translateY(0)";
+            topTitle.text('pk10');
+            break;
+            case 'recreation_platform': 
+            topTitle.text('娱乐中心');
+            break;
+            case 'personal_data': 
+            contentTop.style.transform = "translateY(45px)";
+            content.style.transform = "translateY(40px)";
+            topTitle.text('个人资料');
+            break;
+        }
+        // 顶部导航栏点击事件
+        var isDown = true, downName = "";
+        contentTop.onclick = function(e){
+            var tag = e.target, idv = tag.id;
+            if(downName != idv) {
+                isDown = true;
+            }
+            showHideTopBottom(isDown);
+            isDown = !isDown;
+            downName = idv;
+            // console.log(e);
+            switch(idv) {
+                case "personale_item":
+                
+                break;
+            }
+        }
+
+        // 蒙版点击事件
+        mask.onclick = function(){
+            hideMaskAndContentTopBottom();
+        }
+
+        function showHideTopBottom(isDown){
+            if(isDown) {
+                contentTopBottom.style.display = "block";
+                contentTop.style.display = "block";
+                contentTopBottom.style.zIndex = 999;
+                contentTop.style.zIndex = 999;
+                contentTopBottom.style.transform = "translateY(45px)";
+                mask.style.display = "block";
+            } else {
+                contentTopBottom.style.display = "none";
+                contentTop.style.zIndex = 0;
+                contentTopBottom.style.transform = "translateY(0)";
+                mask.style.display = "none";
+            }
+        }
+
+        function hideMaskAndContentTopBottom() {
+            mask.style.display = "none";
+            contentTop.style.zIndex = 0;
+            contentTopBottom.style.display = "none";
+            contentTopBottom.style.transform = "translateY(0)";
         }
     });
     

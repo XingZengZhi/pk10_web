@@ -1,10 +1,14 @@
-.content{width:100%;height:100%;display: flex;justify-content: start;}
+.content{width:100%;height:100%;display: flex;justify-content: start;transition: all .3s;}
 .navlist{width:250px;margin-left:-250px;transition: all .3s;}
 .main_content{width:100%;transition: all .3s;}
 .main_header{display: flex;justify-content: space-between;padding:0 25px;box-sizing:border-box;background:#EA4758;}
 .icon-menu{display: block;width:25px;height:3px;padding:5px 0;border-top:3px solid;border-bottom:3px solid;background-color:currentColor;background-clip: content-box;}
 .main_header_title{display:block;font-size:1.6rem;height:45px;line-height:45px;color:white;width:100%;}
 .main_header_title:hover{color:white;}
+.data_content_top{width:100%;margin-top:0px;overflow-x: auto;background: white;white-space: nowrap;transition:all .3s;position:relative;}
+.data_content_top span{display: inline-block;height:45px;line-height:45px;padding:0 35px 0 15px;box-sizing: border-box;position: relative;}
+.data_content_top_bottom{display:none;background:white;width:100%;transition: all .3s;position: absolute;}
+.data_content_top_bottom p{display: flex;justify-content: space-between;margin:10px 15px;height:35px;line-height:35px;}
 /* 基础信息 */
 .data_base_icon{display:inline-block;width:20px;height:15px;background-size:100% 15px;background-repeat: no-repeat;background-position: 0 0;position: relative;top:2px;right:5px;}
 .data_base_img{background-image:url('/imgs/base_data.png');}
@@ -18,7 +22,7 @@
 .data_base_icon6{background:rgb(121, 68, 125);}
 .data_base_icon7{background:rgb(18, 150, 219);}
 .data_base_icon8{background:rgb(245, 166, 35);}
-.data_content{width:800px;margin:55px auto 75px;}
+.data_content{width:800px;margin:15px auto 75px;}
 .data_base{background:white;border-radius:5px;margin-top:10px;}
 .data_base_title{font-size:1.6rem;padding:10px 0;text-align:center;}
 .data_base_list li{display:flex;justify-content: space-between;font-size:1.4rem;border-bottom:1px dotted rgb(153,153,153);margin:0 10px 0 15px;height:45px;box-sizing:border-box;}
