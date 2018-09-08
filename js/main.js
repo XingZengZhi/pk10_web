@@ -42,7 +42,7 @@ window.onload = function(){
     // 底部Tabar切换
     $("#index_data, #recreation_platform, #personal_data").on("click", function(){
         var id = $(this).prop("id");
-        $("." + id).fadeIn(0.3).siblings().fadeOut(0.3);
+        changePage(id);
         // 改变选中字体颜色
         $(this).css('color', '#EA4758').siblings().css('color', '#535353');
         // 改变icon图标
@@ -70,51 +70,76 @@ window.onload = function(){
             topTitle.text('个人资料');
             break;
         }
-        // 顶部导航栏点击事件
-        var isDown = true, downName = "";
-        contentTop.onclick = function(e){
-            var tag = e.target, idv = tag.id;
-            if(downName != idv) {
-                isDown = true;
-            }
-            showHideTopBottom(isDown);
-            isDown = !isDown;
-            downName = idv;
-            // console.log(e);
-            switch(idv) {
-                case "personale_item":
-                
+        
+    });
+
+    // 顶部导航栏点击事件
+    var isDown = true, downName = "";
+    contentTop.onclick = function(e){
+        var tag = e.target, idv = tag.id;
+        if(downName != idv) {
+            isDown = true;
+        }
+        showHideTopBottom(isDown);
+        isDown = !isDown;
+        downName = idv;
+        // console.log(e);
+        switch(idv) {
+            case "personale_item":
+            
+            break;
+        }
+    }
+
+    // 蒙版点击事件
+    mask.onclick = function(){
+        hideMaskAndContentTopBottom();
+    }
+
+    // 子菜单点击事件
+    contentTopBottom.onclick = function(e){
+        console.log(e);
+        var tag = e.target,
+            tagName = tag.nodeName.toLowerCase();
+        if(tagName === 'span') {
+            var dataUrl = tag.dataset.url;
+            switch(dataUrl){
+                case 'editPass':
                 break;
             }
+            changePage(dataUrl);
+            showHideTopBottom(isDown);
         }
+    }
 
-        // 蒙版点击事件
-        mask.onclick = function(){
-            hideMaskAndContentTopBottom();
-        }
-
-        function showHideTopBottom(isDown){
-            if(isDown) {
-                contentTopBottom.style.display = "block";
-                contentTop.style.display = "block";
-                contentTopBottom.style.zIndex = 999;
-                contentTop.style.zIndex = 999;
-                contentTopBottom.style.transform = "translateY(45px)";
-                mask.style.display = "block";
-            } else {
-                contentTopBottom.style.display = "none";
-                contentTop.style.zIndex = 0;
-                contentTopBottom.style.transform = "translateY(0)";
-                mask.style.display = "none";
-            }
-        }
-
-        function hideMaskAndContentTopBottom() {
-            mask.style.display = "none";
-            contentTop.style.zIndex = 0;
+    // 显示或隐藏子菜单
+    function showHideTopBottom(isDown){
+        if(isDown) {
+            contentTopBottom.style.display = "block";
+            contentTop.style.display = "block";
+            contentTopBottom.style.zIndex = 999;
+            contentTop.style.zIndex = 999;
+            contentTopBottom.style.transform = "translateY(45px)";
+            mask.style.display = "block";
+        } else {
             contentTopBottom.style.display = "none";
+            contentTop.style.zIndex = 0;
             contentTopBottom.style.transform = "translateY(0)";
+            mask.style.display = "none";
         }
-    });
+    }
+
+    // 隐藏蒙版层
+    function hideMaskAndContentTopBottom() {
+        mask.style.display = "none";
+        contentTop.style.zIndex = 0;
+        contentTopBottom.style.display = "none";
+        contentTopBottom.style.transform = "translateY(0)";
+    }
+
+    // 选中当前显示的页面
+    function changePage(pageId){
+        $("." + pageId).fadeIn(0.3).siblings().fadeOut(0.3);
+    }
     
 }
