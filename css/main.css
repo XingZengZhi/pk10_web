@@ -51,6 +51,7 @@
 .personal_data .data_base{padding-bottom:45px;}
 .editButtonBox{margin-top:45px;}
 .editUserInfo{display: block;margin:0 auto;width:80%;height:45px;line-height:45px;color:white;background:#EA4758;border:none;border-radius:5px;}
+.editText{color:#1296DB;}
 
 .index_data{display:block;transition:all .3s;}
 .personal_data{display:none;transition:all .3s;}
@@ -65,7 +66,8 @@
     .data_content{width:95%;}
     .main_header_title{font-size:1.3rem;}
     .data_base_title{font-size:1.2rem;}
-    .data_base_span{font-size:1rem;}
+    .data_base_span{font-size:1.2rem;}
+    .editText{font-size:1rem;;}
 
     .div_left_title{font-size:1.1rem;}
     .div_right_date{font-size:1rem;}
