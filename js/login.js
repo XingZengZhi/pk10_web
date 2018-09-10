@@ -10,7 +10,9 @@ window.onload = function(){
                     var loadIndex = layer.load(1);
                     setTimeout(function(){
                         layer.close(loadIndex);
-                        location.href = "/view/main.html";
+                        var path = location.href.substring(0, location.href.lastIndexOf('/'));
+                        console.log(location);
+                        location.href = path + "/view/main.html";
                     }, 1000);
                     // 后台登录操作
                 } else {

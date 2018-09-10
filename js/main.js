@@ -59,7 +59,7 @@ window.onload = function(){
             case 'index_data': 
             contentTop.style.transform = "translateY(0)";
             content.style.transform = "translateY(0)";
-            topTitle.text('pk10');
+            topTitle.text('PK10');
             break;
             case 'recreation_platform': 
             topTitle.text('娱乐中心');
@@ -67,10 +67,10 @@ window.onload = function(){
             case 'personal_data': 
             contentTop.style.transform = "translateY(45px)";
             content.style.transform = "translateY(40px)";
-            topTitle.text('个人资料');
+            topTitle.text('PK10');
+            showOrHideEditButton($(this).prop('class'));
             break;
         }
-        
     });
 
     // 顶部导航栏点击事件
@@ -83,7 +83,6 @@ window.onload = function(){
         showHideTopBottom(isDown);
         isDown = !isDown;
         downName = idv;
-        // console.log(e);
         switch(idv) {
             case "personale_item":
             
@@ -105,12 +104,27 @@ window.onload = function(){
             var dataUrl = tag.dataset.url;
             switch(dataUrl){
                 case 'editPass':
+                topTitle.text('个人资料');
+                break;
+                case 'personal_data':
+                topTitle.text('PK10');
+                showOrHideEditButton(tag.className);
                 break;
             }
+            $(tag).siblings("span").addClass("yes");
+            $(tag).parent().siblings().children().removeClass("yes");
             changePage(dataUrl);
             showHideTopBottom(isDown);
         }
     }
+
+    // 修改小按钮点击
+    $(".editText").on("click", function(){
+        topTitle.text('个人资料');
+        var className = $(this).prop("class");
+        console.log(className);
+        showOrHideEditButton(className);
+    });
 
     // 显示或隐藏子菜单
     function showHideTopBottom(isDown){
@@ -142,4 +156,16 @@ window.onload = function(){
         $("." + pageId).fadeIn(0.3).siblings().fadeOut(0.3);
     }
     
+    // 隐藏或显示编辑个人信息按钮
+    function showOrHideEditButton(className){
+        if(className.indexOf('editText') != -1) {
+            $(".personal_data").find(".editUserInfo").css("display", "block");
+            $(".editText").fadeOut(.3);
+            $(".code_box").css("width", "65px").find("i").css("display", "block");
+        } else {
+            $(".personal_data").find(".editUserInfo").css("display", "none");
+            $(".editText").fadeIn(.3);
+            $(".code_box").css("width", "45px").find("i").css("display", "none");
+        }
+    }
 }
