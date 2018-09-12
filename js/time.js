@@ -6,17 +6,21 @@
      * getTime 倒计时函数
      * 
      */
-    var lotteryTime = '10:09';
+    var lotteryTime = '10:09', closeLotteryTime = '03:45';
 
-    var dataTime = lotteryTime.split(':');
+    var dataTime = lotteryTime.split(':'), closeDataTime = closeLotteryTime.split(':');
 
-    var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]); 
+    var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]), cm = parseInt(closeDataTime[0]), cs = parseInt(closeDataTime[1]);
 
-    var openLottery = document.getElementById("openLottery");
+    var openLottery = document.getElementById("openLottery"), closeLottery = document.getElementById("closeLottery");
 
-    var time = setTimeout(getTime, 1000);
+    var timer1, timer2;
 
-    function getTime(){
+    timer1 = setTimeout(getTime1, 1000);
+
+    timer2 = setTimeout(getTime2, 1000);
+
+    function getTime1(){
         if(s == 0){
             s = 60;
             m--;
@@ -24,11 +28,26 @@
         s--;
         openLottery.innerText = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
         if(m == 0 && s == 0){
-            clearTimeout(time);
+            clearTimeout(timer1);
             return;
         }
-        time = setTimeout(getTime, 1000);
+        timer1 = setTimeout(getTime1, 1000);
     }
+
+    function getTime2(){
+        if(cs == 0){
+            cs = 60;
+            cm--;
+        }
+        cs--;
+        closeLottery.innerText = (cm < 10? '0' + cm : cm) + ':' + (cs < 10? '0' + cs : cs);
+        if(cm == 0 && cs == 0){
+            clearTimeout(timer2);
+            return;
+        }
+        timer2 = setTimeout(getTime2, 1000);
+    }
+
 
 })(window, document);
 
