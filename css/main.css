@@ -88,7 +88,7 @@
 .lottery_number5{background:rgb(121, 68, 125);}
 .lottery_input{justify-content: space-around;}
 .div_lottery_li{margin:0px 10px;padding:10px 0;}
-.div_lottery_li:first-child{border-bottom:1px dotted rgb(153,153,153);}
+.div_lottery_li:first-child{border-bottom:1px dotted rgb(153,153,153);display: flex;justify-content: space-between;}
 .inputNumber{display: inline-block;height:35px;width:55px;border:1px solid #ccc;border-radius:3px;padding-left:5px;box-sizing: border-box;}
 
 @media screen and (max-width:750px) {
