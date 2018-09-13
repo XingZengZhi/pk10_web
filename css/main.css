@@ -74,6 +74,14 @@
 .userInfo_bottom{display: flex;height:45px;margin:0 15px;position: relative;top:25px;justify-content: space-around;}
 .userInfo_bottom button{display: inline-block;width:120px;height:40px;border-radius:25px;background:rgb(241, 242, 246);border:none;color:rgb(68, 68, 68);transition:all .3s;}
 .userInfo_bottom button:active{color:#EA4758;user-select: none;}
+.bet,.leader_button{display: flex;height:45px;margin:0 15px;top:25px;justify-content: space-around;align-items: center;}
+.leader_button{height:65px;}
+.bet button,.leader_button button{display: inline-block;width:100px;height:40px;border-radius:5px;border:none;transition:all .3s;}
+.leader_button button{border:1px solid rgb(234, 71, 88);}
+.bet_r{color:rgb(102, 102, 102);}
+.bet_r{background:rgb(234, 71, 88);color:white;}
+.leader_btn{color:rgb(234, 71, 88);background:white;}
+.leader_btn_active{background:rgb(234, 71, 88);color:white;}
 .lottery{display: flex;justify-content: flex-start;height:35px;align-items:center;}
 .lottery_margin{margin:0 0 15px 0;}
 .lottery_title{display:inline-block;height:35px;line-height:35px;}
@@ -90,6 +98,24 @@
 .div_lottery_li{margin:0px 10px;padding:10px 0;}
 .div_lottery_li:first-child{border-bottom:1px dotted rgb(153,153,153);display: flex;justify-content: space-between;}
 .inputNumber{display: inline-block;height:35px;width:55px;border:1px solid #ccc;border-radius:3px;padding-left:5px;box-sizing: border-box;}
+.leader_board{height:65px;text-align:center;}
+.leader_board_head{display: inline-block;height:45px;line-height:45px;font-weight:bold;font-size:1.2rem;vertical-align:top;}
+.i1{width:15px;}
+.head1_bg{display: block;width:10px;height:10px;border-radius:100%;background:rgb(234, 71, 88);}
+.head2_bg{display: block;width:5px;height:5px;border-radius:100%;background:rgb(74, 144, 226);}
+.head1_left{float:left;margin-top:10px;}
+.head1_right{float:right;margin-top:20px;}
+.head2_left{float:left;margin-top:20px;}
+.head2_right{float:right;margin-top:10px;}
+.leader_list_item,.leader_list_item2{height:45px;width:100%;display: flex;justify-content: space-between;align-items: center;}
+.leader_list_item div,.leader_list_item2 div{width:50%;height:45px;line-height:45px;text-align: center;display:inline-block;}
+.leader_list_item2 div{width:13%;}
+.leader_list > div:nth-of-type(odd){background:rgb(248, 250, 251);}
+.leader_list > div:nth-of-type(even){background:white;}
+
+.bet_box{display: none;}
+.bet_content{width:90%;height:150px;background:rgb(255, 237, 231);margin:0 auto;}
+.bet_content p{text-align:center;}
 
 @media screen and (max-width:750px) {
     html,body{width:100%;height:100%;}
