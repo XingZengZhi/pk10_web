@@ -29,9 +29,7 @@
 .data_base{background:white;border-radius:5px;margin-top:10px;}
 .data_base_title{font-size:1.6rem;padding:10px 0;text-align:center;}
 .data_base_list li{display:flex;justify-content: space-between;font-size:1.4rem;align-items:center;border-bottom:1px dotted rgb(153,153,153);margin:0 13px 0 13px;box-sizing:border-box;}
-.index_data .data_base_list li:last-child, 
-.buy_integral .data_base_list li:last-child,
-.hang_integral .data_base_list li:last-child{border:none;}
+.data_base_list li:last-child{border:none;}
 /* .personal_data .data_base_list li:last-child,  */
 .data_base_span{display:inline-block;height:45px;line-height:45px;position: relative;}
 .data_base_titleLeft{color:rgb(153,153,153);position: relative;}
@@ -123,11 +121,12 @@
 .bet_content{width:90%;height:150px;background:rgb(255, 237, 231);margin:0 auto;}
 .bet_content p{text-align:center;}
 
-.hang_detail{position:fixed;width:100%;height:100%;background:rgba(0, 0, 0, 0.5);top:0;z-index:1000;display: none;}
-.hang_box{position: absolute;top:0;bottom:0;left:0;right:0;margin:auto;width:95%;height:50%;}
+.hang_detail, .hang_detail2{position:fixed;width:100%;height:100%;background:rgba(0, 0, 0, 0.5);top:0;z-index:1000;display: none;}
+.hang_box,.hang_box2{position: absolute;top:0;bottom:0;left:0;right:0;margin:auto;width:95%;height:50%;}
+.hang_box2{height:200px;}
 .hang_btn{display: inline-block;width:100px;height:35px;border-radius:5px;background:rgb(234, 71, 88);border:none;color:white;}
-.close_detail{position: absolute;display: block;font-size:1.7rem;background:white;width:30px;height:30px;line-height:30px;border-radius:100%;text-align:center;color:#ccc;bottom:-76px;left:0;right:0;margin:auto;}
-
+.close_detail,.close_detail2{position: absolute;display: block;font-size:1.7rem;background:white;width:30px;height:30px;line-height:30px;border-radius:100%;text-align:center;color:#ccc;bottom:-76px;left:0;right:0;margin:auto;}
+.close_detail2{bottom:-20px;}
 @media screen and (max-width:750px) {
     html,body{width:100%;height:100%;}
     .main_header{position:fixed;top:0;width:100%;z-index:999;}
