@@ -10,5 +10,11 @@
     });
     $(".close_detail2").on("click", function(){
         $(".hang_detail2").fadeOut(.3);
+        $(".code_tip").hide(0);
+        $("#input_code").show(0);
+    });
+    $("#secrity_code").on("click", function(){
+        $(".code_tip").show(0);
+        $("#input_code").hide(0);
     });
 })(window, document);

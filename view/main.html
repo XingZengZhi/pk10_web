@@ -1066,18 +1066,21 @@
 
     <div class="hang_detail2">
         <div class="hang_box2">
-            <div class="data_base">
+            <div class="data_base" id="input_code_box">
                 <header style="background: #EA4758;">
                     <p class="hang_detail_title textCenter">详情</p>
                 </header>
-                <ul class="data_base_list">
+                <div class="code_tip">
+                    已确认收款成功
+                </div>
+                <ul class="data_base_list" id="input_code">
                     <li style="margin-top:20px;">
                         <input class="inputLeft" placeholder="请输入安全码" />
                     </li>
                     <li style="justify-content: center;">
                         <div class="leader_board">
                             <div class="leader_button">
-                                <button type="button" class="leader_btn leader_btn_active">确认</button>
+                                <button type="button" class="leader_btn leader_btn_active" id="secrity_code">确认</button>
                             </div>
                         </div>
                     </li>
