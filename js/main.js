@@ -85,7 +85,16 @@ window.onload = function(){
         downName = idv;
         switch(idv) {
             case "personale_item":
-            
+            $(".dataTopLeft").text("个人信息");
+            $(".dataTopLeft")[0].dataset.url = "personal_data";
+            $(".dataTopRight").text("修改密码");
+            $(".dataTopRight")[0].dataset.url = "editPass";
+            break;
+            case "tradingHall":
+            $(".dataTopLeft").text("购买积分");
+            $(".dataTopLeft")[0].dataset.url = "buy_integral";
+            $(".dataTopRight").text("挂卖积分");
+            $(".dataTopRight")[0].dataset.url = "hang_integral";
             break;
         }
     }
@@ -97,7 +106,6 @@ window.onload = function(){
 
     // 子菜单点击事件
     contentTopBottom.onclick = function(e){
-        console.log(e);
         var tag = e.target,
             tagName = tag.nodeName.toLowerCase();
         if(tagName === 'span') {
