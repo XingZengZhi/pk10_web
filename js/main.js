@@ -76,6 +76,7 @@ window.onload = function(){
     // 顶部导航栏点击事件
     var isDown = true, downName = "";
     contentTop.onclick = function(e){
+        var cName = "content_top_item";
         var tag = e.target, idv = tag.id;
         if(downName != idv) {
             isDown = true;
@@ -85,16 +86,10 @@ window.onload = function(){
         downName = idv;
         switch(idv) {
             case "personale_item":
-            $(".dataTopLeft").text("个人信息");
-            $(".dataTopLeft")[0].dataset.url = "personal_data";
-            $(".dataTopRight").text("修改密码");
-            $(".dataTopRight")[0].dataset.url = "editPass";
+            $("." + cName + "1").fadeIn().siblings("div").fadeOut(0);
             break;
             case "tradingHall":
-            $(".dataTopLeft").text("购买积分");
-            $(".dataTopLeft")[0].dataset.url = "buy_integral";
-            $(".dataTopRight").text("挂卖积分");
-            $(".dataTopRight")[0].dataset.url = "hang_integral";
+            $("." + cName + "2").fadeIn().siblings("div").fadeOut(0);
             break;
         }
     }
@@ -117,6 +112,15 @@ window.onload = function(){
                 case 'personal_data':
                 topTitle.text('PK10');
                 showOrHideEditButton(tag.className);
+                break;
+                case 'buy_integral':
+                topTitle.text('购买积分');
+                break;
+                case 'hang_integral':
+                topTitle.text('挂卖积分列表');
+                break;
+                case 'hang_integral2':
+                topTitle.text('挂卖交易积分');
                 break;
             }
             $(tag).siblings("span").addClass("yes");
@@ -161,7 +165,7 @@ window.onload = function(){
 
     // 选中当前显示的页面
     function changePage(pageId){
-        $("." + pageId).fadeIn(0.3).siblings().fadeOut(0.3);
+        $("." + pageId).fadeIn(0.3).siblings().fadeOut(0);
     }
     
     // 隐藏或显示编辑个人信息按钮

@@ -66,14 +66,30 @@
 
     <!-- 子菜单 -->
     <div class="data_content_top_bottom" id="data_content_top_bottom">
-        <p>
-            <span class="dataTopLeft" data-url="personal_data">个人信息</span>
-            <span class="yes"></span>
-        </p>
-        <p>
-            <span class="dataTopRight" data-url="editPass">修改密码</span>
-            <span></span>
-        </p>
+        <div class="content_top_item1">
+            <p>
+                <span class="dataTopLeft" data-url="personal_data">个人信息</span>
+                <span class="yes"></span>
+            </p>
+            <p>
+                <span class="dataTopRight" data-url="editPass">修改密码</span>
+                <span></span>
+            </p>
+        </div>
+        <div class="content_top_item2">
+            <p>
+                <span class="dataTopLeft" data-url="buy_integral">购买积分</span>
+                <span class="yes"></span>
+            </p>
+            <p>
+                <span class="dataTopRight" data-url="hang_integral">挂卖积分列表</span>
+                <span></span>
+            </p>
+            <p>
+                <span class="dataTopRight" data-url="hang_integral2">挂卖交易积分</span>
+                <span></span>
+            </p>
+        </div>
     </div>
 
     <!-- 主体内容 -->
@@ -440,6 +456,92 @@
                                 操作
                             </span>
                             <button type="button" class="hang_btn" id="confirm_hang">确认收款</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 挂卖交易积分 -->
+            <div class="data_content hang_integral2">
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li style="border-bottom:none;font-size: 1.1rem;">
+                            <p style="margin-top:20px;margin-bottom:10px;">可输入你要挂卖的积分数量</p>
+                        </li>
+                        <li style="border-bottom:none;font-size: .9rem;color:#ccc;">
+                            <p >当前积分：<span>4235</span></p>
+                        </li>
+                        <li>
+                            <input class="inputLeft" placeholder="请输入数量" />
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                            </span>
+                            <button type="button" class="hang_btn" id="confirm_hang">确认挂卖</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                挂卖用户
+                            </span>
+                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                挂卖积分数量
+                            </span>
+                            <span class="data_base_span data_base_titleRight">1200</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                挂卖时间
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon7"></i>
+                                操作
+                            </span>
+                            <button type="button" class="hang_btn" id="confirm_hang">购买</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                挂卖用户
+                            </span>
+                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                挂卖积分数量
+                            </span>
+                            <span class="data_base_span data_base_titleRight">1200</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                挂卖时间
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon7"></i>
+                                操作
+                            </span>
+                            <span class="data_base_span data_base_titleRight fontWeightBold">交易进行中</span>
                         </li>
                     </ul>
                 </div>
