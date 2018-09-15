@@ -31,4 +31,8 @@
         $(".code_tip2").show(0);
         $("#input_code2").hide(0);
     });
+
+    $(".integral_conversion_box div").on('click', function(){
+        $(this).addClass("conversion_active").siblings('div').removeClass('conversion_active');
+    });
 })(window, document);
