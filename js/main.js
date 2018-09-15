@@ -91,6 +91,13 @@ window.onload = function(){
             case "tradingHall":
             $("." + cName + "2").fadeIn().siblings("div").fadeOut(0);
             break;
+            case "createAccount":
+            $("." + cName + "3").fadeIn().siblings("div").fadeOut(0);
+            break;
+            case "conversion":
+            $("." + cName + "4").fadeIn().siblings("div").fadeOut(0);
+            break;
+            default:break;
         }
     }
 
@@ -119,8 +126,8 @@ window.onload = function(){
                 case 'hang_integral':
                 topTitle.text('挂卖积分列表');
                 break;
-                case 'hang_integral2':
-                topTitle.text('挂卖交易积分');
+                case 'integral_conversion':
+                topTitle.text('积分转换');
                 break;
             }
             $(tag).siblings("span").addClass("yes");
