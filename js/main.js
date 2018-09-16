@@ -100,6 +100,9 @@ window.onload = function(){
             case "feedBack":
             $("." + cName + "5").fadeIn().siblings("div").fadeOut(0);
             break;
+            case "bulletin":
+            $("." + cName + "6").fadeIn().siblings("div").fadeOut(0);
+            break;
             default:break;
         }
     }
@@ -131,6 +134,9 @@ window.onload = function(){
                 break;
                 case 'integral_conversion':
                 topTitle.text('积分转换');
+                break;
+                case 'bulletin':
+                topTitle.text('网站公告');
                 break;
             }
             $(tag).siblings("span").addClass("yes");
