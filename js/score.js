@@ -32,6 +32,14 @@
         $("#input_code2").hide(0);
     });
 
+    $("#feedBackButton").on("click", function(){
+        $(".hang_detail4").fadeIn(.3);
+        $(".code_tip3").show(0);
+    });
+    $(".close_detail4").on("click", function(){
+        $(".hang_detail4").fadeOut(.3);
+    });
+
     $(".integral_conversion_box div").on('click', function(){
         $(this).addClass("conversion_active").siblings('div').removeClass('conversion_active');
     });

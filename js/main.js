@@ -97,6 +97,9 @@ window.onload = function(){
             case "conversion":
             $("." + cName + "4").fadeIn().siblings("div").fadeOut(0);
             break;
+            case "feedBack":
+            $("." + cName + "5").fadeIn().siblings("div").fadeOut(0);
+            break;
             default:break;
         }
     }
