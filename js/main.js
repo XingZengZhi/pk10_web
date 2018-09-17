@@ -103,7 +103,7 @@ window.onload = function(){
             case "bulletin":
             $("." + cName + "6").fadeIn().siblings("div").fadeOut(0);
             break;
-            case "task_application":
+            case "missionCenter":
             $("." + cName + "7").fadeIn().siblings("div").fadeOut(0);
             break;
             default:break;

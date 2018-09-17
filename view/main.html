@@ -65,10 +65,6 @@
             网站公告
             <i class="down"></i>
         </span>
-        <span id="task_application">
-            任务申请
-            <i class="down"></i>
-        </span>
     </div>
 
     <!-- 子菜单 -->
@@ -76,7 +72,7 @@
         <div class="content_top_item1">
             <p>
                 <span class="dataTopLeft" data-url="personal_data">个人信息</span>
-                <span class="yes"></span>
+                <span class=""></span>
             </p>
             <p>
                 <span class="dataTopRight" data-url="editPass">修改密码</span>
@@ -86,7 +82,7 @@
         <div class="content_top_item2">
             <p>
                 <span class="dataTopLeft" data-url="buy_integral">购买积分</span>
-                <span class="yes"></span>
+                <span class=""></span>
             </p>
             <p>
                 <span class="dataTopRight" data-url="hang_integral">挂卖积分列表</span>
@@ -100,13 +96,21 @@
         <div class="content_top_item3">
             <p>
                 <span class="dataTopLeft" data-url="createAccount">开通账号</span>
-                <span class="yes"></span>
+                <span class=""></span>
+            </p>
+            <p>
+                <span class="dataTopLeft" data-url="push_list">直推列表</span>
+                <span class=""></span>
             </p>
         </div>
         <div class="content_top_item4">
             <p>
                 <span class="dataTopLeft" data-url="integral_conversion">积分转换中心</span>
-                <span class="yes"></span>
+                <span class=""></span>
+            </p>
+            <p>
+                <span class="dataTopLeft" data-url="integral_center">中心积分报表</span>
+                <span class=""></span>
             </p>
         </div>
         <div class="content_top_item5">
@@ -124,10 +128,18 @@
                 <span class="dataTopLeft" data-url="bulletin">网站公告</span>
                 <span class=""></span>
             </p>
+            <p>
+                <span class="dataTopLeft" data-url="system_update">系统更新</span>
+                <span class=""></span>
+            </p>
         </div>
         <div class="content_top_item7">
             <p>
-                <span class="dataTopLeft" data-url="task_application">任务中心</span>
+                <span class="dataTopLeft" data-url="task_application">任务申请</span>
+                <span class=""></span>
+            </p>
+            <p>
+                <span class="dataTopLeft" data-url="task_gift">转赠密钥</span>
                 <span class=""></span>
             </p>
         </div>
@@ -591,24 +603,82 @@
             <div class="data_content integral_conversion">
                 <div class="data_base">
                     <div class="integral_conversion_box">
-                        <div class="conversion_active">
+                        <div class="conversion_button conversion_active" id="conversion_title1">
                             中心积分/注册积分 转换交易积分
                         </div>
-                        <div>
+                        <div class="conversion_button" id="conversion_title2">
                             中心积分/注册积分 转换任务积分
                         </div>
-                        <div>
+                        <div class="conversion_button" id="conversion_title3">
                             注册积分 转换中心积分
                         </div>
-                        <p class="conversion_tip" style="color:#ccc;">优先从中心积分中扣除</p>
-                        <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>12000</span>，注册积分为<span>12000</span></p>
-                        <p class="conversion_tip" style="color:#ccc;margin-top:10px;">优先从中心积分中扣除</p>
+                        <div class="conversion_title1">
+                            <p class="conversion_tip" style="color:#ccc;">优先从中心积分中扣除</p>
+                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>12000</span>，注册积分为<span>12000</span></p>
+                            <p class="conversion_tip" style="color:#ccc;margin-top:10px;">优先从中心积分中扣除</p>
+                        </div>
+                        <div class="conversion_title2">
+                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>12000</span>，注册积分为<span>12000</span></p>
+                            <p class="conversion_tip" style="margin-top:10px;">你可转换任务积分为：<span>12000</span></p>
+                            <p class="conversion_tip" style="color:#ccc;margin-top:10px;">转换为交易积分的数量:</p>
+                        </div>
+                        <div class="conversion_title3">
+                            <p class="conversion_tip" style="margin-top:10px;">你当前的注册积分为<span>12000</span></p>
+                            <p class="conversion_tip" style="color:#ccc;margin-top:10px;">转换为交易积分的数量:</p>
+                        </div>
                         <p>
                             <input type="text" id="conversion_core" />
                         </p>
                         <p>
                             <button type="button" id="confirm_conversion">确认转换</button>
                         </p>
+                    </div>
+                </div>
+            </div>
+            <!-- 中心积分报表 -->
+            <div class="data_content integral_center">
+                <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">转入积分</span>
+                    </div>
+                    <div class="leader_list">
+                        <div class="leader_list_item">
+                            <div>转入类型</div>
+                            <div>积分数量</div>
+                            <div>转入时间</div>
+                        </div>
+                        <div class="leader_list_item">
+                            <div>注册积分转入交易积分</div>
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                        </div>
+                        <div class="leader_list_item">
+                            <div>注册积分转入交易积分</div>
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">转出积分</span>
+                    </div>
+                    <div class="leader_list">
+                        <div class="leader_list_item">
+                            <div>转入类型</div>
+                            <div>积分数量</div>
+                            <div>转入时间</div>
+                        </div>
+                        <div class="leader_list_item">
+                            <div>注册积分转入交易积分</div>
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                        </div>
+                        <div class="leader_list_item">
+                            <div>注册积分转入交易积分</div>
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -635,6 +705,88 @@
                             <button type="button" class="confirm_create_account">确认</button>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!-- 直推列表 -->
+            <div class="data_content push_list">
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon1"></i>
+                                账号
+                            </span>
+                            <span class="data_base_span data_base_titleRight">B12</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                初始注册积分
+                            </span>
+                            <span class="data_base_span data_base_titleRight">1200</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                开通时间
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                任务密钥话费数量
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon5"></i>
+                                任务密钥剩余数量
+                            </span>
+                            <span class="data_base_span data_base_titleRight">12</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon1"></i>
+                                账号
+                            </span>
+                            <span class="data_base_span data_base_titleRight">B12</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                初始注册积分
+                            </span>
+                            <span class="data_base_span data_base_titleRight">1200</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                开通时间
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                任务密钥话费数量
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon5"></i>
+                                任务密钥剩余数量
+                            </span>
+                            <span class="data_base_span data_base_titleRight">12</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <!-- 留言反馈 -->
@@ -696,7 +848,36 @@
                             <span style="color:rgb(87, 85, 85);">您当前的任务密钥</span><span>11</span>
                         </div>
                         <div>
-                            <button type="button" class="confirm_create_account">确认</button>
+                            <button type="button" class="confirm_create_account" id="apply_button">立即申请</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 转赠密钥 -->
+            <div class="data_content task_gift">
+                <div class="data_base">
+                    <div style="height: 45px;line-height:45px;text-align:center;color:red;font-weight:bold;">
+                        转赠密钥
+                    </div>
+                    <div class="createAccountItem">
+                        <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
+                            <span>你当前的任务密钥</span>
+                            <span>12</span>
+                        </div>
+                        <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
+                            <span style="color:#ccc;">转账账号</span>
+                            <input type="text" placeholder="请输入转账账号" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                        </div>
+                        <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
+                            <span style="color:#ccc;">赠送密钥数量</span>
+                            <input type="text" placeholder="请输入数量" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                        </div>
+                        <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
+                            <span style="color:#ccc;">安全密码</span>
+                            <input type="text" placeholder="请输入密码" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                        </div>
+                        <div>
+                            <button type="button" class="confirm_create_account" id="gift_button">确认赠送</button>
                         </div>
                     </div>
                 </div>
@@ -758,6 +939,25 @@
                             </div>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <!-- 系统更新 -->
+            <div class="data_content system_update">
+                <div class="data_base">
+                    <h3 class="data_base_title">
+                        系统更新
+                    </h3>
+                    <div class="system_title">
+                        <p>尊敬的用户：</p>
+                        <p>为了保证服务器的稳定运行，我们将于2018年8月20日凌晨5:00开始对现有全部服务器进行例行维护，
+                            停机时间预计为12个小时左右。</p>
+                        <p>同时为了给您提供更好的服务体验，相关运营设备和系统也将于8月21日凌晨5:00开始进行优化和维护，
+                            其中“客服电话服务”预计从凌晨5:00开始暂停6个小时。
+                        </p>
+                        <p>我们对此给你带来不便深表歉意。</p>
+                        <div style="text-align:right;margin-right:15px;">小月科技运营团队</div>
+                        <div style="text-align:right;margin-right:15px;">2018年8月20日</div>
+                    </div>
                 </div>
             </div>
             <!-- 娱乐中心 -->
@@ -1443,6 +1643,34 @@
                 </div>
             </div>
             <i class="close_detail4">×</i>
+        </div>
+    </div>
+
+    <div class="hang_detail5">
+        <div class="hang_box5">
+            <div class="data_base" id="input_code_box3">
+                <header style="background: #EA4758;">
+                    <p class="hang_detail_title textCenter">详情</p>
+                </header>
+                <div class="code_tip4">
+                    申请已提交成功
+                </div>
+            </div>
+            <i class="close_detail5">×</i>
+        </div>
+    </div>
+
+    <div class="hang_detail6">
+        <div class="hang_box6">
+            <div class="data_base" id="input_code_box3">
+                <header style="background: #EA4758;">
+                    <p class="hang_detail_title textCenter">详情</p>
+                </header>
+                <div class="code_tip5">
+                    你的任务密钥已赠送成功
+                </div>
+            </div>
+            <i class="close_detail6">×</i>
         </div>
     </div>
 

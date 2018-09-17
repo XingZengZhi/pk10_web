@@ -40,7 +40,28 @@
         $(".hang_detail4").fadeOut(.3);
     });
 
+    $("#apply_button").on("click", function(){
+        $(".hang_detail5").fadeIn(.3);
+        $(".code_tip4").show(0);
+    });
+    $(".close_detail5").on("click", function(){
+        $(".hang_detail5").fadeOut(.3);
+    });
+
+    $("#gift_button").on("click", function(){
+        $(".hang_detail6").fadeIn(.3);
+        $(".code_tip5").show(0);
+    });
+    $(".close_detail6").on("click", function(){
+        $(".hang_detail6").fadeOut(.3);
+    });
+
     $(".integral_conversion_box div").on('click', function(){
         $(this).addClass("conversion_active").siblings('div').removeClass('conversion_active');
+    });
+
+    $(".conversion_button").on("click", function(){
+        var idv = $(this).prop("id");
+        $("." + idv).show().siblings("div:not(.conversion_button)").hide();
     });
 })(window, document);
