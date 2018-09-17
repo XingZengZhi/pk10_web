@@ -115,6 +115,16 @@ window.onload = function(){
         hideMaskAndContentTopBottom();
     }
 
+    $(".cancel,.select_score").on("click", function(){
+        var cls = $(this).prop("class");
+        if(cls === 'select_score'){
+            $("#register_core input").val($(this).text());
+        }else{
+            $("#register_core input").val('');
+        }
+        hideMaskAndContentTopBottom();
+    });
+
     // 子菜单点击事件
     contentTopBottom.onclick = function(e){
         var tag = e.target,
@@ -149,6 +159,11 @@ window.onload = function(){
         }
     }
 
+    $("#missed_details,#betting_record").on("click", function(){
+        var idv = $(this).prop("id");
+        changePage(idv);
+    })
+
     // 修改小按钮点击
     $(".editText").on("click", function(){
         topTitle.text('个人资料');
@@ -180,6 +195,7 @@ window.onload = function(){
         contentTop.style.zIndex = 0;
         contentTopBottom.style.display = "none";
         contentTopBottom.style.transform = "translateY(0)";
+        $("#selectBox").hide(0);
     }
 
     // 选中当前显示的页面

@@ -64,4 +64,10 @@
         var idv = $(this).prop("id");
         $("." + idv).show().siblings("div:not(.conversion_button)").hide();
     });
+
+    $("#register_core").on("click", function(){
+        $("#mask").show();
+        $("#selectBox").show();
+    });
+    
 })(window, document);

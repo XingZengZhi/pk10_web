@@ -276,6 +276,104 @@
                     </div>
                 </div>
             </div>
+            <!-- 未结明细 -->
+            <div class="data_content missed_details">
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon1"></i>
+                                彩种/投注时间
+                            </span>
+                            <span class="data_base_span data_base_titleRight">时时彩/2018.08.08 12:12:12</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                期号
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2018070123</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                投注详细信息
+                            </span>
+                            <span class="data_base_span data_base_titleRight" style="color:red;">和</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                下注积分
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon5"></i>
+                                结果
+                            </span>
+                            <span class="data_base_span data_base_titleRight">等待结算</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon6"></i>
+                                可中积分
+                            </span>
+                            <span class="data_base_span data_base_titleRight">12.6</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 投注记录 -->
+            <div class="data_content betting_record">
+                <div class="data_base">
+                    <ul class="data_base_list">
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon1"></i>
+                                彩种/投注时间
+                            </span>
+                            <span class="data_base_span data_base_titleRight">时时彩/2018.08.08 12:12:12</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon2"></i>
+                                期号
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2018070123</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon3"></i>
+                                投注详细信息
+                            </span>
+                            <span class="data_base_span data_base_titleRight" style="color:red;">和</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon4"></i>
+                                下注积分
+                            </span>
+                            <span class="data_base_span data_base_titleRight">2</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon5"></i>
+                                结果
+                            </span>
+                            <span class="data_base_span data_base_titleRight">等待结算</span>
+                        </li>
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon6"></i>
+                                可中积分
+                            </span>
+                            <span class="data_base_span data_base_titleRight">12.6</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <!-- 购买积分列表 -->
             <div class="data_content buy_integral">
                 <div class="data_base">
@@ -692,8 +790,9 @@
                         <div>
                             <input type="text" placeholder="账号" class="input_controle" />
                         </div>
-                        <div>
+                        <div style="position:relative;" id="register_core">
                             <input type="text" placeholder="注册积分" class="input_controle" />
+                            <i class="link_icon_right main_link_icon_right"></i>
                         </div>
                         <div>
                             <input type="text" placeholder="登录密码" class="input_controle" />
@@ -974,8 +1073,8 @@
                             </div>
                         </div>
                         <div class="userInfo_bottom">
-                            <button type="button">未结明细</button>
-                            <button type="button">投注记录</button>
+                            <button type="button" id="missed_details">未结明细</button>
+                            <button type="button" id="betting_record">投注记录</button>
                         </div>
                     </div>
                 </div>
@@ -1674,6 +1773,12 @@
         </div>
     </div>
 
+    <div id="selectBox">
+        <div class="select_score">10000</div>
+        <div class="select_score">20000</div>
+        <div class="select_score">30000</div>
+        <div class="cancel">取消</div>
+    </div>
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/layui/layui.js"></script>
