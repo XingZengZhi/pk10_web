@@ -5,19 +5,52 @@ window.onload = function(){
             if(userName.value === '' || userPass === '') {
                 layer.msg("账户或密码不能为空！");
             } else {
-                if(userName.value.toLowerCase() === userData.userName &&
-                        userPass.value.toLowerCase() === userData.userPass) {
-                    var loadIndex = layer.load(1);
-                    setTimeout(function(){
-                        layer.close(loadIndex);
-                        var path = location.href.substring(0, location.href.lastIndexOf('/'));
-                        console.log(location);
-                        location.href = path + "/view/main.html";
-                    }, 1000);
-                    // 后台登录操作
-                } else {
-                    layer.msg("登录失败，请检查账户或密码");
-                }
+                $.post("http://120.79.46.90:8080/game/user/login.do",{
+                    "account":$("#userName").val(),
+                    "password":$("#userPass").val()
+                }, function (data) {
+                    if(data.code === '000000') {
+                        // 用户ID
+                        sessionStorage.id = data.result.id;
+                        // 用户账号
+                        sessionStorage.account = data.result.account;
+                        // 用户姓名
+                        sessionStorage.username = data.result.username;
+                        // 手机号
+                        sessionStorage.telephone = data.result.telephone;
+                        // 支付宝收款码
+                        sessionStorage.alipaypic = data.result.alipaypic;
+                        // 微信收款码
+                        sessionStorage.weixinpic = data.result.weixinpic;
+                        // 银行卡号
+                        sessionStorage.bankNum = data.result.bankNum;
+                        // 银行名称
+                        sessionStorage.bankName = data.result.bankName;
+                        // 中心积分
+                        sessionStorage.jfcenter = data.result.jfcenter;
+                        // 任务积分
+                        sessionStorage.jftask = data.result.jftask;
+                        // 交易积分
+                        sessionStorage.jfbusiness = data.result.jfbusiness;
+                        // 注册积分
+                        sessionStorage.jfzhuce = data.result.jfzhuce;
+                        // 任务密钥
+                        sessionStorage.taskToken = data.result.taskToken;
+                        // 已使用密钥
+                        sessionStorage.usedtoken = data.result.usedtoken;
+                        // 原注册积分
+                        sessionStorage.jfold = data.result.jfold;
+                        var loadIndex = layer.load(1);
+                        setTimeout(function(){
+                            layer.close(loadIndex);
+                            var path = location.href.substring(0, location.href.lastIndexOf('/'));
+                            location.href = path + "/view/main.html";
+                        }, 1000);
+                        // 后台登录操作
+                    } else {
+                        layer.msg(data.message);
+                    }
+                });
             }
         });
     }

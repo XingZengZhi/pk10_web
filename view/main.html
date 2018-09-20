@@ -156,62 +156,62 @@
                         <i class="data_base_icon data_base_img"></i>
                         基础信息
                     </h3>
-                    <ul class="data_base_list">
+                    <ul class="data_base_list" id="userInfoList">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon1"></i>
-                                基础信息
+                                用户账号
                             </span>
-                            <span class="data_base_span data_base_titleRight">B12</span>
+                            <span class="data_base_span data_base_titleRight">{{account}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
-                                用户信息
+                                用户姓名
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{username}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
-                                原注册积分
+                                注册积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{jfzhuce}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
-                                当前积分
+                                任务积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{jftask}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon5"></i>
                                 中心积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{jfcenter}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon6"></i>
-                                原注册积分
+                                交易积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{jfbusiness}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon7"></i>
-                                任务积分
+                                原注册积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{jfold}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon8"></i>
                                 任务密钥
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{taskToken}}</span>
                         </li>
                     </ul>
                 </div>
@@ -1305,18 +1305,6 @@
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
-                            <div class="lottery lottery_input lottery_margin">
-                                <div>
-                                    <span class="fontWeightBold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;和</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
-                                    <input type="text" class="inputNumber" />
-                                </div>
-                                <div style="opacity:0;">
-                                    <span class="fontWeightBold">和</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
-                                    <input type="text" class="inputNumber" />
-                                </div>
-                            </div>
                         </li>
                         <li class="div_lottery_li bet_box">
                             <div class="bet_content">
@@ -1747,7 +1735,7 @@
 
     <div class="hang_detail5">
         <div class="hang_box5">
-            <div class="data_base" id="input_code_box3">
+            <div class="data_base" id="input_code_box4">
                 <header style="background: #EA4758;">
                     <p class="hang_detail_title textCenter">详情</p>
                 </header>
@@ -1761,7 +1749,7 @@
 
     <div class="hang_detail6">
         <div class="hang_box6">
-            <div class="data_base" id="input_code_box3">
+            <div class="data_base" id="input_code_box5">
                 <header style="background: #EA4758;">
                     <p class="hang_detail_title textCenter">详情</p>
                 </header>
@@ -1781,9 +1769,11 @@
     </div>
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="/layui/layui.js"></script>
 <script src="/js/time.js"></script>
 <script src="/js/bet.js"></script>
 <script src="/js/score.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/data.js"></script>
 </html>
