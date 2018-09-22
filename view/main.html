@@ -241,99 +241,99 @@
                 </div>
             </div>
             <!-- 未结明细 -->
-            <div class="data_content missed_details">
-                <div class="data_base">
+            <div class="data_content missed_details" id="missed_list">
+                <div class="data_base" v-for="item in items">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon1"></i>
                                 彩种/投注时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">时时彩/2018.08.08 12:12:12</span>
+                            <span class="data_base_span data_base_titleRight">{{item.gmname}}/{{item.create_date}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 期号
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018070123</span>
+                            <span class="data_base_span data_base_titleRight">{{item.gmnum}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
                                 投注详细信息
                             </span>
-                            <span class="data_base_span data_base_titleRight" style="color:red;">和</span>
+                            <span class="data_base_span data_base_titleRight" style="color:red;">{{item.buyinfo}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 下注积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">2</span>
+                            <span class="data_base_span data_base_titleRight">{{item.jf}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon5"></i>
                                 结果
                             </span>
-                            <span class="data_base_span data_base_titleRight">等待结算</span>
+                            <span class="data_base_span data_base_titleRight">{{item.status == 1? '赢' : item.status == '0'? '待开奖' : '输'}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon6"></i>
                                 可中积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">12.6</span>
+                            <span class="data_base_span data_base_titleRight">{{item.winjf}}</span>
                         </li>
                     </ul>
                 </div>
             </div>
             <!-- 投注记录 -->
-            <div class="data_content betting_record">
-                <div class="data_base">
+            <div class="data_content betting_record" id="record_list">
+                <div class="data_base" v-for="item in items">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon1"></i>
                                 彩种/投注时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">时时彩/2018.08.08 12:12:12</span>
+                            <span class="data_base_span data_base_titleRight">{{item.gmname}}/{{item.create_date}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 期号
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018070123</span>
+                            <span class="data_base_span data_base_titleRight">{{item.gmnum}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
                                 投注详细信息
                             </span>
-                            <span class="data_base_span data_base_titleRight" style="color:red;">和</span>
+                            <span class="data_base_span data_base_titleRight" style="color:red;">{{item.buyinfo}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 下注积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">2</span>
+                            <span class="data_base_span data_base_titleRight">{{item.jf}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon5"></i>
                                 结果
                             </span>
-                            <span class="data_base_span data_base_titleRight">等待结算</span>
+                            <span class="data_base_span data_base_titleRight">{{item.status == 1? '赢' : item.status == '0'? '待开奖' : '输'}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon6"></i>
                                 可中积分
                             </span>
-                            <span class="data_base_span data_base_titleRight">12.6</span>
+                            <span class="data_base_span data_base_titleRight">{{item.winjf}}</span>
                         </li>
                     </ul>
                 </div>
@@ -480,7 +480,7 @@
                 </div>
             </div>
             <!-- 挂卖积分列表 -->
-            <div class="data_content hang_integral">
+            <div class="data_content hang_integral" id="integral_list">
                 <div class="data_base">
                     <ul class="data_base_list">
                         <li>
@@ -771,8 +771,8 @@
                 </div>
             </div>
             <!-- 直推列表 -->
-            <div class="data_content push_list">
-                <div class="data_base">
+            <div class="data_content push_list" id="pushList">
+                <!-- <div class="data_base">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -810,47 +810,8 @@
                             <span class="data_base_span data_base_titleRight">12</span>
                         </li>
                     </ul>
-                </div>
+                </div> -->
 
-                <div class="data_base">
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon1"></i>
-                                账号
-                            </span>
-                            <span class="data_base_span data_base_titleRight">B12</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                初始注册积分
-                            </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                开通时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                任务密钥话费数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon5"></i>
-                                任务密钥剩余数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">12</span>
-                        </li>
-                    </ul>
-                </div>
             </div>
             <!-- 留言反馈 -->
             <div class="data_content feedBack">
@@ -892,7 +853,7 @@
                             你可在此处进行任务申请，一次任务申请需扣除一个密钥。
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items: center;margin-top:20px;">
-                            <span style="color:rgb(87, 85, 85);">您当前的任务密钥</span><span>11</span>
+                            <span style="color:rgb(87, 85, 85);">您当前的任务密钥</span><span class="taskToken"></span>
                         </div>
                         <div>
                             <button type="button" class="confirm_create_account" id="apply_button">立即申请</button>
@@ -909,7 +870,7 @@
                     <div class="createAccountItem">
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span>你当前的任务密钥</span>
-                            <span>12</span>
+                            <span class="taskToken"></span>
                         </div>
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="color:#ccc;">转账账号</span>
