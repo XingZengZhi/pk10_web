@@ -17,10 +17,20 @@ $(function(){
     };  
     // 修改用户登录密码
     $("#confirmChangePass").on('click', function(){
-        $.post("http://120.79.46.90:8080/flm/user/fogetPwd.do",{
+        $.post("http://120.79.46.90:8080/game/user/fogetPwd.do",{
             "id":sessionStorage.id,
             "password":$("#oldPassword").val(),
             "newpassword":$("#newPassword").val()
+        },function(data){
+            console.log(data);
+        });
+    });
+    // 修改安全码
+    $("#confirmChangeSecuritycode").on('click', function(){
+        $.post("http://120.79.46.90:8080/game/user/fogetPwd.do",{
+            "id":sessionStorage.id,
+            "safepwd":$("#oldSecuritycode").val(),
+            "newsafepwd":$("#newSecuritycode").val()
         },function(data){
             console.log(data);
         });
@@ -29,7 +39,7 @@ $(function(){
     $("#perfectUserInfo").on('click', function(){
         var updateUserJson = $("#updateUserInfo").serializeObject();
         console.log(updateUserJson);
-        $.post("http://120.79.46.90:8080/flm/user/updateUser.do",{
+        $.post("http://120.79.46.90:8080/game/user/updateUser.do",{
             "userVO":updateUserJson
         },function(data){
             console.log(data);
