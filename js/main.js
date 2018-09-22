@@ -168,8 +168,8 @@ window.onload = function(){
     $(".editText").on("click", function(){
         topTitle.text('个人资料');
         var className = $(this).prop("class");
-        console.log(className);
         showOrHideEditButton(className);
+
     });
 
     // 显示或隐藏子菜单
@@ -209,10 +209,24 @@ window.onload = function(){
             $(".personal_data").find(".editUserInfo").css("display", "block");
             $(".editText").fadeOut(.3);
             $(".code_box").css("width", "65px").find("i").css("display", "block");
+            $("#newUserName").fadeIn(0);
+            $("#newTelphone").fadeIn(0);
+            $("#newBanKName").fadeIn(0);
+            $("#newBankNum").fadeIn(0);
+            $("#editUsername").fadeOut(0);
+            $("#editTelphone").fadeOut(0);
+            $("#editBanknum").fadeOut(0);
         } else {
             $(".personal_data").find(".editUserInfo").css("display", "none");
             $(".editText").fadeIn(.3);
             $(".code_box").css("width", "45px").find("i").css("display", "none");
+            $("#newUserName").fadeOut(0);
+            $("#newTelphone").fadeOut(0);
+            $("#newBanKName").fadeOut(0);
+            $("#newBankNum").fadeOut(0);
+            $("#editUsername").fadeIn(0);
+            $("#editTelphone").fadeIn(0);
+            $("#editBanknum").fadeIn(0);
         }
     }
 }

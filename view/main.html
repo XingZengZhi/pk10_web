@@ -1443,67 +1443,74 @@
                     <h3 class="data_base_title">
                         个人资料
                     </h3>
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon1"></i>
-                                账号
-                            </span>
-                            <span class="data_base_span data_base_titleRight">B12</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                真实姓名
-                            </span>
-                            <div>
-                                <span class="data_base_span data_base_titleRight">
-                                    周欣欣
+                    <form id="updateUserInfo">
+                        <input type="hidden" name="id" id="userId" />
+                        <ul class="data_base_list">
+                            <li>
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon1"></i>
+                                    账号
                                 </span>
-                                <span class="data_base_span data_base_titleRight editText">修改</span>
-                            </div>
-                            
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                手机号码
-                            </span>
-                            <div>
-                                <span class="data_base_span data_base_titleRight">1805673221</span>
-                                <span class="data_base_span data_base_titleRight editText">修改</span>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                银行卡资料
-                            </span>
-                            <span class="data_base_span data_base_titleRight">农业银行/3471738383838383838</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon5"></i>
-                                支付宝收款吗
-                            </span>
-                            <span class="data_base_span data_base_titleRight code_box">
-                                <img src="/imgs/code.png" alt="" class="my_code">
-                                <i class="link_icon_right main_link_icon_right"></i>
-                            </span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon6"></i>
-                                微信收款码
-                            </span>
-                            <span class="data_base_span data_base_titleRight code_box">
-                                <img src="/imgs/code.png" alt="" class="my_code">
-                                <i class="link_icon_right main_link_icon_right"></i>
-                            </span>
-                        </li>
-                    </ul>
+                                <span class="data_base_span data_base_titleRight">B12</span>
+                            </li>
+                            <li>
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon2"></i>
+                                    真实姓名
+                                </span>
+                                <div>
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新名称" id="newUserName" name="username" />
+                                    <span class="data_base_span data_base_titleRight" id="editUsername">周欣欣</span>
+                                    <span class="data_base_span data_base_titleRight editText">修改</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon3"></i>
+                                    手机号码
+                                </span>
+                                <div>
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新手机号码" id="newTelphone" name="telphone" />
+                                    <span class="data_base_span data_base_titleRight" id="editTelphone">1805673221</span>
+                                    <span class="data_base_span data_base_titleRight editText">修改</span>
+                                </div>
+                            </li>
+                            <li>
+                                
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon4"></i>
+                                    银行卡号
+                                </span>
+                                <div>
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行卡号" id="newBankNum" name="bankNum" />
+                                    <span class="data_base_span data_base_titleRight" id="editBanknum">3471738383838383838</span>
+                                    <span class="data_base_span data_base_titleRight editText">修改</span>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon5"></i>
+                                    支付宝收款吗
+                                </span>
+                                <span class="data_base_span data_base_titleRight code_box">
+                                    <img src="/imgs/code.png" alt="" class="my_code">
+                                    <i class="link_icon_right main_link_icon_right"></i>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon6"></i>
+                                    微信收款码
+                                </span>
+                                <span class="data_base_span data_base_titleRight code_box">
+                                    <img src="/imgs/code.png" alt="" class="my_code">
+                                    <i class="link_icon_right main_link_icon_right"></i>
+                                </span>
+                            </li>
+                        </ul>
+                    </form>
                     <div class="editButtonBox">
-                        <button type="button" class="editUserInfo" style="display:none;">确认修改</button>
+                        <button type="button" class="editUserInfo" style="display:none;" id="perfectUserInfo">确认修改</button>
                     </div>
                 </div>
             </div>
@@ -1519,14 +1526,14 @@
                                 <i class="icon-li data_base_icon1"></i>
                                 原密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入原密码" />
+                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入原密码" id="oldPassword" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 新密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新密码" />
+                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新密码" id="newPassword" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -1537,7 +1544,7 @@
                         </li>
                     </ul>
                     <div class="editButtonBox">
-                        <button type="button" class="editUserInfo">确认修改</button>
+                        <button type="button" class="editUserInfo" id="confirmChangePass">确认修改</button>
                     </div>
                 </div>
 
@@ -1776,4 +1783,5 @@
 <script src="/js/score.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/data.js"></script>
+<script src="/js/operator.js"></script>
 </html>
