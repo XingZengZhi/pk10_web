@@ -166,7 +166,7 @@
 .select_score:last-child{border-bottom:none;}
 .cancel{border:none;margin-top:15px;}
 
-#newUserName,#newTelphone,#newBanKName,#newBankNum{display:none;}
+#newUserName,#newTelphone,#newBanKName,#newBankNum,#newBankName{display:none;}
 
 @media screen and (max-width:750px) {
     html,body{width:100%;height:100%;}
