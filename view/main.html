@@ -221,8 +221,8 @@
                         <i class="data_base_icon data_base_new"></i>
                         最新公告
                     </h3>
-                    <ul>
-                        <li class="div_li">
+                    <ul id="bulletinList">
+                        <!-- <li class="div_li">
                             <div class="data_base_div">
                                 <span class="div_left_title">公告</span>
                                 <span class="div_right_date">2018-09-07</span>
@@ -233,47 +233,11 @@
                                     <i class="link_icon_right main_link_icon_right"></i>
                                 </a>
                             </div>
-                        </li>
-                        <li class="div_li">
-                            <div class="data_base_div">
-                                <span class="div_left_title">公告</span>
-                                <span class="div_right_date">2018-09-07</span>
-                            </div>
-                            <div class="data_base_div">
-                                <a class="div_base_detail div_detail">
-                                    <span class="link_span">公告详情</span>
-                                    <i class="link_icon_right main_link_icon_right"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="div_li">
-                            <div class="data_base_div">
-                                <span class="div_left_title">公告</span>
-                                <span class="div_right_date">2018-09-07</span>
-                            </div>
-                            <div class="data_base_div">
-                                <a class="div_base_detail div_detail">
-                                    <span class="link_span">公告详情</span>
-                                    <i class="link_icon_right main_link_icon_right"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="div_li">
-                            <div class="data_base_div">
-                                <span class="div_left_title">公告</span>
-                                <span class="div_right_date">2018-09-07</span>
-                            </div>
-                            <div class="data_base_div">
-                                <a class="div_base_detail div_detail">
-                                    <span class="link_span">公告详情</span>
-                                    <i class="link_icon_right main_link_icon_right"></i>
-                                </a>
-                            </div>
-                        </li>
+                        </li> -->
                     </ul>
-                    <div class="link_more">
+                    <!-- <div class="link_more">
                         <a href="#">查看更多</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- 未结明细 -->
@@ -906,31 +870,15 @@
             </div>
             <!-- 留言列表 -->
             <div class="data_content feedBackList">
-                <div class="data_base">
-                    <div class="feedBackListContent">
+                <div class="data_base" id="feedBackList">
+                    <!-- <div class="feedBackListContent">
                         <div class="feedBackTitle">
                             留言详细内容
                         </div>
                         <div class="feedBackTime">
                             2018-09-07
                         </div>
-                    </div>
-                    <div class="feedBackListContent">
-                        <div class="feedBackTitle">
-                            留言详细内容
-                        </div>
-                        <div class="feedBackTime">
-                            2018-09-07
-                        </div>
-                    </div>
-                    <div class="feedBackListContent">
-                        <div class="feedBackTitle">
-                            留言详细内容
-                        </div>
-                        <div class="feedBackTime">
-                            2018-09-07
-                        </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <!-- 任务申请 -->
@@ -988,8 +936,8 @@
                         <i class="data_base_icon data_base_new"></i>
                         公告
                     </h3>
-                    <ul>
-                        <li class="div_li">
+                    <ul id="webBulletinList">
+                        <!-- <li class="div_li">
                             <div class="data_base_div">
                                 <span class="div_left_title">公告</span>
                                 <span class="div_right_date">2018-09-07</span>
@@ -1000,43 +948,7 @@
                                     <i class="link_icon_right main_link_icon_right"></i>
                                 </a>
                             </div>
-                        </li>
-                        <li class="div_li">
-                            <div class="data_base_div">
-                                <span class="div_left_title">公告</span>
-                                <span class="div_right_date">2018-09-07</span>
-                            </div>
-                            <div class="data_base_div">
-                                <a class="div_base_detail div_detail">
-                                    <span class="link_span">公告详情</span>
-                                    <i class="link_icon_right main_link_icon_right"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="div_li">
-                            <div class="data_base_div">
-                                <span class="div_left_title">公告</span>
-                                <span class="div_right_date">2018-09-07</span>
-                            </div>
-                            <div class="data_base_div">
-                                <a class="div_base_detail div_detail">
-                                    <span class="link_span">公告详情</span>
-                                    <i class="link_icon_right main_link_icon_right"></i>
-                                </a>
-                            </div>
-                        </li>
-                        <li class="div_li">
-                            <div class="data_base_div">
-                                <span class="div_left_title">公告</span>
-                                <span class="div_right_date">2018-09-07</span>
-                            </div>
-                            <div class="data_base_div">
-                                <a class="div_base_detail div_detail">
-                                    <span class="link_span">公告详情</span>
-                                    <i class="link_icon_right main_link_icon_right"></i>
-                                </a>
-                            </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -1470,13 +1382,23 @@
                                     手机号码
                                 </span>
                                 <div>
-                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新手机号码" id="newTelphone" name="telphone" />
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新手机号码" id="newTelphone" name="telephone" />
                                     <span class="data_base_span data_base_titleRight" id="editTelphone">1805673221</span>
                                     <span class="data_base_span data_base_titleRight editText">修改</span>
                                 </div>
                             </li>
                             <li>
-                                
+                                <span class="data_base_span data_base_titleLeft">
+                                    <i class="icon-li data_base_icon4"></i>
+                                    银行名称
+                                </span>
+                                <div>
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行名称" id="newBankName" name="bankName" />
+                                    <span class="data_base_span data_base_titleRight" id="editBankname">农业银行</span>
+                                    <span class="data_base_span data_base_titleRight editText">修改</span>
+                                </div>
+                            </li>
+                            <li>
                                 <span class="data_base_span data_base_titleLeft">
                                     <i class="icon-li data_base_icon4"></i>
                                     银行卡号

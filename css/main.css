@@ -39,7 +39,7 @@
 .data_base_titleRight{color:rgb(68,68,68);}
 .div_li{margin:0px 10px;padding:10px 0;border-bottom:1px dotted rgb(153,153,153);}
 .div_li:last-child{border:none;}
-.data_base_div{display: flex;justify-content: space-between;}
+.data_base_div{display: flex;justify-content: space-between;margin-top:10px;}
 .div_left_title{font-weight:bold;font-size:1.4rem;display: block;width:70%;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
 .div_right_date{color:rgb(153,153,153);line-height:30px;}
 .div_base_detail{color:rgb(153,153,153);}
@@ -166,7 +166,7 @@
 .select_score:last-child{border-bottom:none;}
 .cancel{border:none;margin-top:15px;}
 
-#newUserName,#newTelphone,#newBanKName,#newBankNum{display:none;}
+#newUserName,#newTelphone,#newBanKName,#newBankNum,#newBankName{display:none;}
 
 @media screen and (max-width:750px) {
     html,body{width:100%;height:100%;}
