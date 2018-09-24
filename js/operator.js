@@ -201,14 +201,23 @@ $(function(){
         $("#user_name").text(sessionStorage.account);
         $("#user_core").text(sessionStorage.jfbusiness);
         // 挂卖信息列表
-        // $.post("",{
-        //     "userId":1,
-        //     "status":1
-        // },function(data){
-        //     var integral_list = new Vue({
-        //         el:'#integral_list'
-        //     });
-        // });
+        $.post("http://120.79.46.90:8080/game/home/getBusiness.do",{
+            "userId":1
+            // "status":1
+        },function(data){
+            var dt = data.result;
+            var integral_list = new Vue({
+                el:'#integral_list',
+                data:{
+                    items:dt
+                },
+                methods:{
+                    confirmHang:function(event){
+                        console.log(event.target.dataset.id);
+                    }
+                }
+            });
+        });
         // 投注记录
         $.post("http://120.79.46.90:8080/game/home/getPools.do",{
             "userId":1

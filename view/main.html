@@ -481,96 +481,50 @@
             </div>
             <!-- 挂卖积分列表 -->
             <div class="data_content hang_integral" id="integral_list">
-                <div class="data_base">
+                <div class="data_base" v-for="item in items">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 挂卖用户
                             </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
+                            <span class="data_base_span data_base_titleRight">{{item.sellername}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
                                 挂卖积分数量
                             </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
+                            <span class="data_base_span data_base_titleRight">{{item.selljf}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 挂卖时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
+                            <span class="data_base_span data_base_titleRight">{{item.create_date}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon5"></i>
                                 购买时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
+                            <span class="data_base_span data_base_titleRight">{{item.buytime}}</span>
                         </li>
-                        <li>
+                        <!-- <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon6"></i>
                                 需确认时间
                             </span>
                             <span class="data_base_span data_base_titleRight">2018.09.09 12:00之前</span>
-                        </li>
+                        </li> -->
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon7"></i>
                                 操作
                             </span>
-                            <span class="data_base_span data_base_titleRight fontWeightBold">已确认收款</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="data_base">
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                挂卖用户
-                            </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                挂卖积分数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                挂卖时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon5"></i>
-                                购买时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon6"></i>
-                                需确认时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018.09.09 12:00之前</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon7"></i>
-                                操作
-                            </span>
-                            <button type="button" class="hang_btn" id="confirm_hang">确认收款</button>
+                            <span class="data_base_span data_base_titleRight fontWeightBold" v-if="item.status != 1">{{item.status == 2? '交易中' : item.status == 3? '已完成' : '已过期'}}</span>
+                            <button type="button" class="hang_btn confirm_hang" v-bind:data-id="item.id" @click="confirmHang" v-else>确认收款</button>
                         </li>
                     </ul>
                 </div>
@@ -1663,8 +1617,8 @@
 <script src="/layui/layui.js"></script>
 <script src="/js/time.js"></script>
 <script src="/js/bet.js"></script>
-<script src="/js/score.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/data.js"></script>
 <script src="/js/operator.js"></script>
+<script src="/js/score.js"></script>
 </html>

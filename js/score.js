@@ -6,7 +6,7 @@
         $(".hang_detail").fadeOut(.3);
     });
 
-    $("#confirm_hang").on("click", function(){
+    $("#integral_list").on("click", ".data_base .data_base_list .confirm_hang", function(){
         $(".hang_detail2").fadeIn(.3);
     });
     $(".close_detail2").on("click", function(){
