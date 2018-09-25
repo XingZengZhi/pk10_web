@@ -37,11 +37,11 @@
             <i class="down"></i>
             <i class="line"></i>
         </span>
-        <span id="vipCenter">
+        <!-- <span id="vipCenter">
             会员中心
             <i class="down"></i>
             <i class="line"></i>
-        </span>
+        </span> -->
         <span id="conversion">
             积分转换
             <i class="down"></i>
@@ -618,35 +618,35 @@
             <!-- 积分转换中心 -->
             <div class="data_content integral_conversion">
                 <div class="data_base">
-                    <div class="integral_conversion_box">
-                        <div class="conversion_button conversion_active" id="conversion_title1">
+                    <div class="integral_conversion_box" id="conversionBox">
+                        <div class="conversion_button conversion_active" id="conversion_title1" data-isc="1" @click="changeIsC">
                             中心积分/注册积分 转换交易积分
                         </div>
-                        <div class="conversion_button" id="conversion_title2">
+                        <div class="conversion_button" id="conversion_title2" data-isc="2" @click="changeIsC">
                             中心积分/注册积分 转换任务积分
                         </div>
-                        <div class="conversion_button" id="conversion_title3">
+                        <div class="conversion_button" id="conversion_title3" data-isc="3" @click="changeIsC">
                             注册积分 转换中心积分
                         </div>
-                        <div class="conversion_title1">
+                        <div class="conversion_title1" v-if="isC == 1">
                             <p class="conversion_tip" style="color:#ccc;">优先从中心积分中扣除</p>
-                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>12000</span>，注册积分为<span>12000</span></p>
+                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>{{jfcenter}}</span>，注册积分为<span>{{jfzhuce}}</span></p>
                             <p class="conversion_tip" style="color:#ccc;margin-top:10px;">优先从中心积分中扣除</p>
                         </div>
-                        <div class="conversion_title2">
-                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>12000</span>，注册积分为<span>12000</span></p>
-                            <p class="conversion_tip" style="margin-top:10px;">你可转换任务积分为：<span>12000</span></p>
+                        <div class="conversion_title2" v-if="isC == 2">
+                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>{{jfcenter}}</span>，注册积分为<span>{{jfzhuce}}</span></p>
+                            <p class="conversion_tip" style="margin-top:10px;">你可转换任务积分为：<span>{{jftask}}</span></p>
                             <p class="conversion_tip" style="color:#ccc;margin-top:10px;">转换为交易积分的数量:</p>
                         </div>
-                        <div class="conversion_title3">
-                            <p class="conversion_tip" style="margin-top:10px;">你当前的注册积分为<span>12000</span></p>
+                        <div class="conversion_title3" v-if="isC == 3">
+                            <p class="conversion_tip" style="margin-top:10px;">你当前的注册积分为<span>{{jfzhuce}}</span></p>
                             <p class="conversion_tip" style="color:#ccc;margin-top:10px;">转换为交易积分的数量:</p>
                         </div>
                         <p>
-                            <input type="text" id="conversion_core" />
+                            <input type="text" id="conversion_core" v-model="jf" />
                         </p>
                         <p>
-                            <button type="button" id="confirm_conversion">确认转换</button>
+                            <button type="button" id="confirm_conversion" @click="confirmConversion">确认转换</button>
                         </p>
                     </div>
                 </div>
@@ -657,21 +657,16 @@
                     <div class="leader_board">
                         <span class="leader_board_head">转入积分</span>
                     </div>
-                    <div class="leader_list">
+                    <div class="leader_list" id="inputList">
                         <div class="leader_list_item">
                             <div>转入类型</div>
                             <div>积分数量</div>
                             <div>转入时间</div>
                         </div>
-                        <div class="leader_list_item">
+                        <div class="leader_list_item" v-for="item in items">
                             <div>注册积分转入交易积分</div>
-                            <div>1200</div>
-                            <div>2018.08.08</div>
-                        </div>
-                        <div class="leader_list_item">
-                            <div>注册积分转入交易积分</div>
-                            <div>1200</div>
-                            <div>2018.08.08</div>
+                            <div>{{item.tokennum}}</div>
+                            <div>{{item.create_date}}</div>
                         </div>
                     </div>
                 </div>
@@ -679,47 +674,42 @@
                     <div class="leader_board">
                         <span class="leader_board_head">转出积分</span>
                     </div>
-                    <div class="leader_list">
+                    <div class="leader_list" id="outputList">
                         <div class="leader_list_item">
                             <div>转入类型</div>
                             <div>积分数量</div>
                             <div>转入时间</div>
                         </div>
-                        <div class="leader_list_item">
+                        <div class="leader_list_item" v-for="item in items">
                             <div>注册积分转入交易积分</div>
-                            <div>1200</div>
-                            <div>2018.08.08</div>
-                        </div>
-                        <div class="leader_list_item">
-                            <div>注册积分转入交易积分</div>
-                            <div>1200</div>
-                            <div>2018.08.08</div>
+                            <div>{{item.tokennum}}</div>
+                            <div>{{item.create_date}}</div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 账号开通中心 -->
             <div class="data_content createAccount">
-                <div class="data_base">
+                <div class="data_base" id="createAccountForm">
                     <div>
                         <img src="/imgs/open.png" alt="" class="createAccountImg">
                     </div>
                     <div class="createAccountItem">
                         <div>
-                            <input type="text" placeholder="账号" class="input_controle" />
+                            <input type="text" placeholder="账号" class="input_controle" v-model="account" value="{{account}}" />
                         </div>
-                        <div style="position:relative;" id="register_core">
-                            <input type="text" placeholder="注册积分" class="input_controle" />
+                        <div>
+                            <input type="text" placeholder="登录密码" class="input_controle" v-model="password" value="{{password}}" />
+                        </div>
+                        <div>
+                            <input type="text" placeholder="安全密码" class="input_controle" v-model="safepwd" value="{{safepwd}}" />
+                        </div>
+                        <div style="position:relative;" id="register_core" @click="showScores">
+                            <input type="text" placeholder="注册积分" class="input_controle" v-model="jfzhuce" id="jfzhuce" value="{{jfzhuce}}" />
                             <i class="link_icon_right main_link_icon_right"></i>
                         </div>
                         <div>
-                            <input type="text" placeholder="登录密码" class="input_controle" />
-                        </div>
-                        <div>
-                            <input type="text" placeholder="安全密码" class="input_controle" />
-                        </div>
-                        <div>
-                            <button type="button" class="confirm_create_account">确认</button>
+                            <button type="button" class="confirm_create_account" @click="createAccount">确认</button>
                         </div>
                     </div>
                 </div>
@@ -798,7 +788,7 @@
             </div>
             <!-- 任务申请 -->
             <div class="data_content task_application">
-                <div class="data_base">
+                <div class="data_base" id="task_application">
                     <div>
                         <img src="/imgs/apply.png" alt="" class="createAccountImg" style="height:120px;width:100px;">
                     </div>
@@ -810,14 +800,14 @@
                             <span style="color:rgb(87, 85, 85);">您当前的任务密钥</span><span class="taskToken"></span>
                         </div>
                         <div>
-                            <button type="button" class="confirm_create_account" id="apply_button">立即申请</button>
+                            <button type="button" class="confirm_create_account" id="apply_button" @click="giftKey">立即申请</button>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- 转赠密钥 -->
             <div class="data_content task_gift">
-                <div class="data_base">
+                <div class="data_base" id="task_gift">
                     <div style="height: 45px;line-height:45px;text-align:center;color:red;font-weight:bold;">
                         转赠密钥
                     </div>
@@ -828,18 +818,18 @@
                         </div>
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="color:#ccc;">转账账号</span>
-                            <input type="text" placeholder="请输入转账账号" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                            <input type="text" placeholder="请输入转账账号" v-model="account" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
                         </div>
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="color:#ccc;">赠送密钥数量</span>
-                            <input type="text" placeholder="请输入数量" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                            <input type="text" placeholder="请输入数量" v-model="num" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
                         </div>
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="color:#ccc;">安全密码</span>
-                            <input type="text" placeholder="请输入密码" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                            <input type="text" placeholder="请输入密码" v-model="safepwd" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
                         </div>
                         <div>
-                            <button type="button" class="confirm_create_account" id="gift_button">确认赠送</button>
+                            <button type="button" class="confirm_create_account" id="gift_button" @click="giftButton">确认赠送</button>
                         </div>
                     </div>
                 </div>
@@ -1278,7 +1268,7 @@
                                     <i class="icon-li data_base_icon1"></i>
                                     账号
                                 </span>
-                                <span class="data_base_span data_base_titleRight">B12</span>
+                                <span class="data_base_span data_base_titleRight">{{account}}</span>
                             </li>
                             <li>
                                 <span class="data_base_span data_base_titleLeft">
@@ -1287,7 +1277,7 @@
                                 </span>
                                 <div>
                                     <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新名称" id="newUserName" name="username" />
-                                    <span class="data_base_span data_base_titleRight" id="editUsername">周欣欣</span>
+                                    <span class="data_base_span data_base_titleRight" id="editUsername">{{username}}</span>
                                     <span class="data_base_span data_base_titleRight editText">修改</span>
                                 </div>
                             </li>
@@ -1298,7 +1288,7 @@
                                 </span>
                                 <div>
                                     <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新手机号码" id="newTelphone" name="telephone" />
-                                    <span class="data_base_span data_base_titleRight" id="editTelphone">1805673221</span>
+                                    <span class="data_base_span data_base_titleRight" id="editTelphone">{{telephone}}</span>
                                     <span class="data_base_span data_base_titleRight editText">修改</span>
                                 </div>
                             </li>
@@ -1309,7 +1299,7 @@
                                 </span>
                                 <div>
                                     <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行名称" id="newBankName" name="bankName" />
-                                    <span class="data_base_span data_base_titleRight" id="editBankname">农业银行</span>
+                                    <span class="data_base_span data_base_titleRight" id="editBankname">{{bankName}}</span>
                                     <span class="data_base_span data_base_titleRight editText">修改</span>
                                 </div>
                             </li>
@@ -1320,7 +1310,7 @@
                                 </span>
                                 <div>
                                     <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行卡号" id="newBankNum" name="bankNum" />
-                                    <span class="data_base_span data_base_titleRight" id="editBanknum">3471738383838383838</span>
+                                    <span class="data_base_span data_base_titleRight" id="editBanknum">{{bankNum}}</span>
                                     <span class="data_base_span data_base_titleRight editText">修改</span>
                                 </div>
                             </li>
@@ -1330,7 +1320,7 @@
                                     支付宝收款吗
                                 </span>
                                 <span class="data_base_span data_base_titleRight code_box">
-                                    <img src="/imgs/code.png" alt="" class="my_code">
+                                    <img v-bind:src="alipaypic" alt="" class="my_code">
                                     <i class="link_icon_right main_link_icon_right"></i>
                                 </span>
                             </li>
@@ -1340,15 +1330,15 @@
                                     微信收款码
                                 </span>
                                 <span class="data_base_span data_base_titleRight code_box">
-                                    <img src="/imgs/code.png" alt="" class="my_code">
+                                    <img v-bind:src="weixinpic" alt="" class="my_code">
                                     <i class="link_icon_right main_link_icon_right"></i>
                                 </span>
                             </li>
                         </ul>
+                        <div class="editButtonBox">
+                            <button type="button" class="editUserInfo" style="display:none;" id="perfectUserInfo">确认修改</button>
+                        </div>
                     </form>
-                    <div class="editButtonBox">
-                        <button type="button" class="editUserInfo" style="display:none;" id="perfectUserInfo">确认修改</button>
-                    </div>
                 </div>
             </div>
             <!-- 修改用户密码 -->
@@ -1602,6 +1592,20 @@
                 </div>
             </div>
             <i class="close_detail6">×</i>
+        </div>
+    </div>
+
+    <div class="hang_detail7">
+        <div class="hang_box7">
+            <div class="data_base" id="input_code_box6">
+                <header style="background: #EA4758;">
+                    <p class="hang_detail_title textCenter">详情</p>
+                </header>
+                <div class="code_tip6">
+                    抱歉！您没有足够的积分扣除。
+                </div>
+            </div>
+            <i class="close_detail7">×</i>
         </div>
     </div>
 

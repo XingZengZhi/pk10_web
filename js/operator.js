@@ -57,8 +57,8 @@ $(function(){
         });
     });
     // 首页公告数据
-    layui.use('flow', function(){
-        var flow = layui.flow;
+    layui.use(['flow', 'layer'], function(){
+        var flow = layui.flow, layer = layui.layer;
         // 首页公告
         flow.load({
             elem:'#bulletinList',
@@ -244,6 +244,177 @@ $(function(){
                     items:dt
                 }
             });
+        });
+        // 赠送密钥
+        var taskApplication = new Vue({
+            el:"#task_application",
+            data:{
+                
+            },
+            methods:{
+                giftKey:function(event){
+                    console.log(event.target);
+                    $.post("http://120.79.46.90:8080/game/home/addTask.do",{
+                        "userid":1
+                    }, function(data){
+                        if(data.code === '000000'){
+                            $(".hang_detail5").fadeIn(.3);
+                            $(".code_tip4").show(0);
+                        } else {
+                            layer.msg(data.message);
+                        }
+                    });
+                }
+            }
+        });
+        // 开通账号
+        var openAccount = new Vue({
+            el:"#createAccountForm",
+            data:{
+                account:"",
+                jfzhuce:"",
+                password:"",
+                safepwd:""
+            },
+            methods:{
+                createAccount:function(event){
+                    this.jfzhuce = $("#jfzhuce").val();
+                    console.log(this.jfzhuce);
+                    if(this.jfzhuce > sessionStorage.jfzhuce) {
+                        $(".hang_detail7").fadeIn(.3);
+                    } else {
+                        $.post("http://120.79.46.90:8080/game/user/register.do",{
+                            account:this.account,
+                            jfzhuce:this.jfzhuce,
+                            password:this.password,
+                            safepwd:this.safepwd,
+                            pid:sessionStorage.id
+                        }, function(data){
+                            console.log(data);
+                            if(data.code === '000000') {
+                                openAccount.account = "";
+                                openAccount.jfzhuce = "";
+                                openAccount.password = "";
+                                openAccount.safepwd = "";
+                            }
+                            layer.msg(data.message);
+                        });
+                    }
+                },
+                showScores:function(){
+                    $("#mask").show();
+                    $("#selectBox").show();
+                }
+            }
+        });
+        // 个人中心
+        var updateUserInfo = new Vue({
+            el:"#updateUserInfo",
+            data:{
+                account:sessionStorage.account,
+                username:sessionStorage.username,
+                telephone:sessionStorage.telephone,
+                bankName:sessionStorage.bankName,
+                bankNum:sessionStorage.bankNum,
+                alipaypic:sessionStorage.alipaypic,
+                weixinpic:sessionStorage.weixinpic
+            }
+        });
+        // 转赠密钥
+        var taskGift = new Vue({
+            el:"#task_gift",
+            data:{
+                account:"",
+                num:"",
+                safepwd:""
+            },
+            methods:{
+                giftButton:function(event){
+                    $.post("http://120.79.46.90:8080/game/user/gaveToken.do",{
+                        account:this.account,
+                        num:this.num,
+                        safepwd:this.safepwd,
+                        userid:sessionStorage.id
+                    },function(data){
+                        console.log(data);
+                        if(data.code === '000000') {
+                            taskGift.account = "";
+                            taskGift.num = "";
+                            taskGift.safepwd = "";
+                        }
+                        layer.msg(data.message);
+                    });
+                }
+            }
+        });
+        // 中心积分报表
+        $.post("http://120.79.46.90:8080/game/home/getTokens.do",{
+            account:sessionStorage.account
+        },function(data){
+            var dt = data.result;
+            var inputList = new Vue({
+                el:"#inputList",
+                data:{
+                    items:dt
+                }
+            });
+        });
+        $.post("http://120.79.46.90:8080/game/home/getTokens.do",{
+            userId:sessionStorage.id
+        },function(data){
+            var dt = data.result;
+            var inputList = new Vue({
+                el:"#outputList",
+                data:{
+                    items:dt
+                }
+            });
+        });
+        // 积分转换中心
+        var conversionBox = new Vue({
+            el:"#conversionBox",
+            data:{
+                jfcenter:sessionStorage.jfcenter,
+                jfzhuce:sessionStorage.jfzhuce,
+                jftask:sessionStorage.jftask,
+                isC:1,
+                jf:""
+            },
+            methods:{
+                changeIsC:function(event){
+                    this.isC = parseInt(event.target.dataset.isc);
+                    $(event.target).addClass("conversion_active").siblings(".conversion_button").removeClass("conversion_active");
+                },
+                confirmConversion:function(event){
+                    console.log(event);
+                    var type = 0;
+                    switch(this.isC){
+                        case 1:
+                        type = 2;
+                        // type = 4;
+                        break;
+                        case 2:
+                        type = 3;
+                        // type = 5;
+                        break;
+                        case 3:
+                        type = 1;
+                        break;
+                    }
+                    if(type != 0) {
+                        $.post("http://120.79.46.90:8080/game/jf/transforjf.do",{
+                            userId:sessionStorage.id,
+                            type:type,
+                            jf:parseInt(this.jf)
+                        },function(data){
+                            if(data.code === '000000') {
+                                conversionBox.jf ="";
+                            }
+                            layer.msg(data.message);
+                        });
+                    }
+                }
+            }
         });
     });
 });

@@ -6,9 +6,9 @@
         $(".hang_detail").fadeOut(.3);
     });
 
-    $("#integral_list").on("click", ".data_base .data_base_list .confirm_hang", function(){
-        $(".hang_detail2").fadeIn(.3);
-    });
+    // $("#integral_list").on("click", ".data_base .data_base_list .confirm_hang", function(){
+    //     $(".hang_detail2").fadeIn(.3);
+    // });
     $(".close_detail2").on("click", function(){
         $(".hang_detail2").fadeOut(.3);
         $(".code_tip").hide(0);
@@ -38,6 +38,9 @@
     });
     $(".close_detail4").on("click", function(){
         $(".hang_detail4").fadeOut(.3);
+    });
+    $(".close_detail7").on("click", function(){
+        $(".hang_detail7").fadeOut(.3);
     });
 
     $("#apply_button").on("click", function(){
