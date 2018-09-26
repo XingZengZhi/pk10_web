@@ -165,7 +165,7 @@ window.onload = function(){
     })
 
     // 修改小按钮点击
-    $(".editText").on("click", function(){
+    $(".editText,.cancelEdit").on("click", function(){
         topTitle.text('个人资料');
         var className = $(this).prop("class");
         showOrHideEditButton(className);

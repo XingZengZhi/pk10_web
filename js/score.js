@@ -32,18 +32,14 @@
         $("#input_code2").hide(0);
     });
 
-    $("#feedBackButton").on("click", function(){
-        $(".hang_detail4").fadeIn(.3);
-        $(".code_tip3").show(0);
-    });
-    $(".close_detail4").on("click", function(){
-        $(".hang_detail4").fadeOut(.3);
-    });
     $(".close_detail7").on("click", function(){
         $(".hang_detail7").fadeOut(.3);
     });
     $(".close_detail8").on("click", function(){
         $(".hang_detail8").fadeOut(.3);
+    });
+    $(".close_detail10").on('click', function(){
+        $(".hang_detail10").fadeOut(0);
     });
 
     $("#apply_button").on("click", function(){

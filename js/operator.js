@@ -105,27 +105,6 @@ $(function(){
             console.log(data);
         });
     });
-    // 完善个人资料
-    $("#perfectUserInfo").on('click', function(){
-        var updateUserJson = $("#updateUserInfo").serializeObject();
-        console.log(updateUserJson);
-        $.post("http://120.79.46.90:8080/game/user/updateUser.do",{
-            "userVO":updateUserJson
-        },function(data){
-            console.log(data);
-        });
-    });
-    // 添加留言反馈
-    $("#feedBackButton").on('click', function(){
-        var feedbackText = $("#feedbackText").val();
-        console.log("留言内容：" + feedbackText);
-        $.post("http://120.79.46.90:8080/game/home/addMessage.do",{
-            "userId":sessionStorage.id,
-            "content":feedbackText
-        },function(data){
-            console.log(data);
-        });
-    });
     // 首页公告数据
     layui.use(['flow', 'layer'], function(){
         var flow = layui.flow, layer = layui.layer;
@@ -163,6 +142,63 @@ $(function(){
                 });
             }
         });
+        // 反馈列表
+        flow.load({
+            elem:'#feedBackList',
+            done:function(page,next){
+                getFeedBackPage(page, next);
+            }
+        });
+        function getFeedBackPage(page, next){
+            var lis = [];
+            $.get('http://120.79.46.90:8080/game/home/getMessages.do?page='+page,{
+                "userId":sessionStorage.id
+            }, function(res){
+                console.log(res);
+                layui.each(res.result, function(index, item){
+                    var date = new Date(item.create_date),
+                    Y = date.getFullYear() + '-',
+                    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+                    D = date.getDate() + ' ',
+                    h = date.getHours() + ':',
+                    m = date.getMinutes() + ':',
+                    s = date.getSeconds();
+                    lis.push('<li class="div_li">'+ 
+                    '<div class="feedBackTitle">' +
+                        item.content +
+                    '</div>'+
+                    '<div class="feedBackTime">' +
+                        Y + M + D + h + m +
+                    '</div>'
+                    +'</li>');
+                }); 
+                next(lis.join(''), page < res.pages);    
+            });
+        }
+        // 添加留言反馈
+        $("#feedBackButton").on('click', function(){
+            var feedbackText = $("#feedbackText").val();
+            $.post("http://120.79.46.90:8080/game/home/addMessage.do",{
+                "userId":sessionStorage.id,
+                "content":feedbackText
+            },function(data){
+                if(data.code === '000000') {
+                    $(".code_tip9").text("留言反馈成功！");
+                    $(".hang_detail10").fadeIn(.3);
+                    $("#feedbackText").val("");
+                    $("#feedBackList").children().remove();
+                    flow.load({
+                        elem:'#feedBackList',
+                        done:function(page,next){
+                            getFeedBackPage(page, next);
+                        }
+                    });
+                } else {
+                    $(".code_tip9").text("留言反馈失败！");
+                    $(".hang_detail10").fadeIn(.3);
+                }
+            });
+        });
         // 网站公告
         flow.load({
             elem:'#webBulletinList',
@@ -180,35 +216,6 @@ $(function(){
                                 '<span class="link_span">'+ item.content + '</span>' +
                                 '<i class="link_icon_right main_link_icon_right"></i>' +
                             '</a>'+
-                        '</div>'
-                        +'</li>');
-                    }); 
-                    next(lis.join(''), page < res.pages);    
-                });
-            }
-        });
-        // 反馈列表
-        flow.load({
-            elem:'#feedBackList',
-            done:function(page,next){
-                var lis = [];
-                $.get('http://120.79.46.90:8080/game/home/getMessages.do?page='+page,{
-                    "userId":sessionStorage.id
-                }, function(res){
-                    layui.each(res.result, function(index, item){
-                        var date = new Date(item.create_date),
-                        Y = date.getFullYear() + '-',
-                        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
-                        D = date.getDate() + ' ',
-                        h = date.getHours() + ':',
-                        m = date.getMinutes() + ':',
-                        s = date.getSeconds();
-                        lis.push('<li class="div_li">'+ 
-                        '<div class="feedBackTitle">' +
-                            item.content +
-                        '</div>'+
-                        '<div class="feedBackTime">' +
-                            Y + M + D + h + m +
                         '</div>'
                         +'</li>');
                     }); 
@@ -415,26 +422,44 @@ $(function(){
             methods:{
                 createAccount:function(event){
                     this.jfzhuce = $("#jfzhuce").val();
-                    console.log(this.jfzhuce);
-                    if(this.jfzhuce > sessionStorage.jfzhuce) {
+                    if(parseInt(this.jfzhuce) > parseInt(sessionStorage.jfzhuce)) {
                         $(".hang_detail7").fadeIn(.3);
                     } else {
-                        $.post("http://120.79.46.90:8080/game/user/register.do",{
-                            account:this.account,
-                            jfzhuce:this.jfzhuce,
-                            password:this.password,
-                            safepwd:this.safepwd,
-                            pid:sessionStorage.id
-                        }, function(data){
-                            console.log(data);
-                            if(data.code === '000000') {
-                                openAccount.account = "";
-                                openAccount.jfzhuce = "";
-                                openAccount.password = "";
-                                openAccount.safepwd = "";
+                        if(this.account == '' || this.jfzhuce == '' || this.password == '' || this.safepwd == '') {
+                            var tips = "";
+                            $(".hang_detail10").fadeIn(.3);
+                            if(this.account == '') {
+                                tips = "账号不能为空！";
+                            } else if(this.password == '') {
+                                tips = "登录密码不能为空！";
+                            } else if(this.safepwd == '') {
+                                tips = "安全密码不能为空！";
+                            } else if(this.jfzhuce == '') {
+                                tips = "注册积分不能为空！";
                             }
-                            layer.msg(data.message);
-                        });
+                            $(".code_tip9").text(tips);
+                        } else {
+                            $.post("http://120.79.46.90:8080/game/user/register.do",{
+                                account:this.account,
+                                jfzhuce:this.jfzhuce,
+                                password:this.password,
+                                safepwd:this.safepwd,
+                                pid:sessionStorage.id
+                            }, function(data){
+                                console.log(data);
+                                if(data.code === '000000') {
+                                    openAccount.account = "";
+                                    openAccount.jfzhuce = "";
+                                    openAccount.password = "";
+                                    openAccount.safepwd = "";
+                                    $(".hang_detail10").fadeIn(.3);
+                                    $(".code_tip9").text("账号开通成功！");
+                                } else {
+                                    $(".hang_detail10").fadeIn(.3);
+                                    $(".code_tip9").text("账号开通失败！");
+                                }
+                            });
+                        }
                     }
                 },
                 showScores:function(){
@@ -453,7 +478,33 @@ $(function(){
                 bankName:sessionStorage.bankName,
                 bankNum:sessionStorage.bankNum,
                 alipaypic:sessionStorage.alipaypic,
-                weixinpic:sessionStorage.weixinpic
+                weixinpic:sessionStorage.weixinpic,
+                newUserName:"",
+                newTelphone:"",
+                newBankName:"",
+                newBankNum:"",
+            },
+            methods:{
+                updateUserInfo:function(){
+                    var updateUserJson = $("#updateUserInfo").serializeObject();
+                    console.log(updateUserJson);
+                    $.post("http://120.79.46.90:8080/game/user/updateUser.do",{
+                        "userVO":updateUserJson
+                    },function(data){
+                        console.log(data);
+                        if(data.code === '000000') {
+                            $(".code_tip9").text("更新成功！");
+                            $(".hang_detail10").fadeIn(0);
+                            sessionStorage.username = this.newUserName;
+                            sessionStorage.telephone = this.newTelphone;
+                            sessionStorage.bankName = this.newBankName;
+                            sessionStorage.bankNum = this.newBankNum;
+                        } else {
+                            $(".code_tip9").text("更新失败！");
+                            $(".hang_detail10").fadeIn(0);
+                        }
+                    });
+                }
             }
         });
         // 转赠密钥
