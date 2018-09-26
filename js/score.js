@@ -42,6 +42,9 @@
     $(".close_detail7").on("click", function(){
         $(".hang_detail7").fadeOut(.3);
     });
+    $(".close_detail8").on("click", function(){
+        $(".hang_detail8").fadeOut(.3);
+    });
 
     $("#apply_button").on("click", function(){
         $(".hang_detail5").fadeIn(.3);

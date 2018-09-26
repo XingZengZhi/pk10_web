@@ -390,12 +390,18 @@ $(function(){
                     var type = 0;
                     switch(this.isC){
                         case 1:
-                        type = 2;
-                        // type = 4;
+                        if(parseInt(this.jf) < parseInt(this.jfcenter)) {
+                            type = 4;
+                        } else {
+                            type = 2;
+                        }
                         break;
                         case 2:
-                        type = 3;
-                        // type = 5;
+                        if(parseInt(this.jf) < parseInt(this.jfcenter)) {
+                            type = 5;
+                        } else {
+                            type = 3;
+                        }
                         break;
                         case 3:
                         type = 1;
@@ -409,8 +415,10 @@ $(function(){
                         },function(data){
                             if(data.code === '000000') {
                                 conversionBox.jf ="";
+                                $(".hang_detail8").fadeIn(.3);
+                            } else {
+                                $(".hang_detail7").fadeIn(.3);
                             }
-                            layer.msg(data.message);
                         });
                     }
                 }
