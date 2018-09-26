@@ -14,7 +14,77 @@ $(function(){
            }    
        });    
        return o;    
-    };  
+    };
+    // 首页用户信息
+    var userInfo = new Vue({
+        el:"#userInfoList",
+        data:{
+            // 用户ID
+            id:sessionStorage.id,
+            // 用户账号
+            account:sessionStorage.account,
+            // 用户姓名
+            username:sessionStorage.username,
+            // 手机号
+            telephone:sessionStorage.telephone,
+            // 支付宝收款码
+            alipaypic:sessionStorage.alipaypic,
+            // 微信收款码
+            weixinpic:sessionStorage.weixinpic,
+            // 银行卡号
+            bankNum:sessionStorage.bankNum,
+            // 银行名称
+            bankName:sessionStorage.bankName,
+            // 中心积分
+            jfcenter:sessionStorage.jfcenter,
+            // 任务积分
+            jftask:sessionStorage.jftask,
+            // 交易积分
+            jfbusiness:sessionStorage.jfbusiness,
+            // 注册积分
+            jfzhuce:sessionStorage.jfzhuce,
+            // 任务密钥
+            taskToken:sessionStorage.taskToken,
+            // 已使用密钥
+            usedtoken:sessionStorage.usedtoken,
+            // 原注册积分
+            jfold:sessionStorage.jfold
+        },
+        methods:{
+            updateUserInfo:function(){
+                // 用户ID
+                this.id = sessionStorage.id,
+                // 用户账号
+                this.account = sessionStorage.account,
+                // 用户姓名
+                this.username = sessionStorage.username,
+                // 手机号
+                this.telephone = sessionStorage.telephone,
+                // 支付宝收款码
+                this.alipaypic = sessionStorage.alipaypic,
+                // 微信收款码
+                this.weixinpic = sessionStorage.weixinpic,
+                // 银行卡号
+                this.bankNum = sessionStorage.bankNum,
+                // 银行名称
+                this.bankName = sessionStorage.bankName,
+                // 中心积分
+                this.jfcenter = sessionStorage.jfcenter,
+                // 任务积分
+                this.jftask = sessionStorage.jftask,
+                // 交易积分
+                this.jfbusiness = sessionStorage.jfbusiness,
+                // 注册积分
+                this.jfzhuce = sessionStorage.jfzhuce,
+                // 任务密钥
+                this.taskToken = sessionStorage.taskToken,
+                // 已使用密钥
+                this.usedtoken = sessionStorage.usedtoken,
+                // 原注册积分
+                this.jfold = sessionStorage.jfold
+            }
+        }
+    });
     // 修改用户登录密码
     $("#confirmChangePass").on('click', function(){
         $.post("http://120.79.46.90:8080/game/user/fogetPwd.do",{
@@ -491,7 +561,7 @@ $(function(){
                                     conversionBox.jfzhuce = sessionStorage.jfzhuce = parseInt(conversionBox.jfzhuce) - parseInt(core);
                                     // 更新任务积分
                                     if( type === 3) {
-                                        conversionBox.jftask = parseInt(conversionBox.jftask) + parseInt(core);
+                                        conversionBox.jftask = sessionStorage.jftask = parseInt(conversionBox.jftask) + parseInt(core);
                                     }
                                     // 更新交易积分
                                     if( type === 2) {
@@ -499,14 +569,14 @@ $(function(){
                                     }
                                     // 更新中心积分
                                     if( type === 1) {
-                                        sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) + parseInt(core);
+                                        conversionBox.jfcenter = sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) + parseInt(core);
                                     }
                                 } else if(type === 4 || type === 5) {
                                     // 更新中心积分
                                     conversionBox.jfcenter = sessionStorage.jfcenter = parseInt(conversionBox.jfcenter) - parseInt(core);
                                     // 更新任务积分
                                     if( type === 5) {
-                                        conversionBox.jftask = parseInt(conversionBox.jftask) + parseInt(core);
+                                        conversionBox.jftask = sessionStorage.jftask = parseInt(conversionBox.jftask) + parseInt(core);
                                     }
                                     // 更新交易积分
                                     if( type === 4) {
@@ -518,6 +588,7 @@ $(function(){
                                 $(".hang_detail7").fadeIn(.3);
                             }
                             conversionBox.jf ="";
+                            userInfo.updateUserInfo();
                         });
                     }
                 }
