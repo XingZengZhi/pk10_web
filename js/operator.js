@@ -281,7 +281,10 @@ $(function(){
                 userCore:sessionStorage.jfbusiness
             },
             methods:{
-                
+                updateUserInfo:function(){
+                    this.userName = sessionStorage.account;
+                    this.userCore = sessionStorage.jfbusiness;
+                }
             }
         });
         var lottery_info = new Vue({
@@ -588,7 +591,10 @@ $(function(){
                                 $(".hang_detail7").fadeIn(.3);
                             }
                             conversionBox.jf ="";
+                            // 更新首页用户资料
                             userInfo.updateUserInfo();
+                            // 更新娱乐平台用户资料
+                            recreation_platform.updateUserInfo();
                         });
                     }
                 }
