@@ -880,13 +880,13 @@
             <div class="data_content recreation_platform">
                 <div class="data_base">
                     <div class="userInfo">
-                        <div class="userInfo_top">
+                        <div class="userInfo_top" id="recreation_userinfo">
                             <div class="userInfo_head_img">
                                 <img src="/imgs/user_head.png" alt="">
                             </div>
                             <div class="userInfo_title">
-                                <p><span id="user_name">B16</span></p>
-                                <p><span>可用积分</span><span id="user_core">1200</span></p>
+                                <p><span id="user_name">{{userName}}</span></p>
+                                <p><span>可用积分</span><span id="user_core">{{userCore}}</span></p>
                             </div>
                         </div>
                         <div class="userInfo_bottom">
@@ -896,24 +896,24 @@
                     </div>
                 </div>
 
-                <div class="data_base">
+                <div class="data_base" id="lottery_info">
                     <ul>
                         <li class="div_li">
                             <div class="lottery">
                                 <span class="lottery_title fontWeightBold">开奖信息</span>
-                                <span class="lottery_title lottery_color marginLeft10">20180807064</span>
+                                <span class="lottery_title lottery_color marginLeft10">{{gmnum}}</span>
                                 <span class="lottery_title lottery_color">期开奖</span>
                             </div>
                             <div class="lottery">
-                                <span class="lottery_number lottery_number1">2</span>
-                                <span class="lottery_number lottery_number2">8</span>
-                                <span class="lottery_number lottery_number3">8</span>
-                                <span class="lottery_number lottery_number4">6</span>
-                                <span class="lottery_number lottery_number5">8</span>
+                                <span class="lottery_number lottery_number1">{{gm1}}</span>
+                                <span class="lottery_number lottery_number2">{{gm2}}</span>
+                                <span class="lottery_number lottery_number3">{{gm3}}</span>
+                                <span class="lottery_number lottery_number4">{{gm4}}</span>
+                                <span class="lottery_number lottery_number5">{{gm5}}</span>
                             </div>
                             <div class="lottery">
                                 <span class="lottery_color">距开奖时间：</span>
-                                <span class="lottery_color_red fontWeightBold" id="openLottery"></span>
+                                <span class="lottery_color_red fontWeightBold" id="openLottery">{{lotteryTime}}</span>
                             </div>
                         </li>
                     </ul>
@@ -1161,6 +1161,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <div class="data_base">
                     <div class="leader_board">
                         <span class="leader_board_head i1">
@@ -1196,6 +1197,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="data_base">
                     <div class="leader_board">
                         <div class="leader_button">
@@ -1632,11 +1634,11 @@
 </body>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="/js/operator.js"></script>
 <script src="/layui/layui.js"></script>
 <script src="/js/time.js"></script>
 <script src="/js/bet.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/data.js"></script>
-<script src="/js/operator.js"></script>
 <script src="/js/score.js"></script>
 </html>

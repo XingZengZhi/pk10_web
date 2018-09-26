@@ -65,7 +65,6 @@ $(function(){
             done:function(page,next){
                 var lis = [];
                 $.get('http://120.79.46.90:8080/game/home/getNotice.do?page='+page, function(res){
-                    console.log(res);
                     layui.each(res.result, function(index, item){
                         lis.push('<li class="div_li">'+ 
                         '<div class="data_base_div">' +
@@ -90,7 +89,6 @@ $(function(){
             done:function(page,next){
                 var lis = [];
                 $.get('http://120.79.46.90:8080/game/home/getNotice.do?page='+page, function(res){
-                    console.log(res);
                     layui.each(res.result, function(index, item){
                         lis.push('<li class="div_li">'+ 
                         '<div class="data_base_div">' +
@@ -117,7 +115,6 @@ $(function(){
                 $.get('http://120.79.46.90:8080/game/home/getMessages.do?page='+page,{
                     "userId":sessionStorage.id
                 }, function(res){
-                    console.log(res);
                     layui.each(res.result, function(index, item){
                         var date = new Date(item.create_date),
                         Y = date.getFullYear() + '-',
@@ -149,7 +146,6 @@ $(function(){
                 $.get('http://120.79.46.90:8080/game/user/getChilds.do?page='+page,{
                     "userId":sessionStorage.id
                 }, function(res){
-                    console.log(res);
                     layui.each(res.result, function(index, item){
                         var date = new Date(item.createDate),
                         Y = date.getFullYear() + '-',
@@ -198,8 +194,65 @@ $(function(){
             }
         });
         // 娱乐中心
-        $("#user_name").text(sessionStorage.account);
-        $("#user_core").text(sessionStorage.jfbusiness);
+        var recreation_platform = new Vue({
+            el:"#recreation_userinfo",
+            data:{
+                userName:sessionStorage.account,
+                userCore:sessionStorage.jfbusiness
+            },
+            methods:{
+                
+            }
+        });
+        var lottery_info = new Vue({
+            el:"#lottery_info",
+            data:{
+                countDown:"",
+                lotteryTime:"10:00",
+                gmnum:20180926050,
+                gm1:"",
+                gm2:"",
+                gm3:"",
+                gm4:"",
+                gm5:"",
+            },
+            methods:{
+                countDownMethod:function(){
+                    var dataTime = this.lotteryTime.split(':');
+                    var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]);
+                    if(s == 0){
+                        s = 60;
+                        m--;
+                    }
+                    s--;
+                    this.lotteryTime = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
+                    if(m == 0 && s == 0){
+                        this.lotteryTime = "10:00";
+                        this.gmnum += 1;
+                        // 重新获取开奖信息
+                        getGmnum();
+                    }
+                }
+            }
+        });
+        setInterval(()=>{
+            lottery_info.countDownMethod();
+        }, 1000);
+        // 获取开奖信息
+        function getGmnum(){
+            $.post("http://120.79.46.90:8080/game/home/getData.do",{
+                gmnum:lottery_info.gmnum
+            }, function(data){
+                var r = data.result[0];
+                lottery_info.gm1 = r.gm1;
+                lottery_info.gm2 = r.gm2;
+                lottery_info.gm3 = r.gm3;
+                lottery_info.gm4 = r.gm4;
+                lottery_info.gm5 = r.gm5;
+                console.log(r);
+            });
+        }
+        getGmnum();
         // 挂卖信息列表
         $.post("http://120.79.46.90:8080/game/home/getBusiness.do",{
             "userId":1

@@ -6,7 +6,7 @@
      * getTime 倒计时函数
      * 
      */
-    var lotteryTime = '10:09', closeLotteryTime = '03:45';
+    var lotteryTime = '10:00', closeLotteryTime = '03:45';
 
     var dataTime = lotteryTime.split(':'), closeDataTime = closeLotteryTime.split(':');
 
