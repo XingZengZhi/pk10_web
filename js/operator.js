@@ -59,6 +59,16 @@ $(function(){
     // 首页公告数据
     layui.use(['flow', 'layer'], function(){
         var flow = layui.flow, layer = layui.layer;
+        // 检测用户是否已登录
+        if(!sessionStorage.id) {
+            $("#content").hide(0);
+            $(".hang_detail9").fadeIn(.3);
+            $(".close_detail9").on("click", function(){
+                $(".hang_detail8").fadeOut(.3);
+                location.href = "/login.html";
+            });
+            return;
+        }
         // 首页公告
         flow.load({
             elem:'#bulletinList',
@@ -439,21 +449,28 @@ $(function(){
                     $(event.target).addClass("conversion_active").siblings(".conversion_button").removeClass("conversion_active");
                 },
                 confirmConversion:function(event){
-                    console.log(event);
                     var type = 0;
                     switch(this.isC){
                         case 1:
-                        if(parseInt(this.jf) < parseInt(this.jfcenter)) {
+                        if(parseInt(this.jf) <= parseInt(this.jfcenter)) {
                             type = 4;
                         } else {
-                            type = 2;
+                            if(parseInt(this.jf) <= parseInt(this.jfzhuce)) {
+                                type = 2;
+                            } else {
+                                $(".hang_detail7").fadeIn(.3);
+                            }
                         }
                         break;
                         case 2:
-                        if(parseInt(this.jf) < parseInt(this.jfcenter)) {
+                        if(parseInt(this.jf) <= parseInt(this.jfcenter)) {
                             type = 5;
                         } else {
-                            type = 3;
+                            if(parseInt(this.jf) <= parseInt(this.jfzhuce)) {
+                                type = 3;
+                            } else {
+                                $(".hang_detail7").fadeIn(.3);
+                            }
                         }
                         break;
                         case 3:
@@ -461,17 +478,46 @@ $(function(){
                         break;
                     }
                     if(type != 0) {
+                        var core = this.jf
                         $.post("http://120.79.46.90:8080/game/jf/transforjf.do",{
                             userId:sessionStorage.id,
                             type:type,
                             jf:parseInt(this.jf)
                         },function(data){
                             if(data.code === '000000') {
-                                conversionBox.jf ="";
+                                console.log(type);
+                                if(type === 2 || type === 3 || type === 1) {
+                                    //更新注册积分
+                                    conversionBox.jfzhuce = sessionStorage.jfzhuce = parseInt(conversionBox.jfzhuce) - parseInt(core);
+                                    // 更新任务积分
+                                    if( type === 3) {
+                                        conversionBox.jftask = parseInt(conversionBox.jftask) + parseInt(core);
+                                    }
+                                    // 更新交易积分
+                                    if( type === 2) {
+                                        sessionStorage.jfbusiness = parseInt(sessionStorage.jfbusiness) + parseInt(core);
+                                    }
+                                    // 更新中心积分
+                                    if( type === 1) {
+                                        sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) + parseInt(core);
+                                    }
+                                } else if(type === 4 || type === 5) {
+                                    // 更新中心积分
+                                    conversionBox.jfcenter = sessionStorage.jfcenter = parseInt(conversionBox.jfcenter) - parseInt(core);
+                                    // 更新任务积分
+                                    if( type === 5) {
+                                        conversionBox.jftask = parseInt(conversionBox.jftask) + parseInt(core);
+                                    }
+                                    // 更新交易积分
+                                    if( type === 4) {
+                                        sessionStorage.jfbusiness = parseInt(sessionStorage.jfbusiness) + parseInt(core);
+                                    }
+                                }
                                 $(".hang_detail8").fadeIn(.3);
                             } else {
                                 $(".hang_detail7").fadeIn(.3);
                             }
+                            conversionBox.jf ="";
                         });
                     }
                 }

@@ -629,21 +629,21 @@
                             注册积分 转换中心积分
                         </div>
                         <div class="conversion_title1" v-if="isC == 1">
-                            <p class="conversion_tip" style="color:#ccc;">优先从中心积分中扣除</p>
-                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>{{jfcenter}}</span>，注册积分为<span>{{jfzhuce}}</span></p>
+                            <p class="conversion_tip" style="color:#ccc;text-align:center;">优先从中心积分中扣除</p>
+                            <p class="conversion_tip">你当前的中心积分为<span>{{jfcenter}}</span>，注册积分为<span>{{jfzhuce}}</span></p>
+                            <p class="conversion_tip" style="color:#ccc;">转换为交易积分的数量:</p>
                         </div>
                         <div class="conversion_title2" v-if="isC == 2">
-                            <p class="conversion_tip" style="color:#ccc;">优先从中心积分中扣除</p>
-                            <p class="conversion_tip" style="margin-top:10px;">你当前的中心积分为<span>{{jfcenter}}</span>，注册积分为<span>{{jfzhuce}}</span></p>
-                            <p class="conversion_tip" style="margin-top:10px;">你可转换任务积分为：<span>{{jftask}}</span></p>
-                            <p class="conversion_tip" style="color:#ccc;margin-top:10px;">转换为交易积分的数量:</p>
+                            <p class="conversion_tip" style="color:#ccc;text-align:center;">优先从中心积分中扣除</p>
+                            <p class="conversion_tip">你当前的中心积分为<span>{{jfcenter}}</span>，注册积分为<span>{{jfzhuce}}</span></p>
+                            <p class="conversion_tip" style="color:#ccc;">转换为任务积分的数量:</p>
                         </div>
                         <div class="conversion_title3" v-if="isC == 3">
-                            <p class="conversion_tip" style="margin-top:10px;">你当前的注册积分为<span>{{jfzhuce}}</span></p>
-                            <p class="conversion_tip" style="color:#ccc;margin-top:10px;">转换为交易积分的数量:</p>
+                            <p class="conversion_tip">你当前的注册积分为<span>{{jfzhuce}}</span></p>
+                            <p class="conversion_tip" style="color:#ccc;">转换为中心积分的数量:</p>
                         </div>
-                        <p>
-                            <input type="text" id="conversion_core" v-model="jf" />
+                        <p class="conversion_tip">
+                            <input type="number" id="conversion_core" v-model="jf" placeholder="请输入积分数量" />
                         </p>
                         <p>
                             <button type="button" id="confirm_conversion" @click="confirmConversion">确认转换</button>
@@ -1632,6 +1632,19 @@
         <div class="cancel">取消</div>
     </div>
 </body>
+<div class="hang_detail9">
+    <div class="hang_box9">
+        <div class="data_base" id="input_code_box8">
+            <header style="background: #EA4758;">
+                <p class="hang_detail_title textCenter">详情</p>
+            </header>
+            <div class="code_tip8">
+                请先登录，再进行操作！
+            </div>
+        </div>
+        <i class="close_detail9">×</i>
+    </div>
+</div>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="/js/operator.js"></script>

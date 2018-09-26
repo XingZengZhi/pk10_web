@@ -48,7 +48,7 @@ window.onload = function(){
                         }, 1000);
                         // 后台登录操作
                     } else {
-                        layer.msg(data.message);
+                        layer.msg("账号或密码错误");
                     }
                 });
             }
