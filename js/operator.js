@@ -15,6 +15,15 @@ $(function(){
        });    
        return o;    
     };
+    var mainHead = new Vue({
+        el:"#mainHead",
+        methods:{
+            userExit:function(){
+                location.href = "/login.html";
+                sessionStorage.clear();
+            }
+        }
+    });
     // 首页用户信息
     var userInfo = new Vue({
         el:"#userInfoList",
@@ -87,22 +96,34 @@ $(function(){
     });
     // 修改用户登录密码
     $("#confirmChangePass").on('click', function(){
-        $.post("http://120.79.46.90:8080/game/user/fogetPwd.do",{
+        $.post("http://39.108.55.80:8081" + "/user/fogetPwd",{
             "id":sessionStorage.id,
             "password":$("#oldPassword").val(),
             "newpassword":$("#newPassword").val()
         },function(data){
-            console.log(data);
+            if(data.code === '000000') {
+                $(".code_tip9").text("修改成功！");
+                $(".hang_detail10").fadeIn(0);
+            } else {
+                $(".code_tip9").text("修改失败！");
+                $(".hang_detail10").fadeIn(0);
+            }
         });
     });
     // 修改安全码
     $("#confirmChangeSecuritycode").on('click', function(){
-        $.post("http://120.79.46.90:8080/game/user/fogetPwd.do",{
+        $.post("http://39.108.55.80:8081" + "/user/fogetPwd",{
             "id":sessionStorage.id,
             "safepwd":$("#oldSecuritycode").val(),
             "newsafepwd":$("#newSecuritycode").val()
         },function(data){
-            console.log(data);
+            if(data.code === '000000') {
+                $(".code_tip9").text("修改成功！");
+                $(".hang_detail10").fadeIn(0);
+            } else {
+                $(".code_tip9").text("修改失败！");
+                $(".hang_detail10").fadeIn(0);
+            }
         });
     });
     // 首页公告数据
@@ -123,7 +144,7 @@ $(function(){
             elem:'#bulletinList',
             done:function(page,next){
                 var lis = [];
-                $.get('http://120.79.46.90:8080/game/home/getNotice.do?page='+page, function(res){
+                $.get("http://39.108.55.80:8081" + '/home/getNotice?page='+page, function(res){
                     layui.each(res.result, function(index, item){
                         lis.push('<li class="div_li">'+ 
                         '<div class="data_base_div">' +
@@ -151,10 +172,9 @@ $(function(){
         });
         function getFeedBackPage(page, next){
             var lis = [];
-            $.get('http://120.79.46.90:8080/game/home/getMessages.do?page='+page,{
+            $.get("http://39.108.55.80:8081" + '/home/getMessages?page='+page,{
                 "userId":sessionStorage.id
             }, function(res){
-                console.log(res);
                 layui.each(res.result, function(index, item){
                     var date = new Date(item.create_date),
                     Y = date.getFullYear() + '-',
@@ -178,7 +198,7 @@ $(function(){
         // 添加留言反馈
         $("#feedBackButton").on('click', function(){
             var feedbackText = $("#feedbackText").val();
-            $.post("http://120.79.46.90:8080/game/home/addMessage.do",{
+            $.post("http://39.108.55.80:8081" + "/home/addMessage",{
                 "userId":sessionStorage.id,
                 "content":feedbackText
             },function(data){
@@ -204,7 +224,7 @@ $(function(){
             elem:'#webBulletinList',
             done:function(page,next){
                 var lis = [];
-                $.get('http://120.79.46.90:8080/game/home/getNotice.do?page='+page, function(res){
+                $.get("http://39.108.55.80:8081" + '/home/getNotice?page='+page, function(res){
                     layui.each(res.result, function(index, item){
                         lis.push('<li class="div_li">'+ 
                         '<div class="data_base_div">' +
@@ -230,7 +250,7 @@ $(function(){
             elem:'#pushList',
             done:function(page,next){
                 var lis = [];
-                $.get('http://120.79.46.90:8080/game/user/getChilds.do?page='+page,{
+                $.get("http://39.108.55.80:8081" + '/user/getChilds?page='+page,{
                     "userId":sessionStorage.id
                 }, function(res){
                     layui.each(res.result, function(index, item){
@@ -330,7 +350,7 @@ $(function(){
         }, 1000);
         // 获取开奖信息
         function getGmnum(){
-            $.post("http://120.79.46.90:8080/game/home/getData.do",{
+            $.post("http://39.108.55.80:8081" + "/home/getData",{
                 gmnum:lottery_info.gmnum
             }, function(data){
                 var r = data.result[0];
@@ -344,7 +364,7 @@ $(function(){
         }
         getGmnum();
         // 挂卖信息列表
-        $.post("http://120.79.46.90:8080/game/home/getBusiness.do",{
+        $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
             "userId":1
             // "status":1
         },function(data){
@@ -362,7 +382,7 @@ $(function(){
             });
         });
         // 投注记录
-        $.post("http://120.79.46.90:8080/game/home/getPools.do",{
+        $.post("http://39.108.55.80:8081" + "/home/getPools",{
             "userId":1
             // "status":1
         },function(data){
@@ -375,7 +395,7 @@ $(function(){
             });
         });
         // 未结明细
-        $.post("http://120.79.46.90:8080/game/home/getPools.do",{
+        $.post("http://39.108.55.80:8081" + "/home/getPools",{
             "userId":1,
             "status":0
         },function(data){
@@ -396,8 +416,7 @@ $(function(){
             },
             methods:{
                 giftKey:function(event){
-                    console.log(event.target);
-                    $.post("http://120.79.46.90:8080/game/home/addTask.do",{
+                    $.post("http://39.108.55.80:8081" + "/home/addTask",{
                         "userid":1
                     }, function(data){
                         if(data.code === '000000'){
@@ -439,21 +458,25 @@ $(function(){
                             }
                             $(".code_tip9").text(tips);
                         } else {
-                            $.post("http://120.79.46.90:8080/game/user/register.do",{
+                            $.post("http://39.108.55.80:8081" + "/user/register",{
                                 account:this.account,
                                 jfzhuce:this.jfzhuce,
                                 password:this.password,
                                 safepwd:this.safepwd,
                                 pid:sessionStorage.id
                             }, function(data){
-                                console.log(data);
                                 if(data.code === '000000') {
+                                    sessionStorage.jfzhuce = parseInt(sessionStorage.jfzhuce) - parseInt(openAccount.jfzhuce);
+                                    updateUserCoreInfo();
                                     openAccount.account = "";
                                     openAccount.jfzhuce = "";
                                     openAccount.password = "";
                                     openAccount.safepwd = "";
                                     $(".hang_detail10").fadeIn(.3);
                                     $(".code_tip9").text("账号开通成功！");
+                                } else if(data.code === '000002'){
+                                    $(".hang_detail10").fadeIn(.3);
+                                    $(".code_tip9").text("账号已存在！");
                                 } else {
                                     $(".hang_detail10").fadeIn(.3);
                                     $(".code_tip9").text("账号开通失败！");
@@ -486,12 +509,15 @@ $(function(){
             },
             methods:{
                 updateUserInfo:function(){
-                    var updateUserJson = $("#updateUserInfo").serializeObject();
+                    var updateUserJson = $("#updateUserInfo").serialize();
                     console.log(updateUserJson);
-                    $.post("http://120.79.46.90:8080/game/user/updateUser.do",{
-                        "userVO":updateUserJson
+                    $.post("http://39.108.55.80:8081" + "/user/updateUser", {
+                        "userId":sessionStorage.id,
+                        "username":updateUserInfo.newUserName,
+                        "telephone":updateUserInfo.newTelphone,
+                        "bankNum":updateUserInfo.newBankNum,
+                        "bankname":updateUserInfo.newBankName,
                     },function(data){
-                        console.log(data);
                         if(data.code === '000000') {
                             $(".code_tip9").text("更新成功！");
                             $(".hang_detail10").fadeIn(0);
@@ -517,13 +543,12 @@ $(function(){
             },
             methods:{
                 giftButton:function(event){
-                    $.post("http://120.79.46.90:8080/game/user/gaveToken.do",{
+                    $.post("http://39.108.55.80:8081" + "/user/gaveToken",{
                         account:this.account,
                         num:this.num,
                         safepwd:this.safepwd,
                         userid:sessionStorage.id
                     },function(data){
-                        console.log(data);
                         if(data.code === '000000') {
                             taskGift.account = "";
                             taskGift.num = "";
@@ -535,7 +560,7 @@ $(function(){
             }
         });
         // 中心积分报表
-        $.post("http://120.79.46.90:8080/game/home/getTokens.do",{
+        $.post("http://39.108.55.80:8081" + "/home/getTokens",{
             account:sessionStorage.account
         },function(data){
             var dt = data.result;
@@ -546,7 +571,7 @@ $(function(){
                 }
             });
         });
-        $.post("http://120.79.46.90:8080/game/home/getTokens.do",{
+        $.post("http://39.108.55.80:8081" + "/home/getTokens",{
             userId:sessionStorage.id
         },function(data){
             var dt = data.result;
@@ -603,7 +628,7 @@ $(function(){
                     }
                     if(type != 0) {
                         var core = this.jf
-                        $.post("http://120.79.46.90:8080/game/jf/transforjf.do",{
+                        $.post("http://39.108.55.80:8081" + "/jf/transforjf",{
                             userId:sessionStorage.id,
                             type:type,
                             jf:parseInt(this.jf)
@@ -642,14 +667,25 @@ $(function(){
                                 $(".hang_detail7").fadeIn(.3);
                             }
                             conversionBox.jf ="";
-                            // 更新首页用户资料
-                            userInfo.updateUserInfo();
-                            // 更新娱乐平台用户资料
-                            recreation_platform.updateUserInfo();
+                            updateUserCoreInfo();
                         });
                     }
+                },
+                updateUserInfo:function(){
+                    this.jfcenter = sessionStorage.jfcenter;
+                    this.jfzhuce = sessionStorage.jfzhuce;
+                    this.jftask = sessionStorage.jftask;
                 }
             }
         });
+
+        function updateUserCoreInfo(){
+            // 更新首页用户资料
+            userInfo.updateUserInfo();
+            // 更新娱乐平台用户资料
+            recreation_platform.updateUserInfo();
+            // 积分转换中心
+            conversionBox.updateUserInfo();
+        }
     });
 });

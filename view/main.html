@@ -12,8 +12,9 @@
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <header class="main_header">
+    <header class="main_header" id="mainHead">
         <p class="main_header_title textCenter">PK10</p>
+        <span class="exit" @click="userExit">退出</span>
         <!-- <section>
             <a href="javascript:;" id="leftBar" class="main_header_title" data-isshow="false">
                 <i class="icon-menu"></i>
@@ -32,37 +33,26 @@
             <i class="down"></i>
             <i class="line"></i>
         </span>
-        <span id="tradingHall">
+        <span id="feedBack">
             交易大厅
             <i class="down"></i>
             <i class="line"></i>
         </span>
-        <!-- <span id="vipCenter">
+        <span id="missionCenter">
             会员中心
             <i class="down"></i>
-            <i class="line"></i>
-        </span> -->
+        </span>
         <span id="conversion">
             积分转换
             <i class="down"></i>
             <i class="line"></i>
         </span>
-        <span id="createAccount">
-            开通账号
-            <i class="down"></i>
-            <i class="line"></i>
-        </span>
-        <span id="feedBack">
-            留言反馈
-            <i class="down"></i>
-            <i class="line"></i>
-        </span>
-        <span id="missionCenter">
-            任务中心
-            <i class="down"></i>
-        </span>
         <span id="bulletin">
-            网站公告
+            交流中心
+            <i class="down"></i>
+        </span>
+        <span id="createAccount">
+            财务管理
             <i class="down"></i>
         </span>
     </div>
@@ -79,7 +69,21 @@
                 <span></span>
             </p>
         </div>
-        <div class="content_top_item2">
+        <div class="content_top_item4">
+            <p>
+                <span class="dataTopLeft" data-url="integral_conversion">积分转换</span>
+                <span class=""></span>
+            </p>
+            <p>
+                <span class="dataTopLeft" data-url="task_application">任务申请</span>
+                <span class=""></span>
+            </p>
+        </div>
+        <div class="content_top_item5">
+            <p>
+                <span class="dataTopRight" data-url="hang_integral2">挂卖交易积分</span>
+                <span></span>
+            </p>
             <p>
                 <span class="dataTopLeft" data-url="buy_integral">购买积分</span>
                 <span class=""></span>
@@ -88,12 +92,9 @@
                 <span class="dataTopRight" data-url="hang_integral">挂卖积分列表</span>
                 <span></span>
             </p>
-            <p>
-                <span class="dataTopRight" data-url="hang_integral2">挂卖交易积分</span>
-                <span></span>
-            </p>
         </div>
-        <div class="content_top_item3">
+        
+        <div class="content_top_item7">
             <p>
                 <span class="dataTopLeft" data-url="createAccount">开通账号</span>
                 <span class=""></span>
@@ -102,18 +103,17 @@
                 <span class="dataTopLeft" data-url="push_list">直推列表</span>
                 <span class=""></span>
             </p>
-        </div>
-        <div class="content_top_item4">
             <p>
-                <span class="dataTopLeft" data-url="integral_conversion">积分转换中心</span>
-                <span class=""></span>
-            </p>
-            <p>
-                <span class="dataTopLeft" data-url="integral_center">中心积分报表</span>
+                <span class="dataTopLeft" data-url="task_gift">转赠任务密钥</span>
                 <span class=""></span>
             </p>
         </div>
-        <div class="content_top_item5">
+
+        <div class="content_top_item6">
+            <p>
+                <span class="dataTopLeft" data-url="bulletin">网站公告</span>
+                <span class=""></span>
+            </p>
             <p>
                 <span class="dataTopLeft" data-url="feedBack">留言反馈</span>
                 <span class=""></span>
@@ -122,24 +122,27 @@
                 <span class="dataTopLeft" data-url="feedBackList">留言列表</span>
                 <span class=""></span>
             </p>
-        </div>
-        <div class="content_top_item6">
-            <p>
-                <span class="dataTopLeft" data-url="bulletin">网站公告</span>
-                <span class=""></span>
-            </p>
             <p>
                 <span class="dataTopLeft" data-url="system_update">系统更新</span>
                 <span class=""></span>
             </p>
         </div>
-        <div class="content_top_item7">
+
+        <div class="content_top_item3">
             <p>
-                <span class="dataTopLeft" data-url="task_application">任务申请</span>
+                <span class="dataTopLeft" data-url="integral_center">中心积分报表</span>
                 <span class=""></span>
             </p>
             <p>
-                <span class="dataTopLeft" data-url="task_gift">转赠密钥</span>
+                <span class="dataTopLeft" data-url="Trading_points">交易积分报表</span>
+                <span class=""></span>
+            </p>
+            <p>
+                <span class="dataTopLeft" data-url="Task_score">任务积分报表</span>
+                <span class=""></span>
+            </p>
+            <p>
+                <span class="dataTopLeft" data-url="Task_key">任务密钥报表</span>
                 <span class=""></span>
             </p>
         </div>
@@ -651,6 +654,121 @@
                     </div>
                 </div>
             </div>
+            <!-- 交易积分报表 -->
+            <div class="data_content Trading_points">
+                <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">挂卖信息</span>
+                    </div>
+                    <div class="leader_list" id="inputList">
+                        <div class="leader_list_item">
+                            <div>挂卖积分数量</div>
+                            <div>挂卖时间</div>
+                            <div>买方账号</div>
+                            <div>购买时间</div>
+                        </div>
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                            <div>b2a</div>
+                            <div>2018.08.08</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">购买信息</span>
+                    </div>
+                    <div class="leader_list" id="outputList">
+                        <div class="leader_list_item">
+                            <div>挂卖积分数量</div>
+                            <div>挂卖时间</div>
+                            <div>买方账号</div>
+                            <div>购买时间</div>
+                        </div>
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                            <div>b2a</div>
+                            <div>2018.08.08</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 任务积分报表 -->
+            <div class="data_content Task_score">
+                <div class="data_base">
+                    <!-- <div class="leader_board">
+                        <span class="leader_board_head">转入积分</span>
+                    </div> -->
+                    <div class="leader_list" id="inputList">
+                        <div class="leader_list_item">
+                            <div>购买积分数量</div>
+                            <div>购买时间</div>
+                            <div>投注结果</div>
+                            <div>转回积分数量</div>
+                        </div>
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>1200</div>
+                            <div>2018.08.08</div>
+                            <div><span>赢</span></div>
+                            <div>2400</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">转出积分</span>
+                    </div>
+                    <div class="leader_list" id="outputList">
+                        <div class="leader_list_item">
+                            <div>转入类型</div>
+                            <div>积分数量</div>
+                            <div>转入时间</div>
+                        </div>
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>注册积分转入交易积分</div>
+                            <div>{{item.tokennum}}</div>
+                            <div>{{item.create_date}}</div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- 任务密钥报表 -->
+            <div class="data_content Task_key">
+                <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">转入</span>
+                    </div>
+                    <div class="leader_list" id="inputList">
+                        <div class="leader_list_item">
+                            <div>赠送密钥数量</div>
+                            <div>转回积分数量</div>
+                        </div>
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>12</div>
+                            <div>2018.08.08</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="data_base">
+                    <div class="leader_board">
+                        <span class="leader_board_head">转出</span>
+                    </div>
+                    <div class="leader_list" id="outputList">
+                        <div class="leader_list_item">
+                            <div>赠送对象账号</div>
+                            <div>赠送密钥数量</div>
+                            <div>赠送时间</div>
+                        </div>
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>B12</div>
+                            <div>12</div>
+                            <div>2018.08.08</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 中心积分报表 -->
             <div class="data_content integral_center">
                 <div class="data_base">
@@ -699,10 +817,10 @@
                             <input type="text" placeholder="账号" class="input_controle" v-model="account" />
                         </div>
                         <div>
-                            <input type="text" placeholder="登录密码" class="input_controle" v-model="password" />
+                            <input type="password" placeholder="登录密码" class="input_controle" v-model="password" />
                         </div>
                         <div>
-                            <input type="text" placeholder="安全密码" class="input_controle" v-model="safepwd" />
+                            <input type="password" placeholder="安全密码" class="input_controle" v-model="safepwd" />
                         </div>
                         <div style="position:relative;" id="register_core" @click="showScores">
                             <input type="number" placeholder="注册积分" class="input_controle" v-model="jfzhuce" id="jfzhuce" readonly />
@@ -1357,21 +1475,21 @@
                                 <i class="icon-li data_base_icon1"></i>
                                 原密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入原密码" id="oldPassword" />
+                            <input type="password" class="data_base_span data_base_titleRight xz-input" placeholder="请输入原密码" id="oldPassword" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 新密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新密码" id="newPassword" />
+                            <input type="password" class="data_base_span data_base_titleRight xz-input" placeholder="请输入新密码" id="newPassword" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
                                 确认密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入确认密码" id="confirmPassword" />
+                            <input type="password" class="data_base_span data_base_titleRight xz-input" placeholder="请输入确认密码" id="confirmPassword" />
                         </li>
                     </ul>
                     <div class="editButtonBox">
@@ -1389,21 +1507,21 @@
                                 <i class="icon-li data_base_icon1"></i>
                                 原密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入原密码" id="oldSecuritycode" />
+                            <input type="password" class="data_base_span data_base_titleRight xz-input" placeholder="请输入原密码" id="oldSecuritycode" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 新密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新密码" id="newSecuritycode" />
+                            <input type="password" class="data_base_span data_base_titleRight xz-input" placeholder="请输入新密码" id="newSecuritycode" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
                                 确认密码
                             </span>
-                            <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入确认密码" id="confirmSecuritycode" />
+                            <input type="password" class="data_base_span data_base_titleRight xz-input" placeholder="请输入确认密码" id="confirmSecuritycode" />
                         </li>
                     </ul>
                     <div class="editButtonBox">
@@ -1646,6 +1764,9 @@
         <i class="close_detail10">×</i>
     </div>
 </div>
+<script>
+ window.pk10URL = "http://39.108.55.80:8081";
+</script>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="/js/operator.js"></script>

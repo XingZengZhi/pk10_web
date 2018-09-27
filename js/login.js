@@ -5,7 +5,7 @@ window.onload = function(){
             if(userName.value === '' || userPass === '') {
                 layer.msg("账户或密码不能为空！");
             } else {
-                $.post("http://120.79.46.90:8080/game/user/login.do",{
+                $.post("http://39.108.55.80:8081/user/login",{
                     "account":$("#userName").val(),
                     "password":$("#userPass").val()
                 }, function (data) {

@@ -132,12 +132,14 @@ window.onload = function(){
         if(tagName === 'span') {
             var dataUrl = tag.dataset.url;
             switch(dataUrl){
-                case 'editPass':
-                topTitle.text('个人资料');
-                break;
                 case 'personal_data':
-                topTitle.text('PK10');
-                showOrHideEditButton(tag.className);
+                topTitle.text('个人信息');
+                break;
+                case 'editPass':
+                topTitle.text('密码修改');
+                break;
+                case 'hang_integral2':
+                topTitle.text('挂卖交易积分');
                 break;
                 case 'buy_integral':
                 topTitle.text('购买积分');
@@ -145,11 +147,47 @@ window.onload = function(){
                 case 'hang_integral':
                 topTitle.text('挂卖积分列表');
                 break;
+                case 'hang_integral':
+                topTitle.text('挂卖积分列表');
+                break;
+                case 'createAccount':
+                topTitle.text('开通账号');
+                break;
+                case 'push_list':
+                topTitle.text('直推列表');
+                break;
+                case 'task_gift':
+                topTitle.text('转赠任务密钥');
+                break;
                 case 'integral_conversion':
                 topTitle.text('积分转换');
                 break;
+                case 'task_application':
+                topTitle.text('任务申请');
+                break;
                 case 'bulletin':
                 topTitle.text('网站公告');
+                break;
+                case 'feedBack':
+                topTitle.text('留言反馈');
+                break;
+                case 'feedBackList':
+                topTitle.text('留言列表');
+                break;
+                case 'system_update':
+                topTitle.text('系统更新');
+                break;
+                case 'integral_center':
+                topTitle.text('中心积分报表');
+                break;
+                case 'Task_key':
+                topTitle.text('任务密钥报表');
+                break;
+                case 'Task_score':
+                topTitle.text('任务积分报表');
+                break;
+                case 'Trading_points':
+                topTitle.text('交易积分报表');
                 break;
             }
             $(tag).siblings("span").addClass("yes");
