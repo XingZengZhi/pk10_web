@@ -73,7 +73,7 @@
     });
     
     // 公告数据展示
-    $("#bulletinList").on("click", ".div_detail", function(){
+    $("#bulletinList, #webBulletinList").on("click", ".div_detail", function(){
         var bulletinContent = $(this).find(".link_span").text();
         layui.use(['layer'], function(){
             var layer = layui.layer;
