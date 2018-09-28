@@ -15,6 +15,7 @@ $(function(){
        });    
        return o;    
     };
+    // 退出
     var mainHead = new Vue({
         el:"#mainHead",
         methods:{
@@ -101,12 +102,20 @@ $(function(){
             "password":$("#oldPassword").val(),
             "newpassword":$("#newPassword").val()
         },function(data){
+            $(".hang_detail10").fadeIn(0);
             if(data.code === '000000') {
-                $(".code_tip9").text("修改成功！");
-                $(".hang_detail10").fadeIn(0);
+                var timer = 3;
+                setInterval(function(){
+                    $(".code_tip9").text("修改成功！" + timer + "s后重新登录");
+                    timer--;
+                    if(timer == 0) {
+                        location.href = "/login.html";
+                        sessionStorage.clear();
+                    }
+                },3000);
+
             } else {
                 $(".code_tip9").text("修改失败！");
-                $(".hang_detail10").fadeIn(0);
             }
         });
     });
