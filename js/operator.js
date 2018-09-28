@@ -510,13 +510,12 @@ $(function(){
             methods:{
                 updateUserInfo:function(){
                     var updateUserJson = $("#updateUserInfo").serialize();
-                    console.log(updateUserJson);
                     $.post("http://39.108.55.80:8081" + "/user/updateUser", {
                         "userId":sessionStorage.id,
-                        "username":updateUserInfo.newUserName,
-                        "telephone":updateUserInfo.newTelphone,
-                        "bankNum":updateUserInfo.newBankNum,
-                        "bankname":updateUserInfo.newBankName,
+                        "username":$("#newUserName").val(),
+                        "telephone":$("#newTelphone").val(),
+                        "bankNum":$("#newBankName").val(),
+                        "bankname":$("#newBankNum").val(),
                     },function(data){
                         if(data.code === '000000') {
                             $(".code_tip9").text("更新成功！");

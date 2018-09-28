@@ -244,6 +244,10 @@ window.onload = function(){
     // 隐藏或显示编辑个人信息按钮
     function showOrHideEditButton(className){
         if(className.indexOf('editText') != -1) {
+            $("#newUserName").val($("#editUsername").text());
+            $("#newTelphone").val($("#editTelphone").text());
+            $("#newBankName").val($("#editBankname").text());
+            $("#newBankNum").val($("#editBanknum").text());
             $(".personal_data").find(".editUserInfo").css("display", "block");
             $(".editText").fadeOut(.3);
             $(".code_box").css("width", "65px").find("i").css("display", "block");
