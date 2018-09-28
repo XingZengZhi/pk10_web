@@ -9,6 +9,7 @@ window.onload = function(){
                     "account":$("#userName").val(),
                     "password":$("#userPass").val()
                 }, function (data) {
+                    console.log(data.result);
                     if(data.code === '000000') {
                         // 用户ID
                         sessionStorage.id = data.result.id;

@@ -509,28 +509,50 @@ $(function(){
             },
             methods:{
                 updateUserInfo:function(){
-                    var updateUserJson = $("#updateUserInfo").serialize();
-                    $.post("http://39.108.55.80:8081" + "/user/updateUser", {
-                        "userId":sessionStorage.id,
-                        "username":$("#newUserName").val(),
-                        "telephone":$("#newTelphone").val(),
-                        "bankNum":$("#newBankName").val(),
-                        "bankname":$("#newBankNum").val(),
-                    },function(data){
-                        if(data.code === '000000') {
-                            $(".code_tip9").text("更新成功！");
-                            $(".hang_detail10").fadeIn(0);
-                            sessionStorage.username = this.newUserName;
-                            sessionStorage.telephone = this.newTelphone;
-                            sessionStorage.bankName = this.newBankName;
-                            sessionStorage.bankNum = this.newBankNum;
-                        } else {
-                            $(".code_tip9").text("更新失败！");
-                            $(".hang_detail10").fadeIn(0);
-                        }
-                    });
+                    // var updateUserJson = $("#updateUserInfo").serialize();
+                    // $.post("http://39.108.55.80:8081" + "/user/updateUser", {
+                    //     "userId":sessionStorage.id,
+                    //     "username":$("#newUserName").val(),
+                    //     "telephone":$("#newTelphone").val(),
+                    //     "bankNum":$("#newBankName").val(),
+                    //     "bankname":$("#newBankNum").val(),
+                    // },function(data){
+                    //     if(data.code === '000000') {
+                    //         $(".code_tip9").text("更新成功！");
+                    //         $(".hang_detail10").fadeIn(0);
+                    //         sessionStorage.username = this.newUserName;
+                    //         sessionStorage.telephone = this.newTelphone;
+                    //         sessionStorage.bankName = this.newBankName;
+                    //         sessionStorage.bankNum = this.newBankNum;
+                    //     } else {
+                    //         $(".code_tip9").text("更新失败！");
+                    //         $(".hang_detail10").fadeIn(0);
+                    //     }
+                    // });
                 }
             }
+        });
+        $("#perfectUserInfo").on("click", function(){
+            var updateUserJson = $("#updateUserInfo").serialize();
+            $.post("http://39.108.55.80:8081" + "/user/updateUser", {
+                "userId":sessionStorage.id,
+                "username":$("#newUserName").val(),
+                "telephone":$("#newTelphone").val(),
+                "bankNum":$("#newBankName").val(),
+                "bankname":$("#newBankNum").val(),
+            },function(data){
+                if(data.code === '000000') {
+                    $(".code_tip9").text("更新成功！");
+                    $(".hang_detail10").fadeIn(0);
+                    sessionStorage.username = $("#newUserName").val();
+                    sessionStorage.telephone = $("#newTelphone").val();
+                    sessionStorage.bankName = $("#newBankName").val();
+                    sessionStorage.bankNum = $("#newBankNum").val();
+                } else {
+                    $(".code_tip9").text("更新失败！");
+                    $(".hang_detail10").fadeIn(0);
+                }
+            });
         });
         // 转赠密钥
         var taskGift = new Vue({
@@ -542,19 +564,31 @@ $(function(){
             },
             methods:{
                 giftButton:function(event){
-                    $.post("http://39.108.55.80:8081" + "/user/gaveToken",{
-                        account:this.account,
-                        num:this.num,
-                        safepwd:this.safepwd,
-                        userid:sessionStorage.id
-                    },function(data){
-                        if(data.code === '000000') {
-                            taskGift.account = "";
-                            taskGift.num = "";
-                            taskGift.safepwd = "";
-                        }
-                        layer.msg(data.message);
-                    });
+                    if(this.account === '' || this.safepwd === '') {
+                        layer.msg("账号或安全密码不能为空！");
+                        return;
+                    }
+                    if(this.num === '') {
+                        layer.msg("请输入要转赠的密钥数量！");
+                        return;
+                    }
+                    if(parseInt(sessionStorage.jftask) < parseInt(this.num)) {
+                        layer.msg("密钥数量不足！");
+                    } else {
+                        $.post("http://39.108.55.80:8081" + "/user/gaveToken",{
+                            account:this.account,
+                            num:this.num,
+                            safepwd:this.safepwd,
+                            userid:sessionStorage.id
+                        },function(data){
+                            if(data.code === '000000') {
+                                taskGift.account = "";
+                                taskGift.num = "";
+                                taskGift.safepwd = "";
+                            }
+                            layer.msg(data.message);
+                        });
+                    }
                 }
             }
         });
