@@ -416,18 +416,21 @@ $(function(){
             },
             methods:{
                 giftKey:function(event){
-                    if(parseInt(taskToken) <= 0) {
+                    if(parseInt(this.taskToken) <= 0) {
                         layer.msg("已经没有足够的任务密钥了！");
                         return;
                     }
                     $.post("http://39.108.55.80:8081" + "/home/addTask",{
                         "userid":1
                     }, function(data){
+                        $(".hang_detail5").fadeIn(.3);
+                        $(".code_tip4").show(0);
                         if(data.code === '000000'){
-                            $(".hang_detail5").fadeIn(.3);
-                            $(".code_tip4").show(0);
+                            sessionStorage.taskToken = taskApplication.taskToken = parseInt(sessionStorage.taskToken) - 1;
+                            $(".code_tip4").text("申请已提交！");
                         } else {
                             layer.msg(data.message);
+                            $(".code_tip4").text("申请失败！");
                         }
                     });
                 }

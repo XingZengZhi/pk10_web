@@ -42,10 +42,10 @@
         $(".hang_detail10").fadeOut(0);
     });
 
-    $("#apply_button").on("click", function(){
-        $(".hang_detail5").fadeIn(.3);
-        $(".code_tip4").show(0);
-    });
+    // $("#apply_button").on("click", function(){
+    //     $(".hang_detail5").fadeIn(.3);
+    //     $(".code_tip4").show(0);
+    // });
     $(".close_detail5").on("click", function(){
         $(".hang_detail5").fadeOut(.3);
     });
