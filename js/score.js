@@ -72,4 +72,18 @@
         $("#selectBox").show();
     });
     
+    // 公告数据展示
+    $("#bulletinList").on("click", ".div_detail", function(){
+        var bulletinContent = $(this).find(".link_span").text();
+        layui.use(['layer'], function(){
+            var layer = layui.layer;
+            layer.open({
+                type:1,
+                title:"公告内容",
+                area:['350px', '300px'],
+                shadeClose:true,
+                content:bulletinContent
+            });
+        });
+    });
 })(window, document);
