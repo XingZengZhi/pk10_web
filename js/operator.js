@@ -441,7 +441,7 @@ $(function(){
             methods:{
                 createAccount:function(event){
                     this.jfzhuce = $("#jfzhuce").val();
-                    if(parseInt(this.jfzhuce) > parseInt(sessionStorage.jfzhuce)) {
+                    if(parseInt(this.jfzhuce) > parseInt(sessionStorage.jfcenter)) {
                         $(".hang_detail7").fadeIn(.3);
                     } else {
                         if(this.account == '' || this.jfzhuce == '' || this.password == '' || this.safepwd == '') {
@@ -466,7 +466,7 @@ $(function(){
                                 pid:sessionStorage.id
                             }, function(data){
                                 if(data.code === '000000') {
-                                    sessionStorage.jfzhuce = parseInt(sessionStorage.jfzhuce) - parseInt(openAccount.jfzhuce);
+                                    sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) - parseInt(openAccount.jfzhuce);
                                     updateUserCoreInfo();
                                     openAccount.account = "";
                                     openAccount.jfzhuce = "";
