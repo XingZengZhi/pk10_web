@@ -412,10 +412,14 @@ $(function(){
         var taskApplication = new Vue({
             el:"#task_application",
             data:{
-                
+                taskToken:sessionStorage.taskToken
             },
             methods:{
                 giftKey:function(event){
+                    if(parseInt(taskToken) <= 0) {
+                        layer.msg("已经没有足够的任务密钥了！");
+                        return;
+                    }
                     $.post("http://39.108.55.80:8081" + "/home/addTask",{
                         "userid":1
                     }, function(data){
@@ -631,6 +635,10 @@ $(function(){
                     $(event.target).addClass("conversion_active").siblings(".conversion_button").removeClass("conversion_active");
                 },
                 confirmConversion:function(event){
+                    if(this.jf === ''){
+                        layer.msg("请输入要转换的积分！");
+                        return;
+                    }
                     var type = 0;
                     switch(this.isC){
                         case 1:
