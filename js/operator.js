@@ -102,10 +102,10 @@ $(function(){
             "password":$("#oldPassword").val(),
             "newpassword":$("#newPassword").val()
         },function(data){
-            $(".hang_detail10").fadeIn(0);
             if(data.code === '000000') {
                 var timer = 3;
                 setInterval(function(){
+                    $(".hang_detail10").fadeIn(0);
                     $(".code_tip9").text("修改成功！" + timer + "s后重新登录");
                     timer--;
                     if(timer == 0) {
@@ -507,6 +507,16 @@ $(function(){
                 }
             }
         });
+        $.post("http://39.108.55.80:8081/jf/getJf?number=001", function(data){
+            var jf = data.result.data;
+            console.log(jf);
+            var selectBox = new Vue({
+                el:"#selectBox",
+                data:{
+                    items:jf.split(',')
+                }
+            });
+        });
         // 个人中心
         var updateUserInfo = new Vue({
             el:"#updateUserInfo",
@@ -609,8 +619,9 @@ $(function(){
             }
         });
         // 中心积分报表
-        $.post("http://39.108.55.80:8081" + "/home/getTokens",{
-            account:sessionStorage.account
+        $.post("http://39.108.55.80:8081/user/getCenterJf",{
+            userId:sessionStorage.id,
+            type:0
         },function(data){
             var dt = data.result;
             var inputList = new Vue({
@@ -620,8 +631,9 @@ $(function(){
                 }
             });
         });
-        $.post("http://39.108.55.80:8081" + "/home/getTokens",{
-            userId:sessionStorage.id
+        $.post("http://39.108.55.80:8081/user/getCenterJf",{
+            userId:sessionStorage.id,
+            type:1
         },function(data){
             var dt = data.result;
             var inputList = new Vue({

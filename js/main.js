@@ -115,7 +115,7 @@ window.onload = function(){
         hideMaskAndContentTopBottom();
     }
 
-    $(".cancel,.select_score").on("click", function(){
+    $("#selectBox").on("click", "div", function(){
         var cls = $(this).prop("class");
         if(cls === 'select_score'){
             $("#register_core input").val($(this).text());

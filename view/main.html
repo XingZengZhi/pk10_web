@@ -1732,9 +1732,9 @@
     </div>
 
     <div id="selectBox">
-        <div class="select_score">10000</div>
-        <div class="select_score">20000</div>
-        <div class="select_score">30000</div>
+        <div class="select_score" v-for="item in items">{{item}}</div>
+        <!-- <div class="select_score">20000</div>
+        <div class="select_score">30000</div> -->
         <div class="cancel">取消</div>
     </div>
 </body>
