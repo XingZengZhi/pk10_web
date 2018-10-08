@@ -357,18 +357,75 @@ $(function(){
         setInterval(()=>{
             lottery_info.countDownMethod();
         }, 1000);
+        
+        
         // 获取开奖信息
         function getGmnum(){
-            $.post("http://39.108.55.80:8081" + "/home/getData",{
+            $.post("http://39.108.55.80:8081/home/getData",{
                 gmnum:lottery_info.gmnum
             }, function(data){
+                console.log(data);
                 var r = data.result[0];
                 lottery_info.gm1 = r.gm1;
                 lottery_info.gm2 = r.gm2;
                 lottery_info.gm3 = r.gm3;
                 lottery_info.gm4 = r.gm4;
                 lottery_info.gm5 = r.gm5;
-                console.log(r);
+
+                var gms = [], bgms = [], sgms = [];
+
+                for(var i = 0;i < data.result.length;i++) {
+                    var gmss = {};
+                    gmss.gm1 = data.result[i].gm1;
+                    gmss.gm2 = data.result[i].gm2;
+                    gmss.gm3 = data.result[i].gm3;
+                    gmss.gm4 = data.result[i].gm4;
+                    gmss.gm5 = data.result[i].gm5;
+                    gmss.gmnum = data.result[i].gmnum.substring(data.result[i].gmnum.length - 3, data.result[i].gmnum.length);
+                    gmss.gmsum = data.result[i].gmsum;
+                    gms.push(gmss);
+                }
+
+                for(var i = 0;i < data.result.length;i++) {
+                    var bgmss = {};
+                    bgmss.bgm1 = data.result[i].bgm1;
+                    bgmss.bgm2 = data.result[i].bgm2;
+                    bgmss.bgm3 = data.result[i].bgm3;
+                    bgmss.bgm4 = data.result[i].bgm4;
+                    bgmss.bgm5 = data.result[i].bgm5;
+                    bgmss.create_date = data.result[i].create_date;
+                    bgmss.bgmsum = data.result[i].bgmsum;
+                    bgms.push(bgmss);
+                }
+
+                for(var i = 0;i < data.result.length;i++) {
+                    var sgmss = {};
+                    sgmss.sgm1 = data.result[i].sgm1;
+                    sgmss.sgm2 = data.result[i].sgm2;
+                    sgmss.sgm3 = data.result[i].sgm3;
+                    sgmss.sgm4 = data.result[i].sgm4;
+                    sgmss.sgm5 = data.result[i].sgm5;
+                    sgmss.lastup_date = data.result[i].lastup_date;
+                    sgmss.sgmsum = data.result[i].sgmsum;
+                    sgms.push(sgmss);
+                }
+
+                var leaderlist = new Vue({
+                    el:"#leaderlist",
+                    data:{
+                        choose:1,
+                        gms:gms,
+                        bgms:bgms,
+                        sgms:sgms
+                    },
+                    methods:{
+                        changeChoose:function(event){
+                            var setV = event.target.getAttribute("data-set");
+                            $(event.target).addClass("leader_btn_active").siblings().removeClass("leader_btn_active");
+                            this.choose = setV;
+                        }
+                    }
+                });
             });
         }
         getGmnum();
@@ -385,10 +442,75 @@ $(function(){
                 },
                 methods:{
                     confirmHang:function(event){
-                        console.log(event.target.dataset.id);
+                        var id = event.target.dataset.id;
+                        // console.log(event.target.dataset.id);
+                        $(".hang_detail11").fadeIn(0);
+                        $(".close_detail11").on('click', function(){
+                            $(".hang_detail11").fadeOut(0);
+                        });
+                        $("#guamai").on('click', function(){
+                            var pwd = $("#guamaipwd").val();
+                            if(pwd != '') {
+                                $.post("http://39.108.55.80:8081/home/updateBusiness",{
+                                    id:id,
+                                    status:2,
+                                    userid:sessionStorage.id,
+                                    safepwd:$("#guamaipwd").val()
+                                }, function(data){
+                                    $(".hang_detail11").fadeOut(0);
+                                });
+                            } else {
+                                layer.msg("安全码不能为空");
+                            }
+                        });
                     }
                 }
             });
+        });
+        // 挂卖交易积分
+        var jfguamai = new Vue({
+            el:"#guamaijf",
+            data:{
+                jfvalue:"",
+                jfbusiness:sessionStorage.jfbusiness
+            },
+            methods:{
+                confirmHang:function(){
+                    var jfvalue = this.jfvalue;
+                    if(jfvalue === '') {
+                        layer.msg("请输入要挂卖的积分");
+                    } else {
+                        if(parseInt(jfvalue) > parseInt(sessionStorage.jfbusiness)) {
+                            layer.msg("交易积分不足，不能进行挂卖");
+                            return;
+                        }
+                        $(".hang_detail11").fadeIn(0);
+                        $(".close_detail11").on('click', function(){
+                            $(".hang_detail11").fadeOut(0);
+                        });
+                        $("#guamai").on('click', function(){
+                            var pwd = $("#guamaipwd").val();
+                            if(pwd != '') {
+                                // console.log(jfvalue);
+                                $.post("http://39.108.55.80:8081/home/addBusiness", {
+                                    userid:sessionStorage.id,
+                                    selljf:jfvalue,
+                                    safepwd:pwd
+                                }, function(data){
+                                    // console.log(data);
+                                    $(".hang_detail11").fadeOut(0);
+                                    if(data.code === '000000') {
+                                        jfguamai.jfvalue = "";
+                                        layer.msg("挂卖成功");
+                                    }
+                                });
+                            } else {
+                                layer.msg("安全码不能为空");
+                            }
+                        });
+                    }
+                }
+            }
         });
         // 投注记录
         $.post("http://39.108.55.80:8081" + "/home/getPools",{
@@ -409,11 +531,21 @@ $(function(){
             "status":0
         },function(data){
             var dt = data.result;
-            console.log(dt);
+            // console.log(dt);
             var missed_list = new Vue({
                 el:'#missed_list',
                 data:{
                     items:dt
+                }
+            });
+        });
+        // 购买积分列表
+        $.post("http://39.108.55.80:8081/home/getBusiness?userid=" + sessionStorage.id + "&type=" + 2, function(data){
+            console.log(data);
+            var goumailist = new Vue({
+                el:"#goumailist",
+                data:{
+                    items:data.result
                 }
             });
         });
@@ -507,16 +639,7 @@ $(function(){
                 }
             }
         });
-        $.post("http://39.108.55.80:8081/jf/getJf?number=001", function(data){
-            var jf = data.result.data;
-            console.log(jf);
-            var selectBox = new Vue({
-                el:"#selectBox",
-                data:{
-                    items:jf.split(',')
-                }
-            });
-        });
+
         // 个人中心
         var updateUserInfo = new Vue({
             el:"#updateUserInfo",
@@ -619,30 +742,24 @@ $(function(){
             }
         });
         // 中心积分报表
-        $.post("http://39.108.55.80:8081/user/getCenterJf",{
-            userId:sessionStorage.id,
-            type:0
-        },function(data){
-            var dt = data.result;
-            var inputList = new Vue({
-                el:"#inputList",
-                data:{
-                    items:dt
-                }
-            });
-        });
-        $.post("http://39.108.55.80:8081/user/getCenterJf",{
-            userId:sessionStorage.id,
-            type:1
-        },function(data){
-            var dt = data.result;
-            var inputList = new Vue({
-                el:"#outputList",
-                data:{
-                    items:dt
-                }
-            });
-        });
+        // $.post("http://39.108.55.80:8081/game/jf?userId=" + sessionStorage.id + "&type=" + 0,function(data){
+        //     var dt = data.result;
+        //     var inputList = new Vue({
+        //         el:"#inputList",
+        //         data:{
+        //             items:dt
+        //         }
+        //     });
+        // });
+        // $.post("http://39.108.55.80:8081/game/jf?userId=" + sessionStorage.id + "&type=1" + 1,function(data){
+        //     var dt = data.result;
+        //     var inputList = new Vue({
+        //         el:"#outputList",
+        //         data:{
+        //             items:dt
+        //         }
+        //     });
+        // });
         // 积分转换中心
         var conversionBox = new Vue({
             el:"#conversionBox",

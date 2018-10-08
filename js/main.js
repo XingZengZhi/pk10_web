@@ -62,6 +62,16 @@ window.onload = function(){
             topTitle.text('PK10');
             break;
             case 'recreation_platform': 
+            $.post("http://39.108.55.80:8081/jf/getJf?number=003", function(data){
+                var d = data.result.data;
+                // console.log(data);
+                var lottery_box = new Vue({
+                    el:"#lottery_box",
+                    data:{
+                        pl:d
+                    }
+                });
+            });
             topTitle.text('娱乐中心');
             break;
             case 'personal_data': 
@@ -115,15 +125,6 @@ window.onload = function(){
         hideMaskAndContentTopBottom();
     }
 
-    $("#selectBox").on("click", "div", function(){
-        var cls = $(this).prop("class");
-        if(cls === 'select_score'){
-            $("#register_core input").val($(this).text());
-        }else{
-            $("#register_core input").val('');
-        }
-        hideMaskAndContentTopBottom();
-    });
 
     // 子菜单点击事件
     contentTopBottom.onclick = function(e){
@@ -151,6 +152,26 @@ window.onload = function(){
                 topTitle.text('挂卖积分列表');
                 break;
                 case 'createAccount':
+                // 查询开通账号积分
+                $.post("http://39.108.55.80:8081/jf/getJf?number=001", function(data){
+                    console.log(data)
+                    var jf = data.result.data;
+                    var selectBox = new Vue({
+                        el:"#selectBox",
+                        data:{
+                            items:jf.split(',')
+                        }
+                    });
+                    $("#selectBox").on("click", "div", function(){
+                        var cls = $(this).prop("class");
+                        if(cls === 'select_score'){
+                            $("#register_core input").val($(this).text());
+                        }else{
+                            $("#register_core input").val('');
+                        }
+                        hideMaskAndContentTopBottom();
+                    });
+                });
                 topTitle.text('开通账号');
                 break;
                 case 'push_list':

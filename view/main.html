@@ -343,42 +343,42 @@
             </div>
             <!-- 购买积分列表 -->
             <div class="data_content buy_integral">
-                <div class="data_base">
+                <div class="data_base" id="goumailist" v-for="item in items">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon1"></i>
                                 卖方账号
                             </span>
-                            <span class="data_base_span data_base_titleRight">B12</span>
+                            <span class="data_base_span data_base_titleRight">{{item.sellername}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
                                 挂卖积分数量
                             </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
+                            <span class="data_base_span data_base_titleRight">{{item.selljf}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon3"></i>
                                 挂卖时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018-08-09</span>
+                            <span class="data_base_span data_base_titleRight">{{item.configtime}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 购买时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018-08-09</span>
+                            <span class="data_base_span data_base_titleRight">{{item.buytime}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 交易状态
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018-09-07 12:00 完成交易</span>
+                            <span class="data_base_span data_base_titleRight">{{item.finishtime}} 完成交易</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -389,7 +389,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="data_base">
+
+                <!-- <div class="data_base">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -480,7 +481,7 @@
                             <a href="javascript:;" class="link_detail_score">点击查看详情</a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <!-- 挂卖积分列表 -->
             <div class="data_content hang_integral" id="integral_list">
@@ -534,25 +535,25 @@
             </div>
             <!-- 挂卖交易积分 -->
             <div class="data_content hang_integral2">
-                <div class="data_base">
+                <div class="data_base" id="guamaijf">
                     <ul class="data_base_list">
                         <li style="border-bottom:none;font-size: 1.1rem;">
                             <p style="margin-top:20px;margin-bottom:10px;">可输入你要挂卖的积分数量</p>
                         </li>
                         <li style="border-bottom:none;font-size: .9rem;color:#ccc;">
-                            <p >当前积分：<span>4235</span></p>
+                            <p >当前积分：<span id="guamaijfvalue">{{jfbusiness}}</span></p>
                         </li>
                         <li>
-                            <input class="inputLeft" placeholder="请输入数量" />
+                            <input class="inputLeft" placeholder="请输入数量" v-model="jfvalue" />
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                             </span>
-                            <button type="button" class="hang_btn" id="confirm_hang2">确认挂卖</button>
+                            <button type="button" class="hang_btn" @click="confirmHang">确认挂卖</button>
                         </li>
                     </ul>
                 </div>
-                <div class="data_base">
+                <!-- <div class="data_base">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -616,7 +617,7 @@
                             <span class="data_base_span data_base_titleRight fontWeightBold">交易进行中</span>
                         </li>
                     </ul>
-                </div>
+                </div> -->
             </div>
             <!-- 积分转换中心 -->
             <div class="data_content integral_conversion">
@@ -1037,7 +1038,7 @@
                     </ul>
                 </div>
 
-                <div class="data_base">
+                <div class="data_base" id="lottery_box">
                     <ul>
                         <li class="div_lottery_li">
                             <div class="lottery">
@@ -1057,24 +1058,24 @@
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
@@ -1087,24 +1088,24 @@
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
@@ -1117,24 +1118,24 @@
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
@@ -1147,24 +1148,24 @@
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
@@ -1177,24 +1178,24 @@
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
@@ -1207,36 +1208,36 @@
                             <div class="lottery lottery_input lottery_margin">
                                 <div>
                                     <span class="fontWeightBold">总和大</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div>
                                     <span class="fontWeightBold">总和小</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div>
                                     <span class="fontWeightBold">总和单</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div>
                                     <span class="fontWeightBold">总和双</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div>
                                     <span class="fontWeightBold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龙</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                                 <div>
                                     <span class="fontWeightBold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;虎</span>
-                                    <span class="lottery_color_red fontWeightBold">1.98</span>
+                                    <span class="lottery_color_red fontWeightBold">{{pl}}</span>
                                     <input type="text" class="inputNumber" />
                                 </div>
                             </div>
@@ -1316,12 +1317,12 @@
                     </div>
                 </div>
 
-                <div class="data_base">
+                <div class="data_base" id="leaderlist">
                     <div class="leader_board">
                         <div class="leader_button">
-                            <button type="button" class="leader_btn leader_btn_active">号码</button>
-                            <button type="button" class="leader_btn">大小</button>
-                            <button type="button" class="leader_btn">单双</button>
+                            <button type="button" class="leader_btn leader_btn_active" data-set="1" @click="changeChoose">号码</button>
+                            <button type="button" class="leader_btn" data-set="2" @click="changeChoose">大小</button>
+                            <button type="button" class="leader_btn" data-set="3" @click="changeChoose">单双</button>
                         </div>
                     </div>
                     <div class="leader_list">
@@ -1334,41 +1335,32 @@
                             <div>五</div>
                             <div>总和</div>
                         </div>
-                        <div class="leader_list_item2">
-                            <div>063</div>
-                            <div>8</div>
-                            <div>7</div>
-                            <div>1</div>
-                            <div>4</div>
-                            <div>6</div>
-                            <div>26</div>
+                        <div class="leader_list_item2" v-if="choose == 1" v-for="gm in gms">
+                            <div>{{gm.gmnum}}</div>
+                            <div>{{gm.gm1}}</div>
+                            <div>{{gm.gm2}}</div>
+                            <div>{{gm.gm3}}</div>
+                            <div>{{gm.gm4}}</div>
+                            <div>{{gm.gm5}}</div>
+                            <div>{{gm.gmsum}}</div>
                         </div>
-                        <div class="leader_list_item2">
-                            <div>063</div>
-                            <div>8</div>
-                            <div>7</div>
-                            <div>1</div>
-                            <div>4</div>
-                            <div>6</div>
-                            <div>26</div>
+                        <div class="leader_list_item2" v-if="choose == 2" v-for="bgm in bgms">
+                            <div>{{bgm.create_date}}</div>
+                            <div>{{bgm.bgm1}}</div>
+                            <div>{{bgm.bgm2}}</div>
+                            <div>{{bgm.bgm3}}</div>
+                            <div>{{bgm.bgm4}}</div>
+                            <div>{{bgm.bgm5}}</div>
+                            <div>{{bgm.bgmsum}}</div>
                         </div>
-                        <div class="leader_list_item2">
-                            <div>063</div>
-                            <div>8</div>
-                            <div>7</div>
-                            <div>1</div>
-                            <div>4</div>
-                            <div>6</div>
-                            <div>26</div>
-                        </div>
-                        <div class="leader_list_item2">
-                            <div>063</div>
-                            <div>8</div>
-                            <div>7</div>
-                            <div>1</div>
-                            <div>4</div>
-                            <div>6</div>
-                            <div>26</div>
+                        <div class="leader_list_item2" v-if="choose == 3" v-for="sgm in sgms">
+                            <div>{{sgm.lastup_date}}</div>
+                            <div>{{sgm.sgm1}}</div>
+                            <div>{{sgm.sgm2}}</div>
+                            <div>{{sgm.sgm3}}</div>
+                            <div>{{sgm.sgm4}}</div>
+                            <div>{{sgm.sgm5}}</div>
+                            <div>{{sgm.sgmsum}}</div>
                         </div>
                     </div>
                 </div>
@@ -1762,6 +1754,28 @@
             </div>
         </div>
         <i class="close_detail10">×</i>
+    </div>
+</div>
+<div class="hang_detail11">
+    <div class="hang_box11">
+        <div class="data_base" id="input_code_box10">
+            <header style="background: #EA4758;">
+                <p class="hang_detail_title textCenter">详情</p>
+            </header>
+            <ul class="data_base_list">
+                <li style="margin-top:20px;">
+                    <input type="password" class="inputLeft" placeholder="请输入安全码" id="guamaipwd" />
+                </li>
+                <li style="justify-content: center;">
+                    <div class="leader_board">
+                        <div class="leader_button">
+                            <button type="button" class="leader_btn leader_btn_active" id="guamai">确认</button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <i class="close_detail11">×</i>
     </div>
 </div>
 <script>
