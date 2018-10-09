@@ -119,7 +119,7 @@
 .leader_list > div:nth-of-type(odd){background:rgb(248, 250, 251);}
 .leader_list > div:nth-of-type(even){background:white;}
 
-.bet_box{display: none;}
+/* .bet_box{display: none;} */
 .bet_content{width:90%;height:150px;background:rgb(255, 237, 231);margin:0 auto;}
 .bet_content p{text-align:center;}
 

@@ -323,47 +323,122 @@ $(function(){
                 }
             }
         });
+
+        getGmnum();
+
+        function setTimeActive(){
+            var dataTime = lottery_info.lotteryTime.split(':');
+            var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]);
+            if(m == 0 && s == 0) {
+                // 可购买
+                $("#xiazhubtn").show(0);
+                lottery_info.countDownMethod();
+                return;
+            }
+            if(s == 0){
+                s = 60;
+                m--;
+            }
+            s--;
+            lottery_info.lotteryTime = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
+            // console.log(lottery_info.lotteryTime);
+        }
+        function closeTimeLite(){
+            var dataTime = lottery_info.closeTime.split(':');
+            var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]);
+            if(m == 0 && s == 0) {
+                // 封盘
+                $("#xiazhubtn").hide(0);
+                $("#closeLottery").text("已封盘");
+                return;
+            }
+            if(s == 0){
+                s = 60;
+                m--;
+            }
+            s--;
+            lottery_info.closeTime = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
+            $("#closeLottery").text(lottery_info.closeTime);
+        }
+        var lotteryTime, closeLotteryTime;
         var lottery_info = new Vue({
             el:"#lottery_info",
             data:{
                 countDown:"",
-                lotteryTime:"10:00",
-                gmnum:20180926050,
+                lotteryTime:"00:00",
+                closeTime:"00:00",
+                gmnum:"",
                 gm1:"",
                 gm2:"",
                 gm3:"",
                 gm4:"",
-                gm5:"",
+                gm5:""
             },
             methods:{
                 countDownMethod:function(){
-                    var dataTime = this.lotteryTime.split(':');
-                    var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]);
-                    if(s == 0){
-                        s = 60;
-                        m--;
+                    $("#closeLottery").text("00:00");
+                    var nowDate = new Date();
+                    var nowHours = nowDate.getHours();
+                    var nowMinute = nowDate.getMinutes();
+                    if(2 <= nowHours && 21 >= nowHours) {
+                        var isopen = nowMinute % 10;
+                        if(nowMinute == 55 && nowHours == 21) {
+                            lottery_info.lotteryTime = 10 - isopen > 0 ? "0" + (10 - isopen) + ":00" : "00:00";
+                            lottery_info.closeTime = "00:00";
+                        } else {
+                            lottery_info.lotteryTime = 10 - isopen > 0 ? "0" + (10 - isopen) + ":00" : "00:00";
+                            lottery_info.closeTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
+                        }
+                        setInterval(setTimeActive, 1000);
+                        setInterval(closeTimeLite, 1000);
+                    } else if((22 <= nowHours && 23 >= nowHours) || (nowHours < 2)) {
+                        var isopen = nowMinute / 10 < 5 ? nowMinute : nowMinute / 10 - 5;
+                        if(nowMinute == 55 && nowHours == 1) {
+                            lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
+                            lottery_info.closeTime = "00:00";
+                        } else {
+                            lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
+                            lottery_info.closeTime = 3 - isopen > 0 ? "0" + (3 - isopen) + ":00" : "00:00";
+                        }
+                        setInterval(setTimeActive, 1000);
+                        setInterval(closeTimeLite, 1000);
+                    } else {
+                        // 计时停止，一直封盘
+                        $("#xiazhubtn").hide(0);
+                        lottery_info.lotteryTime = "00:00";
+                        $("#closeLottery").text("已封盘");
                     }
-                    s--;
-                    this.lotteryTime = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
-                    if(m == 0 && s == 0){
-                        this.lotteryTime = "10:00";
-                        this.gmnum += 1;
-                        // 重新获取开奖信息
-                        getGmnum();
-                    }
+                    
                 }
             }
         });
+
+        lottery_info.countDownMethod();
+
         setInterval(()=>{
-            lottery_info.countDownMethod();
-        }, 1000);
-        
+            getGmnum();
+        }, 10000);
+
+        var leaderlist = new Vue({
+            el:"#leaderlist",
+            data:{
+                choose:1,
+                gms:"",
+                bgms:"",
+                sgms:""
+            },
+            methods:{
+                changeChoose:function(event){
+                    var setV = event.target.getAttribute("data-set");
+                    $(event.target).addClass("leader_btn_active").siblings().removeClass("leader_btn_active");
+                    this.choose = setV;
+                }
+            }
+        });
         
         // 获取开奖信息
         function getGmnum(){
-            $.post("http://39.108.55.80:8081/home/getData",{
-                gmnum:lottery_info.gmnum
-            }, function(data){
+            $.post("http://39.108.55.80:8081/home/getData", function(data){
                 console.log(data);
                 var r = data.result[0];
                 lottery_info.gm1 = r.gm1;
@@ -371,6 +446,7 @@ $(function(){
                 lottery_info.gm3 = r.gm3;
                 lottery_info.gm4 = r.gm4;
                 lottery_info.gm5 = r.gm5;
+                lottery_info.gmnum = r.gmnum;
 
                 var gms = [], bgms = [], sgms = [];
 
@@ -410,25 +486,13 @@ $(function(){
                     sgms.push(sgmss);
                 }
 
-                var leaderlist = new Vue({
-                    el:"#leaderlist",
-                    data:{
-                        choose:1,
-                        gms:gms,
-                        bgms:bgms,
-                        sgms:sgms
-                    },
-                    methods:{
-                        changeChoose:function(event){
-                            var setV = event.target.getAttribute("data-set");
-                            $(event.target).addClass("leader_btn_active").siblings().removeClass("leader_btn_active");
-                            this.choose = setV;
-                        }
-                    }
-                });
+                leaderlist.gms = gms;
+                leaderlist.bgms = bgms;
+                leaderlist.sgms = sgms;
+                
             });
         }
-        getGmnum();
+        
         // 挂卖信息列表
         $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
             "userId":1
@@ -539,16 +603,7 @@ $(function(){
                 }
             });
         });
-        // 购买积分列表
-        $.post("http://39.108.55.80:8081/home/getBusiness?userid=" + sessionStorage.id + "&type=" + 2, function(data){
-            console.log(data);
-            var goumailist = new Vue({
-                el:"#goumailist",
-                data:{
-                    items:data.result
-                }
-            });
-        });
+        
         // 赠送密钥
         var taskApplication = new Vue({
             el:"#task_application",
@@ -741,25 +796,7 @@ $(function(){
                 }
             }
         });
-        // 中心积分报表
-        // $.post("http://39.108.55.80:8081/game/jf?userId=" + sessionStorage.id + "&type=" + 0,function(data){
-        //     var dt = data.result;
-        //     var inputList = new Vue({
-        //         el:"#inputList",
-        //         data:{
-        //             items:dt
-        //         }
-        //     });
-        // });
-        // $.post("http://39.108.55.80:8081/game/jf?userId=" + sessionStorage.id + "&type=1" + 1,function(data){
-        //     var dt = data.result;
-        //     var inputList = new Vue({
-        //         el:"#outputList",
-        //         data:{
-        //             items:dt
-        //         }
-        //     });
-        // });
+        
         // 积分转换中心
         var conversionBox = new Vue({
             el:"#conversionBox",

@@ -85,7 +85,7 @@
                 <span></span>
             </p>
             <p>
-                <span class="dataTopLeft" data-url="buy_integral">购买积分</span>
+                <span class="dataTopLeft" data-url="buy_integral">购买积分列表</span>
                 <span class=""></span>
             </p>
             <p>
@@ -342,8 +342,8 @@
                 </div>
             </div>
             <!-- 购买积分列表 -->
-            <div class="data_content buy_integral">
-                <div class="data_base" id="goumailist" v-for="item in items">
+            <div class="data_content buy_integral" id="goumailist">
+                <div class="data_base" v-for="item in items">
                     <ul class="data_base_list">
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -364,21 +364,21 @@
                                 <i class="icon-li data_base_icon3"></i>
                                 挂卖时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.configtime}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.configtime | formateDate}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 购买时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.buytime}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.buytime | formateDate}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 交易状态
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.finishtime}} 完成交易</span>
+                            <span class="data_base_span data_base_titleRight">{{item.finishtime | formateDate}} 完成交易</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -800,7 +800,7 @@
                             <div>转入时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>注册积分转入交易积分</div>
+                            <div>{{item.type}}</div>
                             <div>{{item.tokennum}}</div>
                             <div>{{item.create_date}}</div>
                         </div>
@@ -1020,7 +1020,7 @@
                         <li class="div_li">
                             <div class="lottery">
                                 <span class="lottery_title fontWeightBold">开奖信息</span>
-                                <span class="lottery_title lottery_color marginLeft10">{{gmnum}}</span>
+                                <span class="lottery_title lottery_color marginLeft10" id="gnumber">{{gmnum}}</span>
                                 <span class="lottery_title lottery_color">期开奖</span>
                             </div>
                             <div class="lottery">
@@ -1042,7 +1042,7 @@
                     <ul>
                         <li class="div_lottery_li">
                             <div class="lottery">
-                                <span class="lottery_title lottery_color_red fontWeightBold marginRight5">20180807065</span>
+                                <span class="lottery_title lottery_color_red fontWeightBold marginRight5" id="newgnumber">{{gnum}}</span>
                                 <span class="lottery_title lottery_color">期</span>
                             </div>
                             <div class="lottery">
@@ -1059,24 +1059,24 @@
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="bgm1" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sgm1" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="single1" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="double1" />
                                 </div>
                             </div>
                         </li>
@@ -1089,24 +1089,24 @@
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="bgm2" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sgm2" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="single2" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="double2" />
                                 </div>
                             </div>
                         </li>
@@ -1119,24 +1119,24 @@
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="bgm3" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sgm3" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="single3" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="double3" />
                                 </div>
                             </div>
                         </li>
@@ -1149,24 +1149,24 @@
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="bgm4" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sgm4" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="single4" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="double4" />
                                 </div>
                             </div>
                         </li>
@@ -1179,24 +1179,24 @@
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">大</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="bgm5" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">小</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sgm5" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">单</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="single5" />
                                 </div>
                                 <div style="margin-left:28px;">
                                     <span class="fontWeightBold">双</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="double5" />
                                 </div>
                             </div>
                         </li>
@@ -1209,73 +1209,73 @@
                                 <div>
                                     <span class="fontWeightBold">总和大</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sumbig" />
                                 </div>
                                 <div>
                                     <span class="fontWeightBold">总和小</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sumsmall" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div>
                                     <span class="fontWeightBold">总和单</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sumsingle" />
                                 </div>
                                 <div>
                                     <span class="fontWeightBold">总和双</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="sumdoub" />
                                 </div>
                             </div>
                             <div class="lottery lottery_input lottery_margin">
                                 <div>
                                     <span class="fontWeightBold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;龙</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="long" />
                                 </div>
                                 <div>
                                     <span class="fontWeightBold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;虎</span>
                                     <span class="lottery_color_red fontWeightBold">{{pl}}</span>
-                                    <input type="text" class="inputNumber" />
+                                    <input type="text" class="inputNumber" v-model="hu" />
                                 </div>
                             </div>
                         </li>
-                        <li class="div_lottery_li bet_box">
+                        <li class="div_lottery_li bet_box" v-if="showbet">
                             <div class="bet_content">
                                 <ul>
                                     <li>
                                         <p>
-                                            <span class="lottery_title fontWeightBold marginRight5">20180807065</span>
+                                            <span class="lottery_title fontWeightBold marginRight5">{{gnumber}}</span>
                                             <span class="lottery_title lottery_color">期</span>
                                         </p>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <p>
                                             <span class="lottery_title lottery_color marginRight5">和</span>
                                             <span class="lottery_title lottery_color_red fontWeightBold">8.80</span>
                                         </p>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <p>
                                             <span class="lottery_title lottery_color marginRight5">下注积分</span>
-                                            <span class="lottery_title fontWeightBold">2</span>
+                                            <span class="lottery_title fontWeightBold">{{allscore}}</span>
                                         </p>
                                     </li>
                                     <li>
                                         <p>
                                             <span class="lottery_title lottery_color marginRight5">可赢积分</span>
-                                            <span class="lottery_title fontWeightBold">17.60</span>
+                                            <span class="lottery_title fontWeightBold">{{winscore}}</span>
                                         </p>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        <li class="div_lottery_li">
+                        <li class="div_lottery_li" id="xiazhubtn">
                             <div class="bet">
-                                <button type="button" class="bet_l" id="resetBet">重置</button>
-                                <button type="button" class="bet_r" id="betSubmit">下注</button>
+                                <button type="button" class="bet_l" id="resetBet" @click="resetBet">重置</button>
+                                <button type="button" class="bet_r" id="betSubmit" data-set="1" @click="betSubmit">下注</button>
                             </div>
                         </li>
                     </ul>
@@ -1785,7 +1785,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="/js/operator.js"></script>
 <script src="/layui/layui.js"></script>
-<script src="/js/time.js"></script>
+<!-- <script src="/js/time.js"></script> -->
 <script src="/js/bet.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/score.js"></script>
