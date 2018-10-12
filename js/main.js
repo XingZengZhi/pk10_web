@@ -27,6 +27,7 @@ window.onload = function(){
         $(".prepage")[0].setAttribute("id", "");
         $("." + pageId).fadeIn(0.3).siblings().fadeOut(0);
         if(pageId === 'missed_details'){
+            var loadIndex = layer.load(2);
             $(".prepage").fadeIn(0);
             $(".prepage")[0].setAttribute("id", "recreation_platform");
             // 未结明细
@@ -34,11 +35,15 @@ window.onload = function(){
                 "userId":1,
                 "status":0
             },function(data){
+                layer.close(loadIndex);
                 var dt = data.result;
-                // console.log(dt);
                 missed_list.items = dt;
+                if(data.code != '000000') {
+                    layer.msg('加载失败，请重试');
+                }
             });
         }else if(pageId === 'betting_record') {
+            var loadIndex = layer.load(2);
             $(".prepage").fadeIn(0);
             $(".prepage")[0].setAttribute("id", "recreation_platform");
              // 投注记录
@@ -46,9 +51,12 @@ window.onload = function(){
                 "userId":1
                 // "status":1
             },function(data){
-                // console.log(data);
+                layer.close(loadIndex);
                 var dt = data.result;
                 integral_list.items = dt;
+                if(data.code != '000000') {
+                    layer.msg('加载失败，请重试');
+                }
             });
         } else {
             // 改变选中字体颜色
@@ -261,6 +269,7 @@ window.onload = function(){
                                 console.log(this.jf);
                             } else {
                                 // console.log(lottery_box.jf);
+                                var indexLoad = layer.load(2);
                                 $.post("http://39.108.55.80:8081/home/addPool",{
                                     userId:sessionStorage.id,
                                     gmnum:lottery_box.gnumber,
@@ -269,11 +278,12 @@ window.onload = function(){
                                     count:1
                                 }, function(data){
                                     // console.log(data);
+                                    layer.close(indexLoad);
                                     if(data.code === '000000') {
                                         layer.msg('下注成功');
                                         sessionStorage.jftask = parseInt(sessionStorage.jftask) - parseInt(lottery_box.allscore);
                                     } else {
-                                    layer.msg(data.message); 
+                                        layer.msg('下注失败'); 
                                     }
                                     lottery_box.allscore = 0;
                                     lottery_box.winscore = 0;
@@ -339,22 +349,6 @@ window.onload = function(){
     if(sessionStorage.pageName != '') {
         changePage(sessionStorage.pageName);
     }
-    // 侧边动态
-    // var leftBar = document.getElementById("leftBar"),
-    //     mainContent = document.getElementById("main_content");
-    //     navlist = document.getElementById("navlist");
-    // leftBar.onclick = function() {
-    //     var isShow = this.getAttribute("data-isshow");
-    //     if(isShow === 'false') {
-    //         navlist.style.transform = "translateX(250px)";
-    //         mainContent.style.marginLeft = "250px";
-    //         this.dataset.isshow = 'true';
-    //     } else {
-    //         navlist.style.transform = "translateX(-250px)";
-    //         mainContent.style.marginLeft = "0px";
-    //         this.dataset.isshow = 'false';
-    //     }
-    // }
 
     // 底部Tabar切换
     $("#index_data, #recreation_platform, #personal_data").on("click", function(){
@@ -439,6 +433,7 @@ window.onload = function(){
                 break;
                 case 'buy_integral':
                 // 购买积分列表
+                var loadIndex = layer.load(2);
                 var goumailist = new Vue({
                     el:"#goumailist",
                     data:{
@@ -447,7 +442,11 @@ window.onload = function(){
                 });
                 $.post("http://39.108.55.80:8081/home/getBusiness?userid=" + sessionStorage.id + "&type=" + 2, function(data){
                     // console.log(data.result);
+                    layer.close(loadIndex);
                     goumailist.items = data.result;
+                    if(data.code != '000000') {
+                        layer.msg('加载失败，请重试');
+                    }
                 });
                 topTitle.text('购买积分列表');
                 break;
@@ -505,6 +504,7 @@ window.onload = function(){
                 topTitle.text('系统更新');
                 break;
                 case 'integral_center':
+                var loadIndex = layer.load(2);
                 // 中心积分报表
                 var inputJfList = new Vue({
                     el:"#inputJfList",
@@ -522,6 +522,12 @@ window.onload = function(){
                         userId:sessionStorage.id,
                         type:1
                     }, function(data){
+                        layer.close(loadIndex);
+                        if(data.code != '000000') {
+                            layer.msg('转入积分数据加载失败，请重试');
+                            console.error('转入积分数据加载失败');
+                            return;
+                        }
                         // console.log(data.result);
                         var dt = data.result;
                         for(var i = 0;i < dt.length;i++) {
@@ -533,7 +539,13 @@ window.onload = function(){
                     userId:sessionStorage.id,
                     type:0
                 },function(data){
-                    console.log(data.result);
+                    // console.log(data.result);
+                    layer.close(loadIndex);
+                    if(data.code != '000000') {
+                        layer.msg('转出积分数据加载失败，请重试');
+                        console.error('转出积分数据加载失败');
+                        return;
+                    }
                     var dt = data.result;
                     inputJfList.items = dt;
                 });
@@ -541,11 +553,50 @@ window.onload = function(){
                 break;
                 case 'Task_key':
                 topTitle.text('任务密钥报表');
+                var loadIndex = layer.load(2);
+                var renwuinputList = new Vue({
+                    el:"#renwuinputList",
+                    data:{
+                        items:[]
+                    }
+                });
+                $.post("http://39.108.55.80:8081/home/getTokens",{
+                    account:sessionStorage.account
+                }, function(data){
+                    layer.close(loadIndex);
+                    if(data.code != '000000') {
+                        layer.msg('任务密钥转入数据加载失败，请重试');
+                        console.error('挂卖数据加载失败');
+                        return;
+                    }
+                    renwuinputList.items = data.result;
+                });
+                var renwuoutputList = new Vue({
+                    el:"#renwuoutputList",
+                    data:{
+                        items:[]
+                    }
+                });
+                $.post("http://39.108.55.80:8081/home/getTokens",{
+                    userId:sessionStorage.id
+                }, function(data){
+                    layer.close(loadIndex);
+                    if(data.code != '000000') {
+                        layer.msg('任务密钥转出数据加载失败，请重试');
+                        console.error('挂卖数据加载失败');
+                        return;
+                    }
+                    renwuoutputList.items = data.result;
+                });
                 break;
                 case 'Task_score':
                 topTitle.text('任务积分报表');
+                var loadIndex = layer.load(2);
+                layer.close(loadIndex);
+                layer.msg('该功能暂未开放');
                 break;
                 case 'Trading_points':
+                var loadIndex = layer.load(2);
                 var inputguamaiList = new Vue({
                     el:"#inputguamaiList",
                     data:{
@@ -563,6 +614,12 @@ window.onload = function(){
                     type:1
                 }, function(data){
                     // console.log(data.result);
+                    layer.close(loadIndex);
+                    if(data.code != '000000') {
+                        layer.msg('挂卖数据加载失败，请重试');
+                        console.error('挂卖数据加载失败');
+                        return;
+                    }
                     inputguamaiList.items = data.result;
                 });
                 $.post("http://39.108.55.80:8081/home/getBusiness",{
@@ -570,6 +627,12 @@ window.onload = function(){
                     type:0
                 }, function(data){
                     // console.log(data.result);
+                    layer.close(loadIndex);
+                    if(data.code != '000000') {
+                        layer.msg('购买数据加载失败，请重试');
+                        console.error('购买数据加载失败');
+                        return;
+                    }
                     outputguamaiList.items = data.result;
                 });
                 topTitle.text('交易积分报表');
@@ -648,11 +711,15 @@ window.onload = function(){
             $("#newTelphone").fadeIn(0);
             $("#newBankName").fadeIn(0);
             $("#newBankNum").fadeIn(0);
+            $("#test1").fadeIn(0);
+            $("#test2").fadeIn(0);
 
             $("#editUsername").fadeOut(0);
             $("#editTelphone").fadeOut(0);
             $("#editBanknum").fadeOut(0);
             $("#editBankname").fadeOut(0);
+            $("#editAliPay").fadeOut(0);
+            $("#editWxPay").fadeOut(0);
         } else {
             $(".personal_data").find(".editUserInfo").css("display", "none");
             $(".editText").fadeIn(.3);
@@ -661,11 +728,46 @@ window.onload = function(){
             $("#newTelphone").fadeOut(0);
             $("#newBankName").fadeOut(0);
             $("#newBankNum").fadeOut(0);
+            $("#test1").fadeOut(0);
+            $("#test2").fadeOut(0);
 
             $("#editUsername").fadeIn(0);
             $("#editTelphone").fadeIn(0);
             $("#editBanknum").fadeIn(0);
             $("#editBankname").fadeIn(0);
+            $("#editAliPay").fadeIn(0);
+            $("#editWxPay").fadeIn(0);
         }
     }
+
+    // 收款码上传
+    layui.use(['upload', 'layer'], function(){
+        var upload = layui.upload;
+        //执行实例
+        var uploadAliPay = upload.render({
+            elem: '#test1' //绑定元素
+            ,url: '/upload/' //上传接口
+            ,done: function(res){
+                //上传完毕回调
+                $("#editAliPay").fadeIn(0);
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.msg('上传支付宝收款码失败');
+            }
+        });
+
+        var uploadWxPay = upload.render({
+            elem: '#test2' //绑定元素
+            ,url: '/upload/' //上传接口
+            ,done: function(res){
+                //上传完毕回调
+                $("#editWxPay").fadeIn(0);
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.msg('上传微信收款码失败');
+            }
+        });
+    });
 }

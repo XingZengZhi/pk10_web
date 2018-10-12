@@ -742,14 +742,14 @@
                     <div class="leader_board">
                         <span class="leader_board_head">转入</span>
                     </div>
-                    <div class="leader_list" id="inputList">
+                    <div class="leader_list" id="renwuinputList">
                         <div class="leader_list_item">
                             <div>赠送密钥数量</div>
                             <div>转回积分数量</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <!-- <div>12</div>
-                            <div>2018.08.08</div> -->
+                            <div>{{item.tokennum}}</div>
+                            <div>{{item.create_date | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -757,16 +757,16 @@
                     <div class="leader_board">
                         <span class="leader_board_head">转出</span>
                     </div>
-                    <div class="leader_list" id="outputList">
+                    <div class="leader_list" id="renwuoutputList">
                         <div class="leader_list_item">
                             <div>赠送对象账号</div>
                             <div>赠送密钥数量</div>
                             <div>赠送时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <!-- <div>B12</div>
-                            <div>12</div>
-                            <div>2018.08.08</div> -->
+                            <div>{{item.account}}</div>
+                            <div>{{item.tokennum}}</div>
+                            <div>{{item.create_date | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -1294,26 +1294,10 @@
                             <i class="head2_bg head2_left"></i>
                         </span>
                     </div>
-                    <div class="leader_list">
-                        <div class="leader_list_item">
-                            <div>总和大</div>
-                            <div>5期</div>
-                        </div>
-                        <div class="leader_list_item">
-                            <div>第二球-单</div>
-                            <div>2期</div>
-                        </div>
-                        <div class="leader_list_item">
-                            <div>第三球-单</div>
-                            <div>5期</div>
-                        </div>
-                        <div class="leader_list_item">
-                            <div>第一球-大</div>
-                            <div>2期</div>
-                        </div>
-                        <div class="leader_list_item">
-                            <div>第二球-大</div>
-                            <div>5期</div>
+                    <div class="leader_list" id="lianmian">
+                        <div class="leader_list_item" v-for="item in items">
+                            <div>{{item.name}}</div>
+                            <div>{{item.content}}</div>
                         </div>
                     </div>
                 </div>
@@ -1368,7 +1352,6 @@
             </div>
             <!-- 个人中心 -->
             <div class="data_content personal_data">
-                
                 <div class="data_base">
                     <h3 class="data_base_title">
                         个人资料
@@ -1432,20 +1415,30 @@
                                     <i class="icon-li data_base_icon5"></i>
                                     支付宝收款码
                                 </span>
-                                <span class="data_base_span data_base_titleRight code_box">
-                                    <img v-bind:src="alipaypic" alt="" class="my_code">
-                                    <!-- <i class="link_icon_right main_link_icon_right"></i> -->
-                                </span>
+                                <div>
+                                    <button type="button" class="layui-btn layui-btn-primary layui-btn-xs" id="test1">
+                                        <i class="layui-icon">&#xe67c;</i>上传收款码
+                                    </button>
+                                    <span class="data_base_span data_base_titleRight code_box" id="editAliPay">
+                                        <img v-bind:src="alipaypic" alt="" class="my_code">
+                                        <!-- <i class="link_icon_right main_link_icon_right"></i> -->
+                                    </span>
+                                </div>
                             </li>
                             <li>
                                 <span class="data_base_span data_base_titleLeft">
                                     <i class="icon-li data_base_icon6"></i>
                                     微信收款码
                                 </span>
-                                <span class="data_base_span data_base_titleRight code_box">
-                                    <img v-bind:src="weixinpic" alt="" class="my_code">
-                                    <!-- <i class="link_icon_right main_link_icon_right"></i> -->
-                                </span>
+                                <div>
+                                    <button type="button" class="layui-btn layui-btn-primary layui-btn-xs" id="test2">
+                                        <i class="layui-icon">&#xe67c;</i>上传收款码
+                                    </button>
+                                    <span class="data_base_span data_base_titleRight code_box" id="editWxPay">
+                                        <img v-bind:src="weixinpic" alt="" class="my_code">
+                                        <!-- <i class="link_icon_right main_link_icon_right"></i> -->
+                                    </span>
+                                </div>
                             </li>
                         </ul>
                     </form>

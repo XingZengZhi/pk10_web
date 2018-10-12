@@ -30,37 +30,56 @@ $(function(){
         el:"#userInfoList",
         data:{
             // 用户ID
-            id:sessionStorage.id,
+            id:"",
             // 用户账号
-            account:sessionStorage.account,
+            account:"",
             // 用户姓名
-            username:sessionStorage.username,
+            username:"",
             // 手机号
-            telephone:sessionStorage.telephone,
+            telephone:"",
             // 支付宝收款码
-            alipaypic:sessionStorage.alipaypic,
+            alipaypic:"",
             // 微信收款码
-            weixinpic:sessionStorage.weixinpic,
+            weixinpic:"",
             // 银行卡号
-            bankNum:sessionStorage.bankNum,
+            bankNum:"",
             // 银行名称
-            bankName:sessionStorage.bankName,
+            bankName:"",
             // 中心积分
-            jfcenter:sessionStorage.jfcenter,
+            jfcenter:"",
             // 任务积分
-            jftask:sessionStorage.jftask,
+            jftask:"",
             // 交易积分
-            jfbusiness:sessionStorage.jfbusiness,
+            jfbusiness:"",
             // 注册积分
-            jfzhuce:sessionStorage.jfzhuce,
+            jfzhuce:"",
             // 任务密钥
-            taskToken:sessionStorage.taskToken,
+            taskToken:"",
             // 已使用密钥
-            usedtoken:sessionStorage.usedtoken,
+            usedtoken:"",
             // 原注册积分
-            jfold:sessionStorage.jfold
+            jfold:"",
+            // 加载索引
+            loadIndex:""
         },
         methods:{
+            loadUserInfo:function(){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    this.loadIndex = layer.load(2);
+                });
+            },
+            cacelLoad:function(){
+                layui.use('layer', function(){
+                    var layer = layui.layer;
+                    if(this.loadIndex == '') {
+                        console.error('非法调用！');
+                    } else {
+                        $("#userInfoList li span:last-child").fadeIn(0);
+                        layer.close(this.loadIndex);
+                    }
+                });
+            },
             updateUserInfo:function(){
                 // 用户ID
                 this.id = sessionStorage.id,
@@ -94,6 +113,19 @@ $(function(){
                 this.jfold = sessionStorage.jfold
             }
         }
+    });
+    userInfo.loadUserInfo();
+    userInfo.updateUserInfo();
+    userInfo.cacelLoad();
+    // 两面长龙排行
+    var lianmian = new Vue({
+        el:"#lianmian",
+        data:{
+            items:""
+        }
+    });
+    $.post("http://39.108.55.80:8081/home/getPaiLong", function(data){
+        lianmian.items = data.result;
     });
     // 修改用户登录密码
     $("#confirmChangePass").on('click', function(){
@@ -391,7 +423,7 @@ $(function(){
                         setInterval(closeTimeLite, 1000);
                     } else if((22 <= nowHours && 23 >= nowHours) || (nowHours < 2)) {
                         var isopen = nowMinute % 10 < 5 ? nowMinute % 10 : nowMinute % 10 - 5;
-                        console.log(isopen);
+                        // console.log(isopen);
                         if(nowMinute == 55 && nowHours == 1) {
                             lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
                             lottery_info.closeTime = "00:00";
@@ -440,7 +472,7 @@ $(function(){
         // 获取开奖信息
         function getGmnum(){
             $.post("http://39.108.55.80:8081/home/getData", function(data){
-                console.log(data);
+                // console.log(data);
                 var r = data.result[0];
                 lottery_info.gm1 = r.gm1;
                 lottery_info.gm2 = r.gm2;
@@ -588,8 +620,6 @@ $(function(){
             }
         });
        
-        
-        
         // 赠送密钥
         var taskApplication = new Vue({
             el:"#task_application",
@@ -699,38 +729,20 @@ $(function(){
             },
             methods:{
                 updateUserInfo:function(){
-                    // var updateUserJson = $("#updateUserInfo").serialize();
-                    // $.post("http://39.108.55.80:8081" + "/user/updateUser", {
-                    //     "userId":sessionStorage.id,
-                    //     "username":$("#newUserName").val(),
-                    //     "telephone":$("#newTelphone").val(),
-                    //     "bankNum":$("#newBankName").val(),
-                    //     "bankname":$("#newBankNum").val(),
-                    // },function(data){
-                    //     if(data.code === '000000') {
-                    //         $(".code_tip9").text("更新成功！");
-                    //         $(".hang_detail10").fadeIn(0);
-                    //         sessionStorage.username = this.newUserName;
-                    //         sessionStorage.telephone = this.newTelphone;
-                    //         sessionStorage.bankName = this.newBankName;
-                    //         sessionStorage.bankNum = this.newBankNum;
-                    //     } else {
-                    //         $(".code_tip9").text("更新失败！");
-                    //         $(".hang_detail10").fadeIn(0);
-                    //     }
-                    // });
                 }
             }
         });
         $("#perfectUserInfo").on("click", function(){
             var updateUserJson = $("#updateUserInfo").serialize();
+            var loadIndex = layer.load(2);
             $.post("http://39.108.55.80:8081" + "/user/updateUser", {
                 "userId":sessionStorage.id,
                 "username":$("#newUserName").val(),
                 "telephone":$("#newTelphone").val(),
                 "bankname":$("#newBankName").val(),
-                "bankNum":$("#newBankNum").val()
+                "banknum":$("#newBankNum").val()
             },function(data){
+                layer.close(loadIndex);
                 if(data.code === '000000') {
                     $(".code_tip9").text("更新成功！");
                     $(".hang_detail10").fadeIn(0);
