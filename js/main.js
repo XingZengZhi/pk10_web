@@ -282,6 +282,8 @@ window.onload = function(){
                                     if(data.code === '000000') {
                                         layer.msg('下注成功');
                                         sessionStorage.jftask = parseInt(sessionStorage.jftask) - parseInt(lottery_box.allscore);
+                                        globalInfo.updateSession();
+                                        $("#user_core").val(sessionStorage.jftask);
                                     } else {
                                         layer.msg('下注失败'); 
                                     }
@@ -354,7 +356,6 @@ window.onload = function(){
     $("#index_data, #recreation_platform, #personal_data").on("click", function(){
         var id = $(this).prop("id");
         changePage(id);
-        
     });
 
     // 顶部导航栏点击事件
@@ -770,4 +771,6 @@ window.onload = function(){
             }
         });
     });
+
+
 }

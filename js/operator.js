@@ -744,12 +744,13 @@ $(function(){
             },function(data){
                 layer.close(loadIndex);
                 if(data.code === '000000') {
+                    globalInfo.updateSession();
                     $(".code_tip9").text("更新成功！");
                     $(".hang_detail10").fadeIn(0);
-                    sessionStorage.username = $("#newUserName").val();
-                    sessionStorage.telephone = $("#newTelphone").val();
-                    sessionStorage.bankName = $("#newBankName").val();
-                    sessionStorage.bankNum = $("#newBankNum").val();
+                    updateUserInfo.username = sessionStorage.username = $("#newUserName").val();
+                    updateUserInfo.telephone = sessionStorage.telephone = $("#newTelphone").val();
+                    updateUserInfo.bankName = sessionStorage.bankName = $("#newBankName").val();
+                    updateUserInfo.bankNum = sessionStorage.bankNum = $("#newBankNum").val();
                     $(".personal_data").find(".editUserInfo").css("display", "none");
                     $(".editText").fadeIn(.3);
                 } else {
@@ -831,10 +832,10 @@ $(function(){
                         }
                         break;
                         case 2:
-                        if(parseInt(this.jf) <= parseInt(this.jfcenter)) {
+                        if(parseInt(this.jfcenter) > 0) {
                             type = 5;
                         } else {
-                            if(parseInt(this.jf) <= parseInt(this.jfzhuce)) {
+                            if(parseInt(this.jfzhuce) > 0) {
                                 type = 3;
                             } else {
                                 $(".hang_detail7").fadeIn(.3);
@@ -846,12 +847,13 @@ $(function(){
                         break;
                     }
                     if(type != 0) {
-                        var core = this.jf
+                        var core = this.jf;
                         $.post("http://39.108.55.80:8081" + "/jf/transforjf",{
                             userId:sessionStorage.id,
                             type:type,
-                            jf:parseInt(this.jf)
+                            jf:parseInt(conversionBox.jf)
                         },function(data){
+                            // console.log(data);
                             if(data.code === '000000') {
                                 // console.log(type);
                                 if(type === 2 || type === 3 || type === 1) {
@@ -882,6 +884,7 @@ $(function(){
                                     }
                                 }
                                 $(".hang_detail8").fadeIn(.3);
+                                globalInfo.updateSession();
                             } else {
                                 $(".hang_detail7").fadeIn(.3);
                             }
