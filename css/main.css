@@ -14,6 +14,7 @@
 .data_content_top_bottom > div{display: none;}
 .data_content_top_bottom p{display: flex;justify-content: space-between;margin:10px 15px;height:35px;line-height:35px;}
 .exit{display: block;height:45px;line-height:45px;color:white;font-size:1rem;font-weight:0;position: absolute;right:10px;}
+.prepage{display: block;height:45px;line-height:45px;color:white;font-size:1.2rem;font-weight:0;position: absolute;left:20px;display: none;}
 /* 基础信息 */
 .data_base_icon{display:inline-block;width:20px;height:15px;background-size:100% 15px;background-repeat: no-repeat;background-position: 0 0;position: relative;top:2px;right:5px;}
 .data_base_img{background-image:url('/imgs/base_data.png');}

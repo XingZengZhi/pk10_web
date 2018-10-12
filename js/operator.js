@@ -104,15 +104,15 @@ $(function(){
         },function(data){
             if(data.code === '000000') {
                 var timer = 3;
+                $(".hang_detail10").fadeIn(0);
+                $(".code_tip9").text("修改成功！即将推出重新登录");
                 setInterval(function(){
-                    $(".hang_detail10").fadeIn(0);
-                    $(".code_tip9").text("修改成功！" + timer + "s后重新登录");
                     timer--;
                     if(timer == 0) {
                         location.href = "/login.html";
                         sessionStorage.clear();
                     }
-                },3000);
+                },2000);
 
             } else {
                 $(".code_tip9").text("修改失败！");
@@ -314,7 +314,7 @@ $(function(){
             el:"#recreation_userinfo",
             data:{
                 userName:sessionStorage.account,
-                userCore:sessionStorage.jfbusiness
+                userCore:sessionStorage.jftask
             },
             methods:{
                 updateUserInfo:function(){
@@ -323,8 +323,6 @@ $(function(){
                 }
             }
         });
-
-        getGmnum();
 
         function setTimeActive(){
             var dataTime = lottery_info.lotteryTime.split(':');
@@ -392,7 +390,8 @@ $(function(){
                         setInterval(setTimeActive, 1000);
                         setInterval(closeTimeLite, 1000);
                     } else if((22 <= nowHours && 23 >= nowHours) || (nowHours < 2)) {
-                        var isopen = nowMinute / 10 < 5 ? nowMinute : nowMinute / 10 - 5;
+                        var isopen = nowMinute % 10 < 5 ? nowMinute % 10 : nowMinute % 10 - 5;
+                        console.log(isopen);
                         if(nowMinute == 55 && nowHours == 1) {
                             lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
                             lottery_info.closeTime = "00:00";
@@ -401,7 +400,9 @@ $(function(){
                             lottery_info.closeTime = 3 - isopen > 0 ? "0" + (3 - isopen) + ":00" : "00:00";
                         }
                         setInterval(setTimeActive, 1000);
-                        setInterval(closeTimeLite, 1000);
+                        if($("#closeLottery").text() != "已封盘") {
+                            setInterval(closeTimeLite, 1000);
+                        }
                     } else {
                         // 计时停止，一直封盘
                         $("#xiazhubtn").hide(0);
@@ -417,7 +418,7 @@ $(function(){
 
         setInterval(()=>{
             getGmnum();
-        }, 10000);
+        }, 15000);
 
         var leaderlist = new Vue({
             el:"#leaderlist",
@@ -447,7 +448,7 @@ $(function(){
                 lottery_info.gm4 = r.gm4;
                 lottery_info.gm5 = r.gm5;
                 lottery_info.gmnum = r.gmnum;
-
+                $("#newgnumber").text(parseInt(r.gmnum) + 1);
                 var gms = [], bgms = [], sgms = [];
 
                 for(var i = 0;i < data.result.length;i++) {
@@ -457,7 +458,8 @@ $(function(){
                     gmss.gm3 = data.result[i].gm3;
                     gmss.gm4 = data.result[i].gm4;
                     gmss.gm5 = data.result[i].gm5;
-                    gmss.gmnum = data.result[i].gmnum.substring(data.result[i].gmnum.length - 3, data.result[i].gmnum.length);
+                    // gmss.gmnum = data.result[i].gmnum.substring(data.result[i].gmnum.length - 3, data.result[i].gmnum.length);
+                    gmss.gmnum = data.result[i].gmnum;
                     gmss.gmsum = data.result[i].gmsum;
                     gms.push(gmss);
                 }
@@ -492,6 +494,8 @@ $(function(){
                 
             });
         }
+
+        getGmnum();
         
         // 挂卖信息列表
         $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
@@ -507,29 +511,31 @@ $(function(){
                 methods:{
                     confirmHang:function(event){
                         var id = event.target.dataset.id;
-                        // console.log(event.target.dataset.id);
+                        console.log(event.target.dataset.id);
                         $(".hang_detail11").fadeIn(0);
                         $(".close_detail11").on('click', function(){
                             $(".hang_detail11").fadeOut(0);
                         });
-                        $("#guamai").on('click', function(){
-                            var pwd = $("#guamaipwd").val();
-                            if(pwd != '') {
-                                $.post("http://39.108.55.80:8081/home/updateBusiness",{
-                                    id:id,
-                                    status:2,
-                                    userid:sessionStorage.id,
-                                    safepwd:$("#guamaipwd").val()
-                                }, function(data){
-                                    $(".hang_detail11").fadeOut(0);
-                                });
-                            } else {
-                                layer.msg("安全码不能为空");
-                            }
-                        });
                     }
                 }
             });
+        });
+        $("#guamaiconfirm").on('click', function(){
+            var pwd = $("#guamaipwd").val();
+            if(pwd != '') {
+                $.post("http://39.108.55.80:8081/home/updateBusiness",{
+                    id:id,
+                    status:2,
+                    userid:sessionStorage.id,
+                    safepwd:$("#guamaipwd").val()
+                }, function(data){
+                    console.log(data);
+                    $(".hang_detail11").fadeOut(0);
+                });
+            } else {
+                layer.msg("安全码不能为空");
+            }
+            $("#guamaipwd").val('');
         });
         // 挂卖交易积分
         var jfguamai = new Vue({
@@ -552,57 +558,37 @@ $(function(){
                         $(".close_detail11").on('click', function(){
                             $(".hang_detail11").fadeOut(0);
                         });
-                        $("#guamai").on('click', function(){
-                            var pwd = $("#guamaipwd").val();
-                            if(pwd != '') {
-                                // console.log(jfvalue);
-                                $.post("http://39.108.55.80:8081/home/addBusiness", {
-                                    userid:sessionStorage.id,
-                                    selljf:jfvalue,
-                                    safepwd:pwd
-                                }, function(data){
-                                    // console.log(data);
-                                    $(".hang_detail11").fadeOut(0);
-                                    if(data.code === '000000') {
-                                        jfguamai.jfvalue = "";
-                                        layer.msg("挂卖成功");
-                                    }
-                                });
-                            } else {
-                                layer.msg("安全码不能为空");
-                            }
-                        });
+                        
                     }
                 }
             }
         });
-        // 投注记录
-        $.post("http://39.108.55.80:8081" + "/home/getPools",{
-            "userId":1
-            // "status":1
-        },function(data){
-            var dt = data.result;
-            var integral_list = new Vue({
-                el:'#record_list',
-                data:{
-                    items:dt
-                }
-            });
+        $("#guamaiconfirm").on('click', function(){
+            var pwd = $("#guamaipwd").val();
+            if(pwd != '') {
+                // console.log(jfvalue);
+                $.post("http://39.108.55.80:8081/home/addBusiness", {
+                    userid:sessionStorage.id,
+                    selljf:jfguamai.jfvalue,
+                    safepwd:pwd
+                }, function(data){
+                    console.log(data);
+                    $(".hang_detail11").fadeOut(0);
+                    if(data.code === '000000') {
+                        jfguamai.jfvalue = "";
+                        layer.msg("挂卖成功");
+                    } else {
+                        layer.msg('挂卖失败');
+                    }
+                    $("#guamaipwd").val('');
+                    jfguamai.jfvalue = "";
+                });
+            } else {
+                layer.msg("安全码不能为空");
+            }
         });
-        // 未结明细
-        $.post("http://39.108.55.80:8081" + "/home/getPools",{
-            "userId":1,
-            "status":0
-        },function(data){
-            var dt = data.result;
-            // console.log(dt);
-            var missed_list = new Vue({
-                el:'#missed_list',
-                data:{
-                    items:dt
-                }
-            });
-        });
+       
+        
         
         // 赠送密钥
         var taskApplication = new Vue({
@@ -742,8 +728,8 @@ $(function(){
                 "userId":sessionStorage.id,
                 "username":$("#newUserName").val(),
                 "telephone":$("#newTelphone").val(),
-                "bankNum":$("#newBankName").val(),
-                "bankname":$("#newBankNum").val(),
+                "bankname":$("#newBankName").val(),
+                "bankNum":$("#newBankNum").val()
             },function(data){
                 if(data.code === '000000') {
                     $(".code_tip9").text("更新成功！");
@@ -752,6 +738,8 @@ $(function(){
                     sessionStorage.telephone = $("#newTelphone").val();
                     sessionStorage.bankName = $("#newBankName").val();
                     sessionStorage.bankNum = $("#newBankNum").val();
+                    $(".personal_data").find(".editUserInfo").css("display", "none");
+                    $(".editText").fadeIn(.3);
                 } else {
                     $(".code_tip9").text("更新失败！");
                     $(".hang_detail10").fadeIn(0);
@@ -853,7 +841,7 @@ $(function(){
                             jf:parseInt(this.jf)
                         },function(data){
                             if(data.code === '000000') {
-                                console.log(type);
+                                // console.log(type);
                                 if(type === 2 || type === 3 || type === 1) {
                                     //更新注册积分
                                     conversionBox.jfzhuce = sessionStorage.jfzhuce = parseInt(conversionBox.jfzhuce) - parseInt(core);

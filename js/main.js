@@ -1,4 +1,344 @@
 window.onload = function(){
+    // 头部标题
+    var topTitle = $(".main_header_title"),
+        contentTop = document.getElementById("data_content_top"),
+        contentTopBottom = document.getElementById("data_content_top_bottom"),
+        mask = document.getElementById("mask");
+        content = document.getElementById("content");
+    // 底部icon图标地址
+    var tabarIcon = {
+        "index_data":[
+            "/imgs/index1.png",
+            "/imgs/index2.png"
+        ],
+        "recreation_platform":[
+            "/imgs/recreation1.png",
+            "/imgs/recreation2.png",
+        ],
+        "personal_data":[
+            "/imgs/user1.png",
+            "/imgs/user2.png",
+        ]
+    }
+    // 选中当前显示的页面
+    function changePage(pageId){
+        sessionStorage.pageName = pageId;
+        $(".prepage").fadeOut(0);
+        $(".prepage")[0].setAttribute("id", "");
+        $("." + pageId).fadeIn(0.3).siblings().fadeOut(0);
+        if(pageId === 'missed_details'){
+            $(".prepage").fadeIn(0);
+            $(".prepage")[0].setAttribute("id", "recreation_platform");
+            // 未结明细
+            $.post("http://39.108.55.80:8081" + "/home/getPools",{
+                "userId":1,
+                "status":0
+            },function(data){
+                var dt = data.result;
+                // console.log(dt);
+                missed_list.items = dt;
+            });
+        }else if(pageId === 'betting_record') {
+            $(".prepage").fadeIn(0);
+            $(".prepage")[0].setAttribute("id", "recreation_platform");
+             // 投注记录
+            $.post("http://39.108.55.80:8081" + "/home/getPools",{
+                "userId":1
+                // "status":1
+            },function(data){
+                // console.log(data);
+                var dt = data.result;
+                integral_list.items = dt;
+            });
+        } else {
+            // 改变选中字体颜色
+            $("#" + pageId).css('color', '#EA4758').siblings().css('color', '#535353');
+            // 改变icon图标
+            $.each($(".footer a"), function(i, n){
+                var id_item_v = $(n).prop('id');
+                if(pageId === id_item_v) {
+                    $(n).children("i").css("backgroundImage", "url(" + tabarIcon[id_item_v][1] + ")");
+                } else {
+                    $(n).children("i").css("backgroundImage", "url(" + tabarIcon[id_item_v][0] + ")");
+                }
+            });
+            // 切换顶部标题
+            switch(pageId) {
+                case 'index_data': 
+                contentTop.style.transform = "translateY(0)";
+                content.style.transform = "translateY(0)";
+                topTitle.text('PK10');
+                break;
+                case 'recreation_platform': 
+                var lottery_box = new Vue({
+                    el:"#lottery_box",
+                    data:{
+                        gnumber:"",
+                        pl:"",
+                        bgm1:"",
+                        bgm2:"",
+                        bgm3:"",
+                        bgm4:"",
+                        bgm5:"",
+                        sgm1:"",
+                        sgm2:"",
+                        sgm3:"",
+                        sgm4:"",
+                        sgm5:"",
+                        single1:"",
+                        single2:"",
+                        single3:"",
+                        single4:"",
+                        single5:"",
+                        double1:"",
+                        double2:"",
+                        double3:"",
+                        double4:"",
+                        double5:"",
+                        sumbig:"",
+                        sumsmall:"",
+                        sumsingle:"",
+                        sumdoub:"",
+                        long:"",
+                        hu:"",
+                        allscore:0,
+                        winscore:0,
+                        showbet:false,
+                        jf:"",
+                        type:""
+                    },
+                    methods:{
+                        betSubmit:function(event){
+                            this.showbet = true;
+                            var setV = event.target.getAttribute("data-set");
+                            var jf = [], type = [];
+                            
+                            if(setV === '1') {
+                                event.target.setAttribute("data-set", 2);
+                                event.target.innerText = '下注';
+                                this.gnumber = $("#newgnumber").text()
+                                $("#newnumber").text($("#newgnumber").text());
+                                // 确认下注
+                                if(this.bgm1 != '') {
+                                    this.allscore += parseInt(this.bgm1);
+                                    jf.push(this.bgm1);
+                                    type.push('big1');
+                                }
+                                if(this.bgm2 != '') {
+                                    this.allscore += parseInt(this.bgm2);
+                                    jf.push(this.bgm2);
+                                    type.push('big2');
+                                }
+                                if(this.bgm3 != '') {
+                                    this.allscore += parseInt(this.bgm3);
+                                    jf.push(this.bgm3);
+                                    type.push('big3');
+                                }
+                                if(this.bgm4 != '') {
+                                    this.allscore += parseInt(this.bgm4);
+                                    jf.push(this.bgm4);
+                                    type.push('big4');
+                                }
+                                if(this.bgm5 != '') {
+                                    this.allscore += parseInt(this.bgm5);
+                                    jf.push(this.bgm5);
+                                    type.push('big5');
+                                }
+
+                                if(this.sgm1 != '') {
+                                    this.allscore += parseInt(this.sgm1);
+                                    jf.push(this.sgm1);
+                                    type.push('small1');
+                                }
+                                if(this.sgm2 != '') {
+                                    this.allscore += parseInt(this.sgm2);
+                                    jf.push(this.sgm2);
+                                    type.push('small2');
+                                }
+                                if(this.sgm3 != '') {
+                                    this.allscore += parseInt(this.sgm3);
+                                    jf.push(this.sgm3);
+                                    type.push('small3');
+                                }
+                                if(this.sgm4 != '') {
+                                    this.allscore += parseInt(this.sgm4);
+                                    jf.push(this.sgm4);
+                                    type.push('small4');
+                                }
+                                if(this.sgm5 != '') {
+                                    this.allscore += parseInt(this.sgm5);
+                                    jf.push(this.sgm5);
+                                    type.push('small5');
+                                }
+
+                                if(this.single1 != '') {
+                                    this.allscore += parseInt(this.single1);
+                                    jf.push(this.single1);
+                                    type.push('single1');
+                                }
+                                if(this.single2 != '') {
+                                    this.allscore += parseInt(this.single2);
+                                    jf.push(this.single2);
+                                    type.push('single2');
+                                }
+                                if(this.single3 != '') {
+                                    this.allscore += parseInt(this.single3);
+                                    jf.push(this.single3);
+                                    type.push('single3');
+                                }
+                                if(this.single4 != '') {
+                                    this.allscore += parseInt(this.single4);
+                                    jf.push(this.single4);
+                                    type.push('single4');
+                                }
+                                if(this.single5 != '') {
+                                    this.allscore += parseInt(this.single5);
+                                    jf.push(this.single5);
+                                    type.push('single5');
+                                }
+
+                                if(this.double1 != '') {
+                                    this.allscore += parseInt(this.double1);
+                                    jf.push(this.double1);
+                                    type.push('doub1');
+                                }
+                                if(this.double2 != '') {
+                                    this.allscore += parseInt(this.double2);
+                                    jf.push(this.double2);
+                                    type.push('doub2');
+                                }
+                                if(this.double3 != '') {
+                                    this.allscore += parseInt(this.double3);
+                                    jf.push(this.double3);
+                                    type.push('doub3');
+                                }
+                                if(this.double4 != '') {
+                                    this.allscore += parseInt(this.double4);
+                                    jf.push(this.double4);
+                                    type.push('doub4');
+                                }
+                                if(this.double5 != '') {
+                                    this.allscore += parseInt(this.double5);
+                                    jf.push(this.double5);
+                                    type.push('doub5');
+                                }
+
+                                if(this.sumbig != '') {
+                                    this.allscore += parseInt(this.sumbig);
+                                    jf.push(this.sumbig);
+                                    type.push('sumbig');
+                                }
+                                if(this.sumsmall != '') {
+                                    this.allscore += parseInt(this.sumsmall);
+                                    jf.push(this.sumsmall);
+                                    type.push('sumsmall');
+                                }
+                                if(this.sumsingle != '') {
+                                    this.allscore += parseInt(this.sumsingle);
+                                    jf.push(this.sumsingle);
+                                    type.push('sumsingle');
+                                }
+                                if(this.sumdoub != '') {
+                                    this.allscore += parseInt(this.sumdoub);
+                                    jf.push(this.sumdoub);
+                                    type.push('sumdoub');
+                                }
+                                if(this.long != '') {
+                                    this.allscore += parseInt(this.long);
+                                    jf.push(this.long);
+                                    type.push('long');
+                                }
+                                if(this.hu != '') {
+                                    this.allscore += parseInt(this.hu);
+                                    jf.push(this.hu);
+                                    type.push('hu');
+                                }
+                                this.winscore = (this.allscore * parseFloat(this.pl)).toFixed(1);
+                                // console.log(jf.join(','));
+                                // console.log(type.join(','));
+                                this.jf = jf.join(',');
+                                this.type = type.join(',');
+                                console.log(this.jf);
+                            } else {
+                                // console.log(lottery_box.jf);
+                                $.post("http://39.108.55.80:8081/home/addPool",{
+                                    userId:sessionStorage.id,
+                                    gmnum:lottery_box.gnumber,
+                                    jf:lottery_box.jf,
+                                    type:lottery_box.type,
+                                    count:1
+                                }, function(data){
+                                    // console.log(data);
+                                    if(data.code === '000000') {
+                                        layer.msg('下注成功');
+                                        sessionStorage.jftask = parseInt(sessionStorage.jftask) - parseInt(lottery_box.allscore);
+                                    } else {
+                                    layer.msg(data.message); 
+                                    }
+                                    lottery_box.allscore = 0;
+                                    lottery_box.winscore = 0;
+                                    this.showbet = false;
+                                })
+                            }
+                        },
+                        resetBet:function(event){
+                            $("#betSubmit")[0].setAttribute("data-set", 1);
+                            $("#betSubmit").text("确认");
+                            this.showbet = false;
+                            this.bgm1 = "";
+                            this.bgm2 = "";
+                            this.bgm3 = "";
+                            this.bgm4 = "";
+                            this.bgm5 = "";
+
+                            this.sgm1 = "";
+                            this.sgm2 = "";
+                            this.sgm3 = "";
+                            this.sgm4 = "";
+                            this.sgm5 = "";
+
+                            this.single1 = "";
+                            this.single2 = "";
+                            this.single3 = "";
+                            this.single4 = "";
+                            this.single5 = "";
+
+                            this.double1 = "";
+                            this.double2 = "";
+                            this.double3 = "";
+                            this.double4 = "";
+                            this.double5 = "";
+
+                            this.sumbig = "";
+                            this.sumsmall = "";
+                            this.sumsingle = "";
+                            this.sumdoub = "";
+                            this.long = "";
+                            this.hu = "";
+                            this.jf = "";
+                            this.type = "";
+                        }
+                    }
+                });
+                $.post("http://39.108.55.80:8081/jf/getJf?number=003", function(data){
+                    var d = data.result.data;
+                    // console.log(data);
+                    lottery_box.pl = d;
+                });
+                topTitle.text('娱乐中心');
+                break;
+                case 'personal_data': 
+                contentTop.style.transform = "translateY(45px)";
+                content.style.transform = "translateY(40px)";
+                topTitle.text('PK10');
+                showOrHideEditButton($("#" + pageId).prop('class'));
+                break;
+            }
+        }
+    }
+    if(sessionStorage.pageName != '') {
+        changePage(sessionStorage.pageName);
+    }
     // 侧边动态
     // var leftBar = document.getElementById("leftBar"),
     //     mainContent = document.getElementById("main_content");
@@ -16,272 +356,11 @@ window.onload = function(){
     //     }
     // }
 
-    // 底部icon图标地址
-    var tabarIcon = {
-        "index_data":[
-            "/imgs/index1.png",
-            "/imgs/index2.png"
-        ],
-        "recreation_platform":[
-            "/imgs/recreation1.png",
-            "/imgs/recreation2.png",
-        ],
-        "personal_data":[
-            "/imgs/user1.png",
-            "/imgs/user2.png",
-        ]
-    }
-
-    // 头部标题
-    var topTitle = $(".main_header_title"),
-        contentTop = document.getElementById("data_content_top"),
-        contentTopBottom = document.getElementById("data_content_top_bottom"),
-        mask = document.getElementById("mask");
-        content = document.getElementById("content");
-
     // 底部Tabar切换
     $("#index_data, #recreation_platform, #personal_data").on("click", function(){
         var id = $(this).prop("id");
         changePage(id);
-        // 改变选中字体颜色
-        $(this).css('color', '#EA4758').siblings().css('color', '#535353');
-        // 改变icon图标
-        $.each($(".footer a"), function(i, n){
-            var id_item_v = $(n).prop('id');
-            if(id === id_item_v) {
-                $(n).children("i").css("backgroundImage", "url(" + tabarIcon[id_item_v][1] + ")");
-            } else {
-                $(n).children("i").css("backgroundImage", "url(" + tabarIcon[id_item_v][0] + ")");
-            }
-        });
-        // 切换顶部标题
-        switch(id) {
-            case 'index_data': 
-            contentTop.style.transform = "translateY(0)";
-            content.style.transform = "translateY(0)";
-            topTitle.text('PK10');
-            break;
-            case 'recreation_platform': 
-            var lottery_box = new Vue({
-                el:"#lottery_box",
-                data:{
-                    gnum:parseInt($("#gnumber").text()) + 1,
-                    gnumber:"",
-                    pl:"",
-                    bgm1:"",
-                    bgm2:"",
-                    bgm3:"",
-                    bgm4:"",
-                    bgm5:"",
-                    sgm1:"",
-                    sgm2:"",
-                    sgm3:"",
-                    sgm4:"",
-                    sgm5:"",
-                    single1:"",
-                    single2:"",
-                    single3:"",
-                    single4:"",
-                    single5:"",
-                    double1:"",
-                    double2:"",
-                    double3:"",
-                    double4:"",
-                    double5:"",
-                    sumbig:"",
-                    sumsmall:"",
-                    sumsingle:"",
-                    sumdoub:"",
-                    long:"",
-                    hu:"",
-                    allscore:0,
-                    winscore:0,
-                    showbet:false
-                },
-                methods:{
-                    betSubmit:function(event){
-                        this.showbet = true;
-                        var setV = event.target.getAttribute("data-set");
-                        var jf = [], type = [];
-                        if(setV === '1') {
-                            event.target.setAttribute("data-set", 2);
-                            event.target.innerText = '确认';
-                            this.gnumber = $("#newgnumber").text()
-                            $("#newnumber").text($("#newgnumber").text());
-                        } else {
-                            // 确认下注
-                            if(this.bgm1 != '') {
-                                this.allscore += parseInt(this.bgm1);
-                                jf.push(this.bgm1);
-                                type.push('bgm1');
-                            }
-                            if(this.bgm2 != '') {
-                                this.allscore += parseInt(this.bgm2);
-                                jf.push(this.bgm2);
-                                type.push('bgm2');
-                            }
-                            if(this.bgm3 != '') {
-                                this.allscore += parseInt(this.bgm3);
-                                jf.push(this.bgm3);
-                                type.push('bgm3');
-                            }
-                            if(this.bgm4 != '') {
-                                this.allscore += parseInt(this.bgm4);
-                                jf.push(this.bgm4);
-                                type.push('bgm4');
-                            }
-                            if(this.bgm5 != '') {
-                                this.allscore += parseInt(this.bgm5);
-                                jf.push(this.bgm5);
-                                type.push('bgm5');
-                            }
-
-                            if(this.sgm1 != '') {
-                                this.allscore += parseInt(this.sgm1);
-                                jf.push(this.sgm1);
-                                type.push('sgm1');
-                            }
-                            if(this.sgm2 != '') {
-                                this.allscore += parseInt(this.sgm2);
-                                jf.push(this.sgm2);
-                                type.push('sgm2');
-                            }
-                            if(this.sgm3 != '') {
-                                this.allscore += parseInt(this.sgm3);
-                                jf.push(this.sgm3);
-                                type.push('sgm3');
-                            }
-                            if(this.sgm4 != '') {
-                                this.allscore += parseInt(this.sgm4);
-                                jf.push(this.sgm4);
-                                type.push('sgm4');
-                            }
-                            if(this.sgm5 != '') {
-                                this.allscore += parseInt(this.sgm5);
-                                jf.push(this.sgm5);
-                                type.push('sgm5');
-                            }
-
-                            if(this.single1 != '') {
-                                this.allscore += parseInt(this.single1);
-                                jf.push(this.single1);
-                                type.push('single1');
-                            }
-                            if(this.single2 != '') {
-                                this.allscore += parseInt(this.single2);
-                                jf.push(this.single2);
-                                type.push('single2');
-                            }
-                            if(this.single3 != '') {
-                                this.allscore += parseInt(this.single3);
-                                jf.push(this.single3);
-                                type.push('single3');
-                            }
-                            if(this.single4 != '') {
-                                this.allscore += parseInt(this.single4);
-                                jf.push(this.single4);
-                                type.push('single4');
-                            }
-                            if(this.single5 != '') {
-                                this.allscore += parseInt(this.single5);
-                                jf.push(this.single5);
-                                type.push('single5');
-                            }
-
-                            if(this.double1 != '') {
-                                this.allscore += parseInt(this.double1);
-                                jf.push(this.double1);
-                                type.push('double1');
-                            }
-                            if(this.double2 != '') {
-                                this.allscore += parseInt(this.double2);
-                                jf.push(this.double2);
-                                type.push('double2');
-                            }
-                            if(this.double3 != '') {
-                                this.allscore += parseInt(this.double3);
-                                jf.push(this.double3);
-                                type.push('double3');
-                            }
-                            if(this.double4 != '') {
-                                this.allscore += parseInt(this.double4);
-                                jf.push(this.double4);
-                                type.push('double4');
-                            }
-                            if(this.double5 != '') {
-                                this.allscore += parseInt(this.double5);
-                                jf.push(this.double5);
-                                type.push('double5');
-                            }
-
-                            if(this.sumbig != '') {
-                                this.allscore += parseInt(this.sumbig);
-                                jf.push(this.sumbig);
-                                type.push('sumbig');
-                            }
-                            if(this.sumsmall != '') {
-                                this.allscore += parseInt(this.sumsmall);
-                                jf.push(this.sumsmall);
-                                type.push('sumsmall');
-                            }
-                            if(this.sumsingle != '') {
-                                this.allscore += parseInt(this.sumsingle);
-                                jf.push(this.sumsingle);
-                                type.push('sumsingle');
-                            }
-                            if(this.sumdoub != '') {
-                                this.allscore += parseInt(this.sumdoub);
-                                jf.push(this.sumdoub);
-                                type.push('sumdoub');
-                            }
-                            if(this.long != '') {
-                                this.allscore += parseInt(this.long);
-                                jf.push(this.long);
-                                type.push('long');
-                            }
-                            if(this.hu != '') {
-                                this.allscore += parseInt(this.hu);
-                                jf.push(this.hu);
-                                type.push('hu');
-                            }
-                            console.log(jf.join(','));
-                            console.log(type.join(','));
-                            $.post("http://39.108.55.80:8081/home/addPool",{
-                                userid:sessionStorage.id,
-                                gmnum:lottery_box.gnumber,
-                                jf:jf.join(','),
-                                type:type.join(',')
-                            }, function(data){
-                                console.log(data);
-                                if(data.code === '000000') {
-                                    layer.msg('下注成功');
-                                } else {
-                                   layer.msg('下注失败'); 
-                                }
-                            })
-                        }
-                    },
-                    resetBet:function(event){
-                        $("#betSubmit")[0].setAttribute("data-set", 1);
-                        $("#betSubmit").text("下注");
-                        this.showbet = false;
-                    }
-                }
-            });
-            $.post("http://39.108.55.80:8081/jf/getJf?number=003", function(data){
-                var d = data.result.data;
-                console.log(data);
-                lottery_box.pl = d;
-            });
-            topTitle.text('娱乐中心');
-            break;
-            case 'personal_data': 
-            contentTop.style.transform = "translateY(45px)";
-            content.style.transform = "translateY(40px)";
-            topTitle.text('PK10');
-            showOrHideEditButton($(this).prop('class'));
-            break;
-        }
+        
     });
 
     // 顶部导航栏点击事件
@@ -329,13 +408,17 @@ window.onload = function(){
     function formateTimeStamp(timestamp){
         var time = new Date(timestamp);
         var y = time.getFullYear();//年
-        var m = time.getMonth() + 1;//月
-        var d = time.getDate();//日
+        var m = time.getMonth() + 1 < 10 ? "0" + (time.getMonth() + 1) : time.getMonth() + 1;//月
+        var d = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();//日
         var h = time.getHours() < 10 ? "0" + time.getHours() : time.getHours();//时
         var mm = time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();//分
         var s = time.getSeconds();//秒
-        return y+"-"+m+"-"+d+" "+h+":"+mm;
+        return y+"."+m+"."+d+" "+h+":"+mm;
     }
+
+    Vue.filter('formateDate', function (value) {
+        return formateTimeStamp(value);
+    })
 
 
     // 子菜单点击事件
@@ -360,11 +443,6 @@ window.onload = function(){
                     el:"#goumailist",
                     data:{
                         items:""
-                    },
-                    filters:{
-                        formateDate:function(value){
-                            return formateTimeStamp(value);
-                        }
                     }
                 });
                 $.post("http://39.108.55.80:8081/home/getBusiness?userid=" + sessionStorage.id + "&type=" + 2, function(data){
@@ -428,35 +506,36 @@ window.onload = function(){
                 break;
                 case 'integral_center':
                 // 中心积分报表
-                var inputList = new Vue({
-                    el:"#inputList",
+                var inputJfList = new Vue({
+                    el:"#inputJfList",
                     data:{
                         items:""
                     }
                 });
-                var outputList = new Vue({
-                    el:"#outputList",
+                var outJfputList = new Vue({
+                    el:"#outJfputList",
                     data:{
                         items:""
                     }
                 });
-                setTimeout(function(){
-                    $.post("http://39.108.55.80:8081/jf/getCenterJf",{
+                $.post("http://39.108.55.80:8081/jf/getCenterJf",{
                         userId:sessionStorage.id,
                         type:1
                     }, function(data){
-                        console.log(data);
+                        // console.log(data.result);
                         var dt = data.result;
-                        outputList.items = dt;
+                        for(var i = 0;i < dt.length;i++) {
+                            dt[i].createdate = formateTimeStamp(dt[i].createdate);
+                        }
+                        outJfputList.items = dt;
                     });
-                }, 1000);
                 $.post("http://39.108.55.80:8081/jf/getCenterJf",{
                     userId:sessionStorage.id,
                     type:0
                 },function(data){
-                    console.log(data);
+                    console.log(data.result);
                     var dt = data.result;
-                    inputList.items = dt;
+                    inputJfList.items = dt;
                 });
                 topTitle.text('中心积分报表');
                 break;
@@ -467,6 +546,32 @@ window.onload = function(){
                 topTitle.text('任务积分报表');
                 break;
                 case 'Trading_points':
+                var inputguamaiList = new Vue({
+                    el:"#inputguamaiList",
+                    data:{
+                        items:[]
+                    }
+                });
+                var outputguamaiList = new Vue({
+                    el:"#outputguamaiList",
+                    data:{
+                        items:[]
+                    }
+                });
+                $.post("http://39.108.55.80:8081/home/getBusiness",{
+                    userid:sessionStorage.id,
+                    type:1
+                }, function(data){
+                    // console.log(data.result);
+                    inputguamaiList.items = data.result;
+                });
+                $.post("http://39.108.55.80:8081/home/getBusiness",{
+                    userid:sessionStorage.id,
+                    type:0
+                }, function(data){
+                    // console.log(data.result);
+                    outputguamaiList.items = data.result;
+                });
                 topTitle.text('交易积分报表');
                 break;
             }
@@ -477,7 +582,7 @@ window.onload = function(){
         }
     }
 
-    $("#missed_details,#betting_record").on("click", function(){
+    $("#missed_details,#betting_record,.prepage").on("click", function(){
         var idv = $(this).prop("id");
         changePage(idv);
     })
@@ -516,10 +621,18 @@ window.onload = function(){
         $("#selectBox").hide(0);
     }
 
-    // 选中当前显示的页面
-    function changePage(pageId){
-        $("." + pageId).fadeIn(0.3).siblings().fadeOut(0);
-    }
+    var integral_list = new Vue({
+        el:'#record_list',
+        data:{
+            items:""
+        }
+    });
+    var missed_list = new Vue({
+        el:'#missed_list',
+        data:{
+            items:""
+        }
+    });
     
     // 隐藏或显示编辑个人信息按钮
     function showOrHideEditButton(className){

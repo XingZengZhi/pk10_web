@@ -13,6 +13,7 @@
 </head>
 <body>
     <header class="main_header" id="mainHead">
+        <span class="prepage">←</span>
         <p class="main_header_title textCenter">PK10</p>
         <span class="exit" @click="userExit">退出</span>
         <!-- <section>
@@ -252,7 +253,7 @@
                                 <i class="icon-li data_base_icon1"></i>
                                 彩种/投注时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.gmname}}/{{item.create_date}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.gmname}}/{{item.create_date | formateDate}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -301,7 +302,7 @@
                                 <i class="icon-li data_base_icon1"></i>
                                 彩种/投注时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.gmname}}/{{item.create_date}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.gmname}}/{{item.create_date | formateDate}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -661,7 +662,7 @@
                     <div class="leader_board">
                         <span class="leader_board_head">挂卖信息</span>
                     </div>
-                    <div class="leader_list" id="inputList">
+                    <div class="leader_list" id="inputguamaiList">
                         <div class="leader_list_item">
                             <div>挂卖积分数量</div>
                             <div>挂卖时间</div>
@@ -669,10 +670,10 @@
                             <div>购买时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>1200</div>
-                            <div>2018.08.08</div>
-                            <div>b2a</div>
-                            <div>2018.08.08</div>
+                            <div>{{item.selljf}}</div>
+                            <div>{{item.create_date | formateDate}}</div>
+                            <div>{{item.sellername}}</div>
+                            <div>{{item.buytime | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -680,7 +681,7 @@
                     <div class="leader_board">
                         <span class="leader_board_head">购买信息</span>
                     </div>
-                    <div class="leader_list" id="outputList">
+                    <div class="leader_list" id="outputguamaiList">
                         <div class="leader_list_item">
                             <div>挂卖积分数量</div>
                             <div>挂卖时间</div>
@@ -688,10 +689,10 @@
                             <div>购买时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>1200</div>
-                            <div>2018.08.08</div>
-                            <div>b2a</div>
-                            <div>2018.08.08</div>
+                            <div>{{item.selljf}}</div>
+                            <div>{{item.create_date | formateDate}}</div>
+                            <div>{{item.sellername}}</div>
+                            <div>{{item.buytime | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -710,10 +711,10 @@
                             <div>转回积分数量</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>1200</div>
+                            <!-- <div>1200</div>
                             <div>2018.08.08</div>
                             <div><span>赢</span></div>
-                            <div>2400</div>
+                            <div>2400</div> -->
                         </div>
                     </div>
                 </div>
@@ -747,8 +748,8 @@
                             <div>转回积分数量</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>12</div>
-                            <div>2018.08.08</div>
+                            <!-- <div>12</div>
+                            <div>2018.08.08</div> -->
                         </div>
                     </div>
                 </div>
@@ -763,9 +764,9 @@
                             <div>赠送时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>B12</div>
+                            <!-- <div>B12</div>
                             <div>12</div>
-                            <div>2018.08.08</div>
+                            <div>2018.08.08</div> -->
                         </div>
                     </div>
                 </div>
@@ -776,16 +777,16 @@
                     <div class="leader_board">
                         <span class="leader_board_head">转入积分</span>
                     </div>
-                    <div class="leader_list" id="inputList">
+                    <div class="leader_list" id="inputJfList">
                         <div class="leader_list_item">
-                            <div>转入类型</div>
+                            <div>类型</div>
                             <div>积分数量</div>
                             <div>转入时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>注册积分转入交易积分</div>
+                            <div>{{item.type}}</div>
                             <div>{{item.tokennum}}</div>
-                            <div>{{item.create_date}}</div>
+                            <div>{{item.createdate}}</div>
                         </div>
                     </div>
                 </div>
@@ -793,16 +794,16 @@
                     <div class="leader_board">
                         <span class="leader_board_head">转出积分</span>
                     </div>
-                    <div class="leader_list" id="outputList">
+                    <div class="leader_list" id="outJfputList">
                         <div class="leader_list_item">
-                            <div>转入类型</div>
+                            <div>类型</div>
                             <div>积分数量</div>
                             <div>转入时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
                             <div>{{item.type}}</div>
-                            <div>{{item.tokennum}}</div>
-                            <div>{{item.create_date}}</div>
+                            <div>{{item.num}}</div>
+                            <div>{{item.createdate | formatDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -1042,7 +1043,7 @@
                     <ul>
                         <li class="div_lottery_li">
                             <div class="lottery">
-                                <span class="lottery_title lottery_color_red fontWeightBold marginRight5" id="newgnumber">{{gnum}}</span>
+                                <span class="lottery_title lottery_color_red fontWeightBold marginRight5" id="newgnumber"></span>
                                 <span class="lottery_title lottery_color">期</span>
                             </div>
                             <div class="lottery">
@@ -1275,7 +1276,7 @@
                         <li class="div_lottery_li" id="xiazhubtn">
                             <div class="bet">
                                 <button type="button" class="bet_l" id="resetBet" @click="resetBet">重置</button>
-                                <button type="button" class="bet_r" id="betSubmit" data-set="1" @click="betSubmit">下注</button>
+                                <button type="button" class="bet_r" id="betSubmit" data-set="1" @click="betSubmit">确认</button>
                             </div>
                         </li>
                     </ul>
@@ -1388,7 +1389,7 @@
                                     真实姓名
                                 </span>
                                 <div>
-                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新名称" v-model="newUserName" id="newUserName" name="username" />
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新名称" id="newUserName" name="username" value="{{username}}" />
                                     <span class="data_base_span data_base_titleRight" id="editUsername">{{username}}</span>
                                     <!-- <span class="data_base_span data_base_titleRight editText">修改</span> -->
                                 </div>
@@ -1399,7 +1400,7 @@
                                     手机号码
                                 </span>
                                 <div>
-                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新手机号码" v-model="newTelphone" id="newTelphone" name="telephone" />
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新手机号码" id="newTelphone" name="telephone" />
                                     <span class="data_base_span data_base_titleRight" id="editTelphone">{{telephone}}</span>
                                     <!-- <span class="data_base_span data_base_titleRight editText">修改</span> -->
                                 </div>
@@ -1410,7 +1411,7 @@
                                     银行名称
                                 </span>
                                 <div>
-                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行名称" v-model="newBankName" id="newBankName" name="bankName" />
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行名称" id="newBankName" name="bankName" />
                                     <span class="data_base_span data_base_titleRight" id="editBankname">{{bankName}}</span>
                                     <!-- <span class="data_base_span data_base_titleRight editText">修改</span> -->
                                 </div>
@@ -1421,7 +1422,7 @@
                                     银行卡号
                                 </span>
                                 <div>
-                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行卡号" v-model="newBankNum" id="newBankNum" name="bankNum" />
+                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新银行卡号" id="newBankNum" name="bankNum" />
                                     <span class="data_base_span data_base_titleRight" id="editBanknum">{{bankNum}}</span>
                                     <!-- <span class="data_base_span data_base_titleRight editText">修改</span> -->
                                 </div>
@@ -1769,7 +1770,7 @@
                 <li style="justify-content: center;">
                     <div class="leader_board">
                         <div class="leader_button">
-                            <button type="button" class="leader_btn leader_btn_active" id="guamai">确认</button>
+                            <button type="button" class="leader_btn leader_btn_active" id="guamaiconfirm">确认</button>
                         </div>
                     </div>
                 </li>
