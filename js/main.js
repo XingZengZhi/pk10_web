@@ -747,12 +747,27 @@ window.onload = function(){
         //执行实例
         var uploadAliPay = upload.render({
             elem: '#test1' //绑定元素
-            ,url: '/upload/' //上传接口
+            ,url: 'http://39.108.55.80:8081/user/updateImage' //上传接口
+            ,accept:'images'
+            ,field:'file'
+            ,data:{
+                userId:sessionStorage.id,
+                type:'ali'
+            }
+            ,before:function(){
+                layer.load(2);
+            }
             ,done: function(res){
+                // console.log(res);
+                layer.closeAll('loading');
                 //上传完毕回调
                 $("#editAliPay").fadeIn(0);
+                $("#test1").fadeOut(0);
+                $("#editAliPay").children('img').prop('src', 'http://39.108.55.80' + res.result);
+                sessionStorage.alipaypic = 'http://39.108.55.80' + res.result;
             }
             ,error: function(){
+                layer.closeAll('loading');
                 //请求异常回调
                 layer.msg('上传支付宝收款码失败');
             }
@@ -760,12 +775,27 @@ window.onload = function(){
 
         var uploadWxPay = upload.render({
             elem: '#test2' //绑定元素
-            ,url: '/upload/' //上传接口
+            ,url: 'http://39.108.55.80:8081/user/updateImage' //上传接口
+            ,accept:'images'
+            ,field:'file'
+            ,data:{
+                userId:sessionStorage.id,
+                type:'weixin'
+            }
+            ,before:function(){
+                layer.load(2);
+            }
             ,done: function(res){
+                // console.log(res);
+                layer.closeAll('loading');
                 //上传完毕回调
                 $("#editWxPay").fadeIn(0);
+                $("#test2").fadeOut(0);
+                $("#editWxPay").children('img').prop('src', 'http://39.108.55.80' + res.result);
+                sessionStorage.weixinpic = 'http://39.108.55.80' + res.result;
             }
             ,error: function(){
+                layer.closeAll('loading');
                 //请求异常回调
                 layer.msg('上传微信收款码失败');
             }

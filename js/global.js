@@ -1,3 +1,4 @@
+var golobalURL = "http://120.79.46.90:8080";
 // 全局参数刷新
 var globalInfo = {
     updateSession:function() {
