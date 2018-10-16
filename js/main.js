@@ -20,6 +20,32 @@ window.onload = function(){
             "/imgs/user2.png",
         ]
     }
+    var numNames = {
+        "big1":"1号球大",
+        "big2":"2号球大",
+        "big3":"3号球大",
+        "big4":"4号球大",
+        "big5":"5号球大",
+        "sumbig":"总和大",
+        "small1":"1号球小",
+        "small2":"2号球小",
+        "small3":"3号球小",
+        "small4":"4号球小",
+        "small5":"5号球小",
+        "sumsmall":"总和小",
+        "single1":"1号球单",
+        "single2":"2号球单",
+        "single3":"3号球单",
+        "single4":"4号球单",
+        "single5":"5号球单",
+        "sumsingle":"总和单",
+        "doub1":"1号球双",
+        "doub1":"2号球双",
+        "doub1":"3号球双",
+        "doub1":"4号球双",
+        "doub1":"5号球双",
+        "sumdoub":"总和双"
+    }
     // 选中当前显示的页面
     function changePage(pageId){
         sessionStorage.pageName = pageId;
@@ -37,6 +63,10 @@ window.onload = function(){
             },function(data){
                 layer.close(loadIndex);
                 var dt = data.result;
+                console.log(dt);
+                for(var i = 0;i < dt.length;i++) {
+                    dt[i].buyinfo = numNames[dt[i].buyinfo];
+                }
                 missed_list.items = dt;
                 if(data.code != '000000') {
                     layer.msg('加载失败，请重试');
@@ -53,6 +83,9 @@ window.onload = function(){
             },function(data){
                 layer.close(loadIndex);
                 var dt = data.result;
+                for(var i = 0;i < dt.length;i++) {
+                    dt[i].buyinfo = numNames[dt[i].buyinfo];
+                }
                 integral_list.items = dt;
                 if(data.code != '000000') {
                     layer.msg('加载失败，请重试');
@@ -442,7 +475,7 @@ window.onload = function(){
                     }
                 });
                 $.post("http://39.108.55.80:8081/home/getBusiness?userid=" + sessionStorage.id + "&type=" + 2, function(data){
-                    // console.log(data.result);
+                    console.log(data.result);
                     layer.close(loadIndex);
                     goumailist.items = data.result;
                     if(data.code != '000000') {
@@ -548,6 +581,9 @@ window.onload = function(){
                         return;
                     }
                     var dt = data.result;
+                    for(var i = 0;i < dt.length;i++) {
+                        dt[i].createdate = formateTimeStamp(dt[i].createdate);
+                    }
                     inputJfList.items = dt;
                 });
                 topTitle.text('中心积分报表');

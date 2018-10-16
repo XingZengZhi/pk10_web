@@ -294,13 +294,14 @@ $(function(){
                 $.get("http://39.108.55.80:8081" + '/user/getChilds?page='+page,{
                     "userId":sessionStorage.id
                 }, function(res){
+                    // console.log(res.result);
                     layui.each(res.result, function(index, item){
                         var date = new Date(item.createDate),
                         Y = date.getFullYear() + '-',
                         M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
                         D = date.getDate() + ' ',
-                        h = date.getHours() + ':',
-                        m = date.getMinutes();
+                        h = (date.getHours()+1 < 10 ? '0'+(date.getHours()+1) : date.getHours()+1) + ':',
+                        m = (date.getMinutes()+1 < 10 ? '0'+(date.getMinutes()+1) : date.getMinutes()+1);
                         // s = date.getSeconds();
                         lis.push('<div class="data_base">'+ 
                             '<ul class="data_base_list">' +
@@ -534,6 +535,23 @@ $(function(){
             "userId":1
             // "status":1
         },function(data){
+            // $("#guamaiconfirm").off('click').on('click', function(){
+            //     var pwd = $("#guamaipwd").val();
+            //     if(pwd != '') {
+            //         $.post("http://39.108.55.80:8081/home/updateBusiness",{
+            //             id:id,
+            //             status:2,
+            //             userid:sessionStorage.id,
+            //             safepwd:$("#guamaipwd").val()
+            //         }, function(data){
+            //             console.log(data);
+            //             $(".hang_detail11").fadeOut(0);
+            //         });
+            //     } else {
+            //         layer.msg("安全码不能为空");
+            //     }
+            //     $("#guamaipwd").val('');
+            // });
             var dt = data.result;
             var integral_list = new Vue({
                 el:'#integral_list',
@@ -543,7 +561,7 @@ $(function(){
                 methods:{
                     confirmHang:function(event){
                         var id = event.target.dataset.id;
-                        console.log(event.target.dataset.id);
+                        // console.log(event.target.dataset.id);
                         $(".hang_detail11").fadeIn(0);
                         $(".close_detail11").on('click', function(){
                             $(".hang_detail11").fadeOut(0);
@@ -552,23 +570,7 @@ $(function(){
                 }
             });
         });
-        $("#guamaiconfirm").on('click', function(){
-            var pwd = $("#guamaipwd").val();
-            if(pwd != '') {
-                $.post("http://39.108.55.80:8081/home/updateBusiness",{
-                    id:id,
-                    status:2,
-                    userid:sessionStorage.id,
-                    safepwd:$("#guamaipwd").val()
-                }, function(data){
-                    console.log(data);
-                    $(".hang_detail11").fadeOut(0);
-                });
-            } else {
-                layer.msg("安全码不能为空");
-            }
-            $("#guamaipwd").val('');
-        });
+        
         // 挂卖交易积分
         var jfguamai = new Vue({
             el:"#guamaijf",
@@ -590,12 +592,12 @@ $(function(){
                         $(".close_detail11").on('click', function(){
                             $(".hang_detail11").fadeOut(0);
                         });
-                        
+                        this.jfvalue = sessionStorage.jfbusiness = parseInt(sessionStorage.jfbusiness) - parseInt(jfvalue);
                     }
                 }
             }
         });
-        $("#guamaiconfirm").on('click', function(){
+        $("#guamaiconfirm").off('click').on('click', function(){
             var pwd = $("#guamaipwd").val();
             if(pwd != '') {
                 // console.log(jfvalue);
@@ -610,7 +612,7 @@ $(function(){
                         jfguamai.jfvalue = "";
                         layer.msg("挂卖成功");
                     } else {
-                        layer.msg('挂卖失败');
+                        layer.msg(data.result);
                     }
                     $("#guamaipwd").val('');
                     jfguamai.jfvalue = "";
@@ -620,25 +622,26 @@ $(function(){
             }
         });
        
-        // 赠送密钥
+        // 任务申请
         var taskApplication = new Vue({
             el:"#task_application",
             data:{
-                taskToken:sessionStorage.taskToken
+                taskTokenApply:sessionStorage.taskToken
             },
             methods:{
                 giftKey:function(event){
-                    if(parseInt(this.taskToken) <= 0) {
+                    if(parseInt(this.taskTokenApply) <= 0) {
                         layer.msg("已经没有足够的任务密钥了！");
                         return;
                     }
                     $.post("http://39.108.55.80:8081" + "/home/addTask",{
-                        "userid":1
+                        "userid":sessionStorage.id
                     }, function(data){
                         $(".hang_detail5").fadeIn(.3);
                         $(".code_tip4").show(0);
                         if(data.code === '000000'){
-                            sessionStorage.taskToken = taskApplication.taskToken = parseInt(sessionStorage.taskToken) - 1;
+                            sessionStorage.taskToken = parseInt(sessionStorage.taskToken) - 1;
+                            $("#taskTokenApply").text(sessionStorage.taskToken);
                             $(".code_tip4").text("申请已提交！");
                         } else {
                             layer.msg(data.message);
@@ -684,6 +687,7 @@ $(function(){
                                 safepwd:this.safepwd,
                                 pid:sessionStorage.id
                             }, function(data){
+                                console.log(data);
                                 if(data.code === '000000') {
                                     sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) - parseInt(openAccount.jfzhuce);
                                     updateUserCoreInfo();
@@ -786,12 +790,16 @@ $(function(){
                             safepwd:this.safepwd,
                             userid:sessionStorage.id
                         },function(data){
+                            console.log(data);
                             if(data.code === '000000') {
                                 taskGift.account = "";
                                 taskGift.num = "";
                                 taskGift.safepwd = "";
+                                layer.msg(data.result);
+                                $("#taskGiftToken").text(parseInt(sessionStorage.taskToken) - parseInt(taskGift.num));
+                            } else {
+                                layer.msg(data.message);
                             }
-                            layer.msg(data.message);
                         });
                     }
                 }
@@ -848,14 +856,15 @@ $(function(){
                     }
                     if(type != 0) {
                         var core = this.jf;
+                        // console.log(type);
                         $.post("http://39.108.55.80:8081" + "/jf/transforjf",{
                             userId:sessionStorage.id,
                             type:type,
                             jf:parseInt(conversionBox.jf)
                         },function(data){
-                            // console.log(data);
+                            console.log(data);
                             if(data.code === '000000') {
-                                // console.log(type);
+                                console.log(type);
                                 if(type === 2 || type === 3 || type === 1) {
                                     //更新注册积分
                                     conversionBox.jfzhuce = sessionStorage.jfzhuce = parseInt(conversionBox.jfzhuce) - parseInt(core);

@@ -785,8 +785,8 @@
                         </div>
                         <div class="leader_list_item" v-for="item in items">
                             <div>{{item.type}}</div>
-                            <div>{{item.tokennum}}</div>
-                            <div>{{item.createdate}}</div>
+                            <div>{{item.num}}</div>
+                            <div>{{item.createdate | formatDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -917,7 +917,7 @@
                             你可在此处进行任务申请，一次任务申请需扣除一个密钥。
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items: center;margin-top:20px;">
-                            <span style="color:rgb(87, 85, 85);">您当前的任务密钥</span><span class="taskToken">{{taskToken}}</span>
+                            <span style="color:rgb(87, 85, 85);">您当前的任务密钥</span><span class="taskToken" id="taskTokenApply">{{taskTokenApply}}</span>
                         </div>
                         <div>
                             <button type="button" class="confirm_create_account" id="apply_button" @click="giftKey">立即申请</button>
@@ -934,7 +934,7 @@
                     <div class="createAccountItem">
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span>你当前的任务密钥</span>
-                            <span class="taskToken"></span>
+                            <span class="taskToken" id="taskGiftToken"></span>
                         </div>
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="color:#ccc;">转账账号</span>
@@ -946,7 +946,7 @@
                         </div>
                         <div style="height:45px;display:flex;justify-content:space-between;align-items:center;">
                             <span style="color:#ccc;">安全密码</span>
-                            <input type="text" placeholder="请输入密码" v-model="safepwd" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
+                            <input type="password" placeholder="请输入密码" v-model="safepwd" style="border:none;display: block;height:40px;text-align:right;color:#ccc;" />
                         </div>
                         <div>
                             <button type="button" class="confirm_create_account" id="gift_button" @click="giftButton">确认赠送</button>
