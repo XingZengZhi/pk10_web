@@ -13,18 +13,9 @@
 </head>
 <body>
     <header class="main_header" id="mainHead">
-        <span class="prepage">←</span>
+        <span class="prepage"><img src="/imgs/backpage.png" alt="" /></span>
         <p class="main_header_title textCenter">PK10</p>
         <span class="exit" @click="userExit">退出</span>
-        <!-- <section>
-            <a href="javascript:;" id="leftBar" class="main_header_title" data-isshow="false">
-                <i class="icon-menu"></i>
-            </a>
-        </section>
-        <section>
-            <a href="#" class="main_header_title marginRight15">首页</a>
-            <a href="#" class="main_header_title">娱乐平台</a>
-        </section> -->
     </header>
 
     <!-- 顶部导航栏 -->
@@ -349,7 +340,7 @@
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon1"></i>
-                                卖方账号
+                                挂卖用户
                             </span>
                             <span class="data_base_span data_base_titleRight">{{item.sellername}}</span>
                         </li>
@@ -365,124 +356,41 @@
                                 <i class="icon-li data_base_icon3"></i>
                                 挂卖时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.configtime | formateDate}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.create_date | formateDate}}</span>
                         </li>
-                        <li>
+                        <!-- <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 购买时间
                             </span>
                             <span class="data_base_span data_base_titleRight">{{item.buytime | formateDate}}</span>
-                        </li>
-                        <li>
+                        </li> -->
+                        <!-- <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 交易状态
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.finishtime | formateDate}} 完成交易</span>
-                        </li>
-                        <li>
+                            <span class="data_base_span data_base_titleRight">{{item.status == 2? '交易中' : item.status == 3? '已完成' : '已过期'}}</span>
+                        </li> -->
+                        <!-- <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon4"></i>
                                 卖方信息
                             </span>
                             <a href="javascript:;" class="link_detail_score" id="score_detail">点击查看详情</a>
+                        </li> -->
+                        <li>
+                            <span class="data_base_span data_base_titleLeft">
+                                <i class="icon-li data_base_icon7"></i>
+                                操作
+                            </span>
+                            <span class="data_base_span data_base_titleRight fontWeightBold goumaiStatus" style="display:none;">交易中</span>
+                            <span class="data_base_span data_base_titleRight fontWeightBold" v-if="item.status != 1">{{item.status == 2? '交易中' : item.status == 3? '已完成' : '已过期'}}</span>
+                            <button type="button" class="hang_btn confirm_hang" v-bind:data-id="item.userid" @click="confirmHang" v-else>购买</button>
                         </li>
                     </ul>
                 </div>
 
-                <!-- <div class="data_base">
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon1"></i>
-                                卖方账号
-                            </span>
-                            <span class="data_base_span data_base_titleRight">B12</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                挂卖积分数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                挂卖时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018-08-09</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                购买时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018-08-09</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                交易状态
-                            </span>
-                            <span class="data_base_span data_base_titleRight color_ccc">未付款</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                卖方信息
-                            </span>
-                            <a href="javascript:;" class="link_detail_score">点击查看详情</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="data_base">
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon1"></i>
-                                卖方账号
-                            </span>
-                            <span class="data_base_span data_base_titleRight">B12</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                挂卖积分数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                挂卖时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018-08-09</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                购买时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018-08-09</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                交易状态
-                            </span>
-                            <span class="data_base_span data_base_titleRight color_red">进行中</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                卖方信息
-                            </span>
-                            <a href="javascript:;" class="link_detail_score">点击查看详情</a>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
             <!-- 挂卖积分列表 -->
             <div class="data_content hang_integral" id="integral_list">
@@ -491,7 +399,7 @@
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon2"></i>
-                                挂卖用户
+                                买方账号
                             </span>
                             <span class="data_base_span data_base_titleRight">{{item.sellername}}</span>
                         </li>
@@ -507,29 +415,30 @@
                                 <i class="icon-li data_base_icon4"></i>
                                 挂卖时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.create_date}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.create_date | formateDate}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon5"></i>
                                 购买时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">{{item.buytime}}</span>
+                            <span class="data_base_span data_base_titleRight">{{item.buytime | formateDate}}</span>
                         </li>
-                        <!-- <li>
+                        <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon6"></i>
                                 需确认时间
                             </span>
-                            <span class="data_base_span data_base_titleRight">2018.09.09 12:00之前</span>
-                        </li> -->
+                            <span class="data_base_span data_base_titleRight" >{{item.configtime}}</span>
+                        </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
                                 <i class="icon-li data_base_icon7"></i>
                                 操作
                             </span>
-                            <span class="data_base_span data_base_titleRight fontWeightBold" v-if="item.status != 1">{{item.status == 2? '交易中' : item.status == 3? '已完成' : '已过期'}}</span>
-                            <button type="button" class="hang_btn confirm_hang" v-bind:data-id="item.id" @click="confirmHang" v-else>确认收款</button>
+                            <span class="data_base_span data_base_titleRight fontWeightBold goumaiStatus" style="display:none;"></span>
+                            <button type="button" class="hang_btn confirm_hang" v-bind:data-id="item.id" @click="confirmHang" v-if="items.status == 2">确认收款</button>
+                            <span class="data_base_span data_base_titleRight fontWeightBold" v-else>{{item.status == 1? '挂卖中' : '已完成'}}</span>
                         </li>
                     </ul>
                 </div>
@@ -668,12 +577,14 @@
                             <div>挂卖时间</div>
                             <div>买方账号</div>
                             <div>购买时间</div>
+                            <div>交易成功时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
                             <div>{{item.selljf}}</div>
                             <div>{{item.create_date | formateDate}}</div>
                             <div>{{item.sellername}}</div>
                             <div>{{item.buytime | formateDate}}</div>
+                            <div>{{item.finishtime | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -685,14 +596,16 @@
                         <div class="leader_list_item">
                             <div>挂卖积分数量</div>
                             <div>挂卖时间</div>
-                            <div>买方账号</div>
+                            <div>卖方账号</div>
                             <div>购买时间</div>
+                            <div>交易成功时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
                             <div>{{item.selljf}}</div>
                             <div>{{item.create_date | formateDate}}</div>
                             <div>{{item.sellername}}</div>
                             <div>{{item.buytime | formateDate}}</div>
+                            <div>{{item.finishtime | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -700,41 +613,23 @@
             <!-- 任务积分报表 -->
             <div class="data_content Task_score">
                 <div class="data_base">
-                    <!-- <div class="leader_board">
-                        <span class="leader_board_head">转入积分</span>
-                    </div> -->
                     <div class="leader_list" id="inputList">
                         <div class="leader_list_item">
                             <div>购买积分数量</div>
                             <div>购买时间</div>
                             <div>投注结果</div>
                             <div>转回积分数量</div>
+                            <div>盈利积分数量</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <!-- <div>1200</div>
-                            <div>2018.08.08</div>
-                            <div><span>赢</span></div>
-                            <div>2400</div> -->
+                            <div>{{item.jf}}</div>
+                            <div>{{item.create_date | formateDate}}</div>
+                            <div><span>{{item.status == 1? '赢':'输'}}</span></div>
+                            <div>{{item.backjf}}</div>
+                            <div>{{item.winjf}}</div>
                         </div>
                     </div>
                 </div>
-                <!-- <div class="data_base">
-                    <div class="leader_board">
-                        <span class="leader_board_head">转出积分</span>
-                    </div>
-                    <div class="leader_list" id="outputList">
-                        <div class="leader_list_item">
-                            <div>转入类型</div>
-                            <div>积分数量</div>
-                            <div>转入时间</div>
-                        </div>
-                        <div class="leader_list_item" v-for="item in items">
-                            <div>注册积分转入交易积分</div>
-                            <div>{{item.tokennum}}</div>
-                            <div>{{item.create_date}}</div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <!-- 任务密钥报表 -->
             <div class="data_content Task_key">
@@ -745,7 +640,7 @@
                     <div class="leader_list" id="renwuinputList">
                         <div class="leader_list_item">
                             <div>赠送密钥数量</div>
-                            <div>转回积分数量</div>
+                            <div>赠送时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
                             <div>{{item.tokennum}}</div>
@@ -1372,7 +1267,7 @@
                                     真实姓名
                                 </span>
                                 <div>
-                                    <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新名称" id="newUserName" name="username" value="{{username}}" />
+                                    <!-- <input class="data_base_span data_base_titleRight xz-input" placeholder="请输入新名称" id="newUserName" name="username" value="{{username}}" /> -->
                                     <span class="data_base_span data_base_titleRight" id="editUsername">{{username}}</span>
                                     <!-- <span class="data_base_span data_base_titleRight editText">修改</span> -->
                                 </div>
@@ -1724,6 +1619,12 @@
         <div class="cancel">取消</div>
     </div>
 </body>
+<div id="userInfoDeatil">
+    <p><span class="userInfoDetailText">银行卡号：</span><span id="userInfoDetailBankNum"></span></p>
+    <!-- <p style="margin-top:15px;"><span class="userInfoDetailText">交易码：</span><input type="password" id="goumaiPwd" style="height:20px;border:1px solid #ccc;"/></p> -->
+    <p style="display:flex;justify-content:space-between;margin-top:15px;"><span> 支付宝付款</span><span>微信支付款 </span></p>
+    <p style="display:flex;justify-content:space-between;"><span id="userInfoDetailAliPay"><img src="" alt=""></span><span id="userInfoDetailWxPay"><img src="" alt=""></span></p>
+</div>
 <div class="hang_detail9">
     <div class="hang_box9">
         <div class="data_base" id="input_code_box8">

@@ -1,4 +1,19 @@
 $(function(){
+    function formateTimeStamp(timestamp){
+        if(!timestamp) return timestamp;
+        var time = new Date(timestamp);
+        var y = time.getFullYear();//年
+        var m = time.getMonth() + 1 < 10 ? "0" + (time.getMonth() + 1) : time.getMonth() + 1;//月
+        var d = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();//日
+        var h = time.getHours() < 10 ? "0" + time.getHours() : time.getHours();//时
+        var mm = time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();//分
+        var s = time.getSeconds();//秒
+        return y+"."+m+"."+d+" "+h+":"+mm;
+    }
+
+    Vue.filter('formateDate', function (value) {
+        return formateTimeStamp(value);
+    })
     $("#userId").val(sessionStorage.id);
     $.fn.serializeObject = function(){    
        var o = {};    
@@ -25,98 +40,7 @@ $(function(){
             }
         }
     });
-    // 首页用户信息
-    var userInfo = new Vue({
-        el:"#userInfoList",
-        data:{
-            // 用户ID
-            id:"",
-            // 用户账号
-            account:"",
-            // 用户姓名
-            username:"",
-            // 手机号
-            telephone:"",
-            // 支付宝收款码
-            alipaypic:"",
-            // 微信收款码
-            weixinpic:"",
-            // 银行卡号
-            bankNum:"",
-            // 银行名称
-            bankName:"",
-            // 中心积分
-            jfcenter:"",
-            // 任务积分
-            jftask:"",
-            // 交易积分
-            jfbusiness:"",
-            // 注册积分
-            jfzhuce:"",
-            // 任务密钥
-            taskToken:"",
-            // 已使用密钥
-            usedtoken:"",
-            // 原注册积分
-            jfold:"",
-            // 加载索引
-            loadIndex:""
-        },
-        methods:{
-            loadUserInfo:function(){
-                layui.use('layer', function(){
-                    var layer = layui.layer;
-                    this.loadIndex = layer.load(2);
-                });
-            },
-            cacelLoad:function(){
-                layui.use('layer', function(){
-                    var layer = layui.layer;
-                    if(this.loadIndex == '') {
-                        console.error('非法调用！');
-                    } else {
-                        $("#userInfoList li span:last-child").fadeIn(0);
-                        layer.close(this.loadIndex);
-                    }
-                });
-            },
-            updateUserInfo:function(){
-                // 用户ID
-                this.id = sessionStorage.id,
-                // 用户账号
-                this.account = sessionStorage.account,
-                // 用户姓名
-                this.username = sessionStorage.username,
-                // 手机号
-                this.telephone = sessionStorage.telephone,
-                // 支付宝收款码
-                this.alipaypic = sessionStorage.alipaypic,
-                // 微信收款码
-                this.weixinpic = sessionStorage.weixinpic,
-                // 银行卡号
-                this.bankNum = sessionStorage.bankNum,
-                // 银行名称
-                this.bankName = sessionStorage.bankName,
-                // 中心积分
-                this.jfcenter = sessionStorage.jfcenter,
-                // 任务积分
-                this.jftask = sessionStorage.jftask,
-                // 交易积分
-                this.jfbusiness = sessionStorage.jfbusiness,
-                // 注册积分
-                this.jfzhuce = sessionStorage.jfzhuce,
-                // 任务密钥
-                this.taskToken = sessionStorage.taskToken,
-                // 已使用密钥
-                this.usedtoken = sessionStorage.usedtoken,
-                // 原注册积分
-                this.jfold = sessionStorage.jfold
-            }
-        }
-    });
-    userInfo.loadUserInfo();
-    userInfo.updateUserInfo();
-    userInfo.cacelLoad();
+    globalInfo.getUserInfoByGlobal();
     // 两面长龙排行
     var lianmian = new Vue({
         el:"#lianmian",
@@ -286,7 +210,6 @@ $(function(){
         });
         // 任务中心
         $(".taskToken").text(sessionStorage.taskToken);
-        // 直推列表
         flow.load({
             elem:'#pushList',
             done:function(page,next){
@@ -325,7 +248,7 @@ $(function(){
                                 '</li>'+
                                 '<li>'+
                                     '<span class="data_base_span data_base_titleLeft">'+
-                                        '<i class="icon-li data_base_icon4"></i>任务密钥话费数量'+
+                                        '<i class="icon-li data_base_icon4"></i>任务密钥花费数量'+
                                     '</span>'+
                                     '<span class="data_base_span data_base_titleRight">'+ item.usedtoken +'</span>'+
                                 '</li>'+
@@ -357,6 +280,8 @@ $(function(){
             }
         });
 
+        setInterval(recreation_platform.updateUserInfo, 1000);
+
         function setTimeActive(){
             var dataTime = lottery_info.lotteryTime.split(':');
             var m = parseInt(dataTime[0]), s = parseInt(dataTime[1]);
@@ -371,6 +296,7 @@ $(function(){
                 m--;
             }
             s--;
+            sessionStorage.nowSeconds1 = s;
             lottery_info.lotteryTime = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
             // console.log(lottery_info.lotteryTime);
         }
@@ -380,6 +306,7 @@ $(function(){
             if(m == 0 && s == 0) {
                 // 封盘
                 $("#xiazhubtn").hide(0);
+                $(".bet_box").hide(0);
                 $("#closeLottery").text("已封盘");
                 return;
             }
@@ -388,6 +315,7 @@ $(function(){
                 m--;
             }
             s--;
+            sessionStorage.nowSeconds2 = s;
             lottery_info.closeTime = (m < 10? '0' + m : m) + ':' + (s < 10? '0' + s : s);
             $("#closeLottery").text(lottery_info.closeTime);
         }
@@ -407,18 +335,30 @@ $(function(){
             },
             methods:{
                 countDownMethod:function(){
-                    $("#closeLottery").text("00:00");
+                    console.log(sessionStorage.nowSeconds1);
+                    // $("#closeLottery").text("00:00");
                     var nowDate = new Date();
                     var nowHours = nowDate.getHours();
                     var nowMinute = nowDate.getMinutes();
+                    var nowSeconds1, nowSeconds2;
+                    if(sessionStorage.nowSeconds1 != 'NaN' && sessionStorage.nowSeconds2 != 'NaN') {
+                        // nowMinute1 = sessionStorage.nowMinute;
+                        nowSeconds1 = sessionStorage.nowSeconds1;
+                        // nowMinute2 = sessionStorage.nowMinute;
+                        nowSeconds2 = sessionStorage.nowSeconds2;
+                    } else {
+                        // sessionStorage.nowMinute1 = nowMinute = nowDate.getMinutes();
+                        sessionStorage.nowSeconds1 = nowSeconds1 = nowDate.getSeconds();
+                        sessionStorage.nowSeconds2 = nowSeconds2 = nowDate.getSeconds();
+                    }
                     if(2 <= nowHours && 21 >= nowHours) {
                         var isopen = nowMinute % 10;
                         if(nowMinute == 55 && nowHours == 21) {
-                            lottery_info.lotteryTime = 10 - isopen > 0 ? "0" + (10 - isopen) + ":00" : "00:00";
+                            lottery_info.lotteryTime = 10 - isopen > 0 ? "0" + (10 - isopen) + ":" + nowSeconds1 : "00:00";
                             lottery_info.closeTime = "00:00";
                         } else {
-                            lottery_info.lotteryTime = 10 - isopen > 0 ? "0" + (10 - isopen) + ":00" : "00:00";
-                            lottery_info.closeTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
+                            lottery_info.lotteryTime = 10 - isopen > 0 ? "0" + (10 - isopen) + ":" + nowSeconds1 : "00:00";
+                            lottery_info.closeTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":" + nowSeconds2 : "00:00";
                         }
                         setInterval(setTimeActive, 1000);
                         setInterval(closeTimeLite, 1000);
@@ -426,11 +366,11 @@ $(function(){
                         var isopen = nowMinute % 10 < 5 ? nowMinute % 10 : nowMinute % 10 - 5;
                         // console.log(isopen);
                         if(nowMinute == 55 && nowHours == 1) {
-                            lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
+                            lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":" + nowSeconds1 : "00:00";
                             lottery_info.closeTime = "00:00";
                         } else {
-                            lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":00" : "00:00";
-                            lottery_info.closeTime = 3 - isopen > 0 ? "0" + (3 - isopen) + ":00" : "00:00";
+                            lottery_info.lotteryTime = 5 - isopen > 0 ? "0" + (5 - isopen) + ":" + nowSeconds1 : "00:00";
+                            lottery_info.closeTime = 3 - isopen > 0 ? "0" + (3 - isopen) + ":" + nowSeconds2 : "00:00";
                         }
                         setInterval(setTimeActive, 1000);
                         if($("#closeLottery").text() != "已封盘") {
@@ -474,6 +414,9 @@ $(function(){
         function getGmnum(){
             $.post("http://39.108.55.80:8081/home/getData", function(data){
                 // console.log(data);
+                if(data.code === '111111') {
+                    return;
+                }
                 var r = data.result[0];
                 lottery_info.gm1 = r.gm1;
                 lottery_info.gm2 = r.gm2;
@@ -529,42 +472,110 @@ $(function(){
         }
 
         getGmnum();
-        
-        // 挂卖信息列表
-        $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
-            "userId":1
-            // "status":1
+
+        // 购买
+        $.post("http://39.108.55.80:8081" + "/home/getBuyJf",{
+            userId:sessionStorage.id
         },function(data){
-            // $("#guamaiconfirm").off('click').on('click', function(){
-            //     var pwd = $("#guamaipwd").val();
-            //     if(pwd != '') {
-            //         $.post("http://39.108.55.80:8081/home/updateBusiness",{
-            //             id:id,
-            //             status:2,
-            //             userid:sessionStorage.id,
-            //             safepwd:$("#guamaipwd").val()
-            //         }, function(data){
-            //             console.log(data);
-            //             $(".hang_detail11").fadeOut(0);
-            //         });
-            //     } else {
-            //         layer.msg("安全码不能为空");
-            //     }
-            //     $("#guamaipwd").val('');
-            // });
             var dt = data.result;
-            var integral_list = new Vue({
-                el:'#integral_list',
+            var users = [];
+            for(var i = 0;i < dt.length;i++) {
+                if(dt[i].id != sessionStorage.id){
+                    users.push(dt[i]);
+                }
+            }
+            // console.log(users);
+            // console.log(users);
+            var goumailist = new Vue({
+                el:'#goumailist',
                 data:{
-                    items:dt
+                    items:users
                 },
                 methods:{
                     confirmHang:function(event){
                         var id = event.target.dataset.id;
-                        // console.log(event.target.dataset.id);
+                        $.post("http://39.108.55.80:8081/user/getUsers",{
+                            userId:id
+                        },function(data){
+                            // console.log(data);
+                            var banknum = data.result.banknum;
+                            var alipaypic = data.result.alipaypic;
+                            var weixinpic = data.result.weixinpic;
+                            $("#userInfoDetailBankNum").text(banknum);
+                            $("#userInfoDetailAliPay").children('img').prop('src', "http://39.108.55.80/" + alipaypic);
+                            $("#userInfoDetailWxPay").children('img').prop('src', "http://39.108.55.80/" + weixinpic);
+                            layer.open({
+                                type:1,
+                                area:['300px','250px'],
+                                content:$("#userInfoDeatil"),
+                                cancel:function(){
+                                    $(event.target).hide(0).siblings('.goumaiStatus').show(0);
+                                    $.post("http://39.108.55.80:8081/home/updateBusiness", {
+                                        status:1,
+                                        userid:sessionStorage.id,
+                                        id:id,
+                                        safepwd:data.result.safepwd
+                                    }, function(data) {
+                                        // console.log(data);
+                                    });
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+        });
+        // 挂卖
+        $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
+            userId:sessionStorage.id,
+            status:1,
+            type:1
+        },function(data){
+            var dt = data.result;
+            // console.log(dt);
+            var users = [];
+            for(var i = 0;i < dt.length;i++) {
+                if(dt[i].userid == sessionStorage.id){
+                    users.push(dt[i]);
+                }
+                if(dt[i].configtime) {
+                    dt[i].configtime = formateTimeStamp(dt[i].configtime) + '之前';
+                } else {
+                    dt[i].configtime = formateTimeStamp(dt[i].configtime);
+                }
+            }
+            // console.log(users);
+            var integral_list = new Vue({
+                el:'#integral_list',
+                data:{
+                    items:users
+                },
+                methods:{
+                    confirmHang:function(event){
+                        var id = event.target.dataset.id;id
+                        console.log(event.target.dataset.id);
                         $(".hang_detail11").fadeIn(0);
                         $(".close_detail11").on('click', function(){
                             $(".hang_detail11").fadeOut(0);
+                        });
+                        $("#guamaiconfirm").off('click').on('click', function(){
+                            var pwd = $("#guamaipwd").val();
+                            $.post("http://39.108.55.80:8081/home/updateBusiness",{
+                                id:id,
+                                status:1,
+                                userid:sessionStorage.id,
+                                safepwd:pwd
+                            },function(data){
+                                // console.log(data);
+                                if(data.code === '000000') {
+                                    $(event.target).hide(0);
+                                    $(event.target).siblings('.goumaiStatus').text('交易中').show(0);
+                                    $(".hang_detail11").fadeOut(0);
+                                    layer.msg('挂卖成功');
+                                } else {
+                                    layer.msg('交易失败');
+                                }
+                            });
                         });
                     }
                 }
@@ -592,7 +603,7 @@ $(function(){
                         $(".close_detail11").on('click', function(){
                             $(".hang_detail11").fadeOut(0);
                         });
-                        this.jfvalue = sessionStorage.jfbusiness = parseInt(sessionStorage.jfbusiness) - parseInt(jfvalue);
+                        
                     }
                 }
             }
@@ -600,17 +611,18 @@ $(function(){
         $("#guamaiconfirm").off('click').on('click', function(){
             var pwd = $("#guamaipwd").val();
             if(pwd != '') {
-                // console.log(jfvalue);
+                var jfvalue = jfguamai.jfvalue;
                 $.post("http://39.108.55.80:8081/home/addBusiness", {
                     userid:sessionStorage.id,
                     selljf:jfguamai.jfvalue,
                     safepwd:pwd
                 }, function(data){
-                    console.log(data);
+                    // console.log(data);
                     $(".hang_detail11").fadeOut(0);
                     if(data.code === '000000') {
                         jfguamai.jfvalue = "";
                         layer.msg("挂卖成功");
+                        jfguamai.jfbusiness = sessionStorage.jfbusiness = parseInt(sessionStorage.jfbusiness) - parseInt(jfvalue);
                     } else {
                         layer.msg(data.result);
                     }
@@ -637,15 +649,19 @@ $(function(){
                     $.post("http://39.108.55.80:8081" + "/home/addTask",{
                         "userid":sessionStorage.id
                     }, function(data){
-                        $(".hang_detail5").fadeIn(.3);
-                        $(".code_tip4").show(0);
                         if(data.code === '000000'){
+                            $(".hang_detail5").fadeIn(.3);
+                            $(".code_tip4").show(0);
                             sessionStorage.taskToken = parseInt(sessionStorage.taskToken) - 1;
                             $("#taskTokenApply").text(sessionStorage.taskToken);
                             $(".code_tip4").text("申请已提交！");
                         } else {
-                            layer.msg(data.message);
-                            $(".code_tip4").text("申请失败！");
+                            if(data.result) {
+                                layer.msg(data.result);
+                            } else {
+                                layer.msg("申请失败");
+                            }
+                            // $(".code_tip4").text("申请失败！");
                         }
                     });
                 }
@@ -664,6 +680,7 @@ $(function(){
                 createAccount:function(event){
                     this.jfzhuce = $("#jfzhuce").val();
                     if(parseInt(this.jfzhuce) > parseInt(sessionStorage.jfcenter)) {
+                        $(".code_tip6").text('可用积分不足');
                         $(".hang_detail7").fadeIn(.3);
                     } else {
                         if(this.account == '' || this.jfzhuce == '' || this.password == '' || this.safepwd == '') {
@@ -741,7 +758,7 @@ $(function(){
             var loadIndex = layer.load(2);
             $.post("http://39.108.55.80:8081" + "/user/updateUser", {
                 "userId":sessionStorage.id,
-                "username":$("#newUserName").val(),
+                // "username":$("#newUserName").val(),
                 "telephone":$("#newTelphone").val(),
                 "bankname":$("#newBankName").val(),
                 "banknum":$("#newBankNum").val()
@@ -751,7 +768,7 @@ $(function(){
                     globalInfo.updateSession();
                     $(".code_tip9").text("更新成功！");
                     $(".hang_detail10").fadeIn(0);
-                    updateUserInfo.username = sessionStorage.username = $("#newUserName").val();
+                    // updateUserInfo.username = sessionStorage.username = $("#newUserName").val();
                     updateUserInfo.telephone = sessionStorage.telephone = $("#newTelphone").val();
                     updateUserInfo.bankName = sessionStorage.bankName = $("#newBankName").val();
                     updateUserInfo.bankNum = sessionStorage.bankNum = $("#newBankNum").val();
@@ -792,14 +809,18 @@ $(function(){
                         },function(data){
                             console.log(data);
                             if(data.code === '000000') {
-                                taskGift.account = "";
-                                taskGift.num = "";
-                                taskGift.safepwd = "";
-                                layer.msg(data.result);
+                                layer.msg('转赠成功');
                                 $("#taskGiftToken").text(parseInt(sessionStorage.taskToken) - parseInt(taskGift.num));
                             } else {
-                                layer.msg(data.message);
+                                if(data.result) {
+                                    layer.msg(data.result);
+                                } else {
+                                    layer.msg('转赠失败');
+                                }
                             }
+                            taskGift.account = "";
+                            taskGift.num = "";
+                            taskGift.safepwd = "";
                         });
                     }
                 }
@@ -862,7 +883,7 @@ $(function(){
                             type:type,
                             jf:parseInt(conversionBox.jf)
                         },function(data){
-                            console.log(data);
+                            // console.log(data);
                             if(data.code === '000000') {
                                 console.log(type);
                                 if(type === 2 || type === 3 || type === 1) {
@@ -895,6 +916,11 @@ $(function(){
                                 $(".hang_detail8").fadeIn(.3);
                                 globalInfo.updateSession();
                             } else {
+                                if(type == 3 || type == 5) {
+                                    $(".code_tip6").text('请输入允许转换为任务积分的值');
+                                } else {
+                                    $(".code_tip6").text(' 抱歉！您没有足够的积分扣除。');
+                                }
                                 $(".hang_detail7").fadeIn(.3);
                             }
                             conversionBox.jf ="";
@@ -912,7 +938,7 @@ $(function(){
 
         function updateUserCoreInfo(){
             // 更新首页用户资料
-            userInfo.updateUserInfo();
+            // userInfo.updateUserInfo();
             // 更新娱乐平台用户资料
             recreation_platform.updateUserInfo();
             // 积分转换中心

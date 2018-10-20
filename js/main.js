@@ -44,8 +44,11 @@ window.onload = function(){
         "doub1":"3号球双",
         "doub1":"4号球双",
         "doub1":"5号球双",
-        "sumdoub":"总和双"
+        "sumdoub":"总和双",
+        "long":"龙",
+        "hu":"虎"
     }
+    var timer;
     // 选中当前显示的页面
     function changePage(pageId){
         sessionStorage.pageName = pageId;
@@ -58,7 +61,7 @@ window.onload = function(){
             $(".prepage")[0].setAttribute("id", "recreation_platform");
             // 未结明细
             $.post("http://39.108.55.80:8081" + "/home/getPools",{
-                "userId":1,
+                "userId":sessionStorage.id,
                 "status":0
             },function(data){
                 layer.close(loadIndex);
@@ -73,12 +76,12 @@ window.onload = function(){
                 }
             });
         }else if(pageId === 'betting_record') {
-            var loadIndex = layer.load(2);
+            // var loadIndex = layer.load(2);
             $(".prepage").fadeIn(0);
             $(".prepage")[0].setAttribute("id", "recreation_platform");
              // 投注记录
             $.post("http://39.108.55.80:8081" + "/home/getPools",{
-                "userId":1
+                "userId":sessionStorage.id
                 // "status":1
             },function(data){
                 layer.close(loadIndex);
@@ -103,6 +106,7 @@ window.onload = function(){
                     $(n).children("i").css("backgroundImage", "url(" + tabarIcon[id_item_v][0] + ")");
                 }
             });
+            clearTimeout(timer);
             // 切换顶部标题
             switch(pageId) {
                 case 'index_data': 
@@ -299,7 +303,7 @@ window.onload = function(){
                                 // console.log(type.join(','));
                                 this.jf = jf.join(',');
                                 this.type = type.join(',');
-                                console.log(this.jf);
+                                // console.log(this.jf);
                             } else {
                                 // console.log(lottery_box.jf);
                                 var indexLoad = layer.load(2);
@@ -315,10 +319,16 @@ window.onload = function(){
                                     if(data.code === '000000') {
                                         layer.msg('下注成功');
                                         sessionStorage.jftask = parseInt(sessionStorage.jftask) - parseInt(lottery_box.allscore);
-                                        globalInfo.updateSession();
+                                        // globalInfo.updateSession();
                                         $("#user_core").val(sessionStorage.jftask);
                                     } else {
-                                        layer.msg('下注失败'); 
+                                        // console.log($("#user_core").text());
+                                        var myscore = parseInt($("#user_core").text());
+                                        if(myscore == 0) {
+                                            layer.msg('积分不足');
+                                        } else {
+                                            layer.msg('下注失败'); 
+                                        }
                                     }
                                     lottery_box.allscore = 0;
                                     lottery_box.winscore = 0;
@@ -388,6 +398,9 @@ window.onload = function(){
     // 底部Tabar切换
     $("#index_data, #recreation_platform, #personal_data").on("click", function(){
         var id = $(this).prop("id");
+        if(id === 'index_data') {
+            globalInfo.getUserInfoByGlobal();
+        }
         changePage(id);
     });
 
@@ -434,6 +447,7 @@ window.onload = function(){
     }
 
     function formateTimeStamp(timestamp){
+        if(!timestamp) return timestamp;
         var time = new Date(timestamp);
         var y = time.getFullYear();//年
         var m = time.getMonth() + 1 < 10 ? "0" + (time.getMonth() + 1) : time.getMonth() + 1;//月
@@ -474,8 +488,12 @@ window.onload = function(){
                         items:""
                     }
                 });
-                $.post("http://39.108.55.80:8081/home/getBusiness?userid=" + sessionStorage.id + "&type=" + 2, function(data){
-                    console.log(data.result);
+                $.post("http://39.108.55.80:8081/home/getBusiness", {
+                    userid:sessionStorage.id,
+                    type:2
+                    // status:1
+                },function(data){
+                    console.log(data);
                     layer.close(loadIndex);
                     goumailist.items = data.result;
                     if(data.code != '000000') {
@@ -487,9 +505,9 @@ window.onload = function(){
                 case 'hang_integral':
                 topTitle.text('挂卖积分列表');
                 break;
-                case 'hang_integral':
-                topTitle.text('挂卖积分列表');
-                break;
+                // case 'hang_integral':
+                // topTitle.text('挂卖积分列表');
+                // break;
                 case 'createAccount':
                 // 查询开通账号积分
                 $.post("http://39.108.55.80:8081/jf/getJf?number=001", function(data){
@@ -515,6 +533,64 @@ window.onload = function(){
                 break;
                 case 'push_list':
                 topTitle.text('直推列表');
+                layui.use('flow', function(){
+                    var flow = layui.flow;
+                    flow.load({
+                        elem:'#pushList',
+                        done:function(page,next){
+                            var lis = [];
+                            $.get("http://39.108.55.80:8081" + '/user/getChilds?page='+page,{
+                                "userId":sessionStorage.id
+                            }, function(res){
+                                // console.log(res.result);
+                                layui.each(res.result, function(index, item){
+                                    var date = new Date(item.createDate),
+                                    Y = date.getFullYear() + '-',
+                                    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+                                    D = date.getDate() + ' ',
+                                    h = (date.getHours()+1 < 10 ? '0'+(date.getHours()+1) : date.getHours()+1) + ':',
+                                    m = (date.getMinutes()+1 < 10 ? '0'+(date.getMinutes()+1) : date.getMinutes()+1);
+                                    // s = date.getSeconds();
+                                    lis.push('<div class="data_base">'+ 
+                                        '<ul class="data_base_list">' +
+                                            '<li>'+
+                                                '<span class="data_base_span data_base_titleLeft">'+
+                                                    '<i class="icon-li data_base_icon1"></i>账号'+
+                                                '</span>'+
+                                                '<span class="data_base_span data_base_titleRight">'+ item.account +'</span>'+
+                                            '</li>'+
+                                            '<li>'+
+                                                '<span class="data_base_span data_base_titleLeft">'+
+                                                    '<i class="icon-li data_base_icon2"></i>初始注册积分'+
+                                                '</span>'+
+                                                '<span class="data_base_span data_base_titleRight">'+ item.jfold + '</span>'+
+                                            '</li>'+
+                                            '<li>'+
+                                                '<span class="data_base_span data_base_titleLeft">' +
+                                                    '<i class="icon-li data_base_icon3"></i>开通时间' +
+                                                '</span>'+
+                                                '<span class="data_base_span data_base_titleRight">' + Y+M+D+h+m + '</span>'+
+                                            '</li>'+
+                                            '<li>'+
+                                                '<span class="data_base_span data_base_titleLeft">'+
+                                                    '<i class="icon-li data_base_icon4"></i>任务密钥花费数量'+
+                                                '</span>'+
+                                                '<span class="data_base_span data_base_titleRight">'+ item.usedtoken +'</span>'+
+                                            '</li>'+
+                                            '<li>'+
+                                                '<span class="data_base_span data_base_titleLeft">'+
+                                                    '<i class="icon-li data_base_icon5"></i>任务密钥剩余数量'+
+                                                '</span>'+
+                                                '<span class="data_base_span data_base_titleRight">'+item.taskToken+'</span>'+
+                                            '</li>'+
+                                        '</ul>'
+                                    +'</div>');
+                                }); 
+                                next(lis.join(''), page < res.pages);    
+                            });
+                        }
+                    });
+                })
                 break;
                 case 'task_gift':
                 topTitle.text('转赠任务密钥');
@@ -539,139 +615,26 @@ window.onload = function(){
                 break;
                 case 'integral_center':
                 var loadIndex = layer.load(2);
-                // 中心积分报表
-                var inputJfList = new Vue({
-                    el:"#inputJfList",
-                    data:{
-                        items:""
-                    }
-                });
-                var outJfputList = new Vue({
-                    el:"#outJfputList",
-                    data:{
-                        items:""
-                    }
-                });
-                $.post("http://39.108.55.80:8081/jf/getCenterJf",{
-                        userId:sessionStorage.id,
-                        type:1
-                    }, function(data){
-                        layer.close(loadIndex);
-                        if(data.code != '000000') {
-                            layer.msg('转入积分数据加载失败，请重试');
-                            console.error('转入积分数据加载失败');
-                            return;
-                        }
-                        // console.log(data.result);
-                        var dt = data.result;
-                        for(var i = 0;i < dt.length;i++) {
-                            dt[i].createdate = formateTimeStamp(dt[i].createdate);
-                        }
-                        outJfputList.items = dt;
-                    });
-                $.post("http://39.108.55.80:8081/jf/getCenterJf",{
-                    userId:sessionStorage.id,
-                    type:0
-                },function(data){
-                    // console.log(data.result);
-                    layer.close(loadIndex);
-                    if(data.code != '000000') {
-                        layer.msg('转出积分数据加载失败，请重试');
-                        console.error('转出积分数据加载失败');
-                        return;
-                    }
-                    var dt = data.result;
-                    for(var i = 0;i < dt.length;i++) {
-                        dt[i].createdate = formateTimeStamp(dt[i].createdate);
-                    }
-                    inputJfList.items = dt;
-                });
+                globalInfo.centerPage();
+                layer.close(loadIndex);
                 topTitle.text('中心积分报表');
                 break;
                 case 'Task_key':
                 topTitle.text('任务密钥报表');
                 var loadIndex = layer.load(2);
-                var renwuinputList = new Vue({
-                    el:"#renwuinputList",
-                    data:{
-                        items:[]
-                    }
-                });
-                $.post("http://39.108.55.80:8081/home/getTokens",{
-                    account:sessionStorage.account
-                }, function(data){
-                    layer.close(loadIndex);
-                    if(data.code != '000000') {
-                        layer.msg('任务密钥转入数据加载失败，请重试');
-                        console.error('挂卖数据加载失败');
-                        return;
-                    }
-                    renwuinputList.items = data.result;
-                });
-                var renwuoutputList = new Vue({
-                    el:"#renwuoutputList",
-                    data:{
-                        items:[]
-                    }
-                });
-                $.post("http://39.108.55.80:8081/home/getTokens",{
-                    userId:sessionStorage.id
-                }, function(data){
-                    layer.close(loadIndex);
-                    if(data.code != '000000') {
-                        layer.msg('任务密钥转出数据加载失败，请重试');
-                        console.error('挂卖数据加载失败');
-                        return;
-                    }
-                    renwuoutputList.items = data.result;
-                });
+                globalInfo.renwumiyao();
+                layer.close(loadIndex);
                 break;
                 case 'Task_score':
                 topTitle.text('任务积分报表');
                 var loadIndex = layer.load(2);
+                globalInfo.renwujifen();
                 layer.close(loadIndex);
-                layer.msg('该功能暂未开放');
                 break;
                 case 'Trading_points':
                 var loadIndex = layer.load(2);
-                var inputguamaiList = new Vue({
-                    el:"#inputguamaiList",
-                    data:{
-                        items:[]
-                    }
-                });
-                var outputguamaiList = new Vue({
-                    el:"#outputguamaiList",
-                    data:{
-                        items:[]
-                    }
-                });
-                $.post("http://39.108.55.80:8081/home/getBusiness",{
-                    userid:sessionStorage.id,
-                    type:1
-                }, function(data){
-                    // console.log(data.result);
-                    layer.close(loadIndex);
-                    if(data.code != '000000') {
-                        layer.msg('挂卖数据加载失败，请重试');
-                        console.error('挂卖数据加载失败');
-                        return;
-                    }
-                    inputguamaiList.items = data.result;
-                });
-                $.post("http://39.108.55.80:8081/home/getBusiness",{
-                    userid:sessionStorage.id,
-                    type:0
-                }, function(data){
-                    // console.log(data.result);
-                    layer.close(loadIndex);
-                    if(data.code != '000000') {
-                        layer.msg('购买数据加载失败，请重试');
-                        console.error('购买数据加载失败');
-                        return;
-                    }
-                    outputguamaiList.items = data.result;
-                });
+                globalInfo.jiaoyijifen();
+                layer.close(loadIndex);
                 topTitle.text('交易积分报表');
                 break;
             }
@@ -744,14 +707,14 @@ window.onload = function(){
             $(".personal_data").find(".editUserInfo").css("display", "block");
             $(".editText").fadeOut(.3);
             $(".code_box").css("width", "65px").find("i").css("display", "block");
-            $("#newUserName").fadeIn(0);
+            // $("#newUserName").fadeIn(0);
             $("#newTelphone").fadeIn(0);
             $("#newBankName").fadeIn(0);
             $("#newBankNum").fadeIn(0);
             $("#test1").fadeIn(0);
             $("#test2").fadeIn(0);
 
-            $("#editUsername").fadeOut(0);
+            // $("#editUsername").fadeOut(0);
             $("#editTelphone").fadeOut(0);
             $("#editBanknum").fadeOut(0);
             $("#editBankname").fadeOut(0);
@@ -761,14 +724,14 @@ window.onload = function(){
             $(".personal_data").find(".editUserInfo").css("display", "none");
             $(".editText").fadeIn(.3);
             $(".code_box").css("width", "45px").find("i").css("display", "none");
-            $("#newUserName").fadeOut(0);
+            // $("#newUserName").fadeOut(0);
             $("#newTelphone").fadeOut(0);
             $("#newBankName").fadeOut(0);
             $("#newBankNum").fadeOut(0);
             $("#test1").fadeOut(0);
             $("#test2").fadeOut(0);
 
-            $("#editUsername").fadeIn(0);
+            // $("#editUsername").fadeIn(0);
             $("#editTelphone").fadeIn(0);
             $("#editBanknum").fadeIn(0);
             $("#editBankname").fadeIn(0);
