@@ -104,30 +104,7 @@ $(function(){
             });
             return;
         }
-        // 首页公告
-        flow.load({
-            elem:'#bulletinList',
-            done:function(page,next){
-                var lis = [];
-                $.get("http://39.108.55.80:8081" + '/home/getNotice?page='+page, function(res){
-                    layui.each(res.result, function(index, item){
-                        lis.push('<li class="div_li">'+ 
-                        '<div class="data_base_div">' +
-                            '<span class="div_left_title">'+ item.title +'</span>' +
-                            '<span class="div_right_date">'+ item.createDate +'</span>' +
-                        '</div>'+
-                        '<div class="data_base_div">' +
-                            '<a class="div_base_detail div_detail">' +
-                                '<span class="link_span">'+ item.content + '</span>' +
-                                '<i class="link_icon_right main_link_icon_right"></i>' +
-                            '</a>'+
-                        '</div>'
-                        +'</li>');
-                    }); 
-                    next(lis.join(''), page < res.pages);    
-                });
-            }
-        });
+        
         // 反馈列表
         flow.load({
             elem:'#feedBackList',
@@ -184,30 +161,7 @@ $(function(){
                 }
             });
         });
-        // 网站公告
-        flow.load({
-            elem:'#webBulletinList',
-            done:function(page,next){
-                var lis = [];
-                $.get("http://39.108.55.80:8081" + '/home/getNotice?page='+page, function(res){
-                    layui.each(res.result, function(index, item){
-                        lis.push('<li class="div_li">'+ 
-                        '<div class="data_base_div">' +
-                            '<span class="div_left_title">'+ item.title +'</span>' +
-                            '<span class="div_right_date">'+ item.createDate +'</span>' +
-                        '</div>'+
-                        '<div class="data_base_div">' +
-                            '<a class="div_base_detail div_detail">' +
-                                '<span class="link_span">'+ item.content + '</span>' +
-                                '<i class="link_icon_right main_link_icon_right"></i>' +
-                            '</a>'+
-                        '</div>'
-                        +'</li>');
-                    }); 
-                    next(lis.join(''), page < res.pages);    
-                });
-            }
-        });
+        
         // 任务中心
         $(".taskToken").text(sessionStorage.taskToken);
         flow.load({
@@ -270,17 +224,18 @@ $(function(){
             el:"#recreation_userinfo",
             data:{
                 userName:sessionStorage.account,
-                userCore:sessionStorage.jftask
+                userCore:sessionStorage.jfbusiness
             },
             methods:{
                 updateUserInfo:function(){
+                    // console.log(1);
                     this.userName = sessionStorage.account;
                     this.userCore = sessionStorage.jfbusiness;
                 }
             }
         });
 
-        setInterval(recreation_platform.updateUserInfo, 1000);
+        
 
         function setTimeActive(){
             var dataTime = lottery_info.lotteryTime.split(':');
@@ -335,13 +290,13 @@ $(function(){
             },
             methods:{
                 countDownMethod:function(){
-                    console.log(sessionStorage.nowSeconds1);
+                    // console.log(sessionStorage.nowSeconds1);
                     // $("#closeLottery").text("00:00");
                     var nowDate = new Date();
                     var nowHours = nowDate.getHours();
                     var nowMinute = nowDate.getMinutes();
                     var nowSeconds1, nowSeconds2;
-                    if(sessionStorage.nowSeconds1 != 'NaN' && sessionStorage.nowSeconds2 != 'NaN') {
+                    if(sessionStorage.nowSeconds1 === 'NaN' || sessionStorage.nowSeconds2 === 'NaN') {
                         // nowMinute1 = sessionStorage.nowMinute;
                         nowSeconds1 = sessionStorage.nowSeconds1;
                         // nowMinute2 = sessionStorage.nowMinute;
@@ -389,10 +344,6 @@ $(function(){
 
         lottery_info.countDownMethod();
 
-        setInterval(()=>{
-            getGmnum();
-        }, 15000);
-
         var leaderlist = new Vue({
             el:"#leaderlist",
             data:{
@@ -413,7 +364,7 @@ $(function(){
         // 获取开奖信息
         function getGmnum(){
             $.post("http://39.108.55.80:8081/home/getData", function(data){
-                // console.log(data);
+                console.log(data);
                 if(data.code === '111111') {
                     return;
                 }
@@ -473,114 +424,84 @@ $(function(){
 
         getGmnum();
 
-        // 购买
-        $.post("http://39.108.55.80:8081" + "/home/getBuyJf",{
-            userId:sessionStorage.id
-        },function(data){
-            var dt = data.result;
-            var users = [];
-            for(var i = 0;i < dt.length;i++) {
-                if(dt[i].id != sessionStorage.id){
-                    users.push(dt[i]);
+        var goumailist = new Vue({
+            el:'#goumailist',
+            data:{
+                items:[]
+            },
+            methods:{
+                confirmHang:function(event){
+                    var id = event.target.dataset.id;
+                    $.post("http://39.108.55.80:8081/user/getUsers",{
+                        userId:id
+                    },function(data){
+                        console.log(data);
+                        var banknum = data.result.banknum;
+                        var alipaypic = data.result.alipaypic;
+                        var weixinpic = data.result.weixinpic;
+                        $("#userInfoDetailBankNum").text(banknum);
+                        $("#userInfoDetailAliPay").children('img').prop('src', "http://39.108.55.80/" + alipaypic);
+                        $("#userInfoDetailWxPay").children('img').prop('src', "http://39.108.55.80/" + weixinpic);
+                        $(event.target).hide(0).siblings('.goumaiStatus').show(0);
+                        $.post("http://39.108.55.80:8081/home/updateBusiness", {
+                            status:2,
+                            userid:sessionStorage.id,
+                            id:id
+                        }, function(data) {
+                            // console.log(data);
+                        });
+                        layer.open({
+                            type:1,
+                            area:['360px','350px'],
+                            content:$("#userInfoDeatil"),
+                            cancel:function(){
+                                // $(event.target).hide(0).siblings('.goumaiStatus').show(0);
+                                // console.log(id);
+                            }
+                        });
+                    });
                 }
             }
-            // console.log(users);
-            // console.log(users);
-            var goumailist = new Vue({
-                el:'#goumailist',
-                data:{
-                    items:users
-                },
-                methods:{
-                    confirmHang:function(event){
-                        var id = event.target.dataset.id;
-                        $.post("http://39.108.55.80:8081/user/getUsers",{
-                            userId:id
+        });
+        
+        
+        // 挂卖
+        var integral_list = new Vue({
+            el:'#integral_list',
+            data:{
+                items:[]
+            },
+            methods:{
+                confirmHang:function(event){
+                    var id = event.target.dataset.id;id
+                    console.log(event.target.dataset.id);
+                    $(".hang_detail11").fadeIn(0);
+                    $(".close_detail11").on('click', function(){
+                        $(".hang_detail11").fadeOut(0);
+                    });
+                    $("#guamaiconfirm").off('click').on('click', function(){
+                        var pwd = $("#guamaipwd").val();
+                        $.post("http://39.108.55.80:8081/home/updateBusiness",{
+                            id:id,
+                            status:1,
+                            userid:sessionStorage.id,
+                            safepwd:pwd
                         },function(data){
                             // console.log(data);
-                            var banknum = data.result.banknum;
-                            var alipaypic = data.result.alipaypic;
-                            var weixinpic = data.result.weixinpic;
-                            $("#userInfoDetailBankNum").text(banknum);
-                            $("#userInfoDetailAliPay").children('img').prop('src', "http://39.108.55.80/" + alipaypic);
-                            $("#userInfoDetailWxPay").children('img').prop('src', "http://39.108.55.80/" + weixinpic);
-                            layer.open({
-                                type:1,
-                                area:['300px','250px'],
-                                content:$("#userInfoDeatil"),
-                                cancel:function(){
-                                    $(event.target).hide(0).siblings('.goumaiStatus').show(0);
-                                    $.post("http://39.108.55.80:8081/home/updateBusiness", {
-                                        status:1,
-                                        userid:sessionStorage.id,
-                                        id:id,
-                                        safepwd:data.result.safepwd
-                                    }, function(data) {
-                                        // console.log(data);
-                                    });
-                                }
-                            });
+                            if(data.code === '000000') {
+                                $(event.target).hide(0);
+                                $(event.target).siblings('.goumaiStatus').text('交易中').show(0);
+                                $(".hang_detail11").fadeOut(0);
+                                layer.msg('挂卖成功');
+                            } else {
+                                layer.msg('交易失败');
+                            }
                         });
-                    }
-                }
-            });
-        });
-        // 挂卖
-        $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
-            userId:sessionStorage.id,
-            status:1,
-            type:1
-        },function(data){
-            var dt = data.result;
-            // console.log(dt);
-            var users = [];
-            for(var i = 0;i < dt.length;i++) {
-                if(dt[i].userid == sessionStorage.id){
-                    users.push(dt[i]);
-                }
-                if(dt[i].configtime) {
-                    dt[i].configtime = formateTimeStamp(dt[i].configtime) + '之前';
-                } else {
-                    dt[i].configtime = formateTimeStamp(dt[i].configtime);
+                    });
                 }
             }
-            // console.log(users);
-            var integral_list = new Vue({
-                el:'#integral_list',
-                data:{
-                    items:users
-                },
-                methods:{
-                    confirmHang:function(event){
-                        var id = event.target.dataset.id;id
-                        console.log(event.target.dataset.id);
-                        $(".hang_detail11").fadeIn(0);
-                        $(".close_detail11").on('click', function(){
-                            $(".hang_detail11").fadeOut(0);
-                        });
-                        $("#guamaiconfirm").off('click').on('click', function(){
-                            var pwd = $("#guamaipwd").val();
-                            $.post("http://39.108.55.80:8081/home/updateBusiness",{
-                                id:id,
-                                status:1,
-                                userid:sessionStorage.id,
-                                safepwd:pwd
-                            },function(data){
-                                // console.log(data);
-                                if(data.code === '000000') {
-                                    $(event.target).hide(0);
-                                    $(event.target).siblings('.goumaiStatus').text('交易中').show(0);
-                                    $(".hang_detail11").fadeOut(0);
-                                    layer.msg('挂卖成功');
-                                } else {
-                                    layer.msg('交易失败');
-                                }
-                            });
-                        });
-                    }
-                }
-            });
         });
+        
         
         // 挂卖交易积分
         var jfguamai = new Vue({
@@ -592,18 +513,22 @@ $(function(){
             methods:{
                 confirmHang:function(){
                     var jfvalue = this.jfvalue;
-                    if(jfvalue === '') {
-                        layer.msg("请输入要挂卖的积分");
-                    } else {
-                        if(parseInt(jfvalue) > parseInt(sessionStorage.jfbusiness)) {
-                            layer.msg("交易积分不足，不能进行挂卖");
-                            return;
+                    if(sessionStorage.alipaypic != '' || sessionStorage.weixinpic != '') {
+                        if(jfvalue === '') {
+                            layer.msg("请输入要挂卖的积分");
+                        } else {
+                            if(parseInt(jfvalue) > parseInt(sessionStorage.jfbusiness)) {
+                                layer.msg("交易积分不足，不能进行挂卖");
+                                return;
+                            }
+                            $(".hang_detail11").fadeIn(0);
+                            $(".close_detail11").on('click', function(){
+                                $(".hang_detail11").fadeOut(0);
+                            });
+                            
                         }
-                        $(".hang_detail11").fadeIn(0);
-                        $(".close_detail11").on('click', function(){
-                            $(".hang_detail11").fadeOut(0);
-                        });
-                        
+                    } else {
+                        layer.msg("请上传二维码");
                     }
                 }
             }
@@ -674,6 +599,7 @@ $(function(){
                 account:"",
                 jfzhuce:"",
                 password:"",
+                username:"",
                 safepwd:""
             },
             methods:{
@@ -694,6 +620,8 @@ $(function(){
                                 tips = "安全密码不能为空！";
                             } else if(this.jfzhuce == '') {
                                 tips = "注册积分不能为空！";
+                            } else if(this.username == '') {
+                                tips = "真实姓名不能为空！";
                             }
                             $(".code_tip9").text(tips);
                         } else {
@@ -702,9 +630,10 @@ $(function(){
                                 jfzhuce:this.jfzhuce,
                                 password:this.password,
                                 safepwd:this.safepwd,
+                                username:this.username,
                                 pid:sessionStorage.id
                             }, function(data){
-                                console.log(data);
+                                // console.log(data);
                                 if(data.code === '000000') {
                                     sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) - parseInt(openAccount.jfzhuce);
                                     updateUserCoreInfo();
@@ -712,6 +641,7 @@ $(function(){
                                     openAccount.jfzhuce = "";
                                     openAccount.password = "";
                                     openAccount.safepwd = "";
+                                    openAccount.username = "";
                                     $(".hang_detail10").fadeIn(.3);
                                     $(".code_tip9").text("账号开通成功！");
                                 } else if(data.code === '000002'){
@@ -876,6 +806,7 @@ $(function(){
                         break;
                     }
                     if(type != 0) {
+                        console.log(2);
                         var core = this.jf;
                         // console.log(type);
                         $.post("http://39.108.55.80:8081" + "/jf/transforjf",{
@@ -944,5 +875,103 @@ $(function(){
             // 积分转换中心
             conversionBox.updateUserInfo();
         }
+
+        setInterval(()=>{
+            getGmnum();
+        }, 10000);
+
+        setInterval(recreation_platform.updateUserInfo, 2000);
+
+        // 购买
+        setInterval(function(){
+            $.post("http://39.108.55.80:8081" + "/home/getBuyJf",{
+                userId:sessionStorage.id
+            },function(data){
+                // console.log(data);
+                var dt = data.result;
+                var users = [];
+                for(var i = 0;i < dt.length;i++) {
+                    if(dt[i].id != sessionStorage.id){
+                        users.push(dt[i]);
+                    }
+                }
+                goumailist.items = users;
+            });
+        }, 3000);
+
+        //挂卖
+        setInterval(function(){
+            $.post("http://39.108.55.80:8081" + "/home/getBusiness",{
+                userId:sessionStorage.id,
+                status:1,
+                type:1
+            },function(data){
+                var dt = data.result;
+                // console.log(dt);
+                var users = [];
+                for(var i = 0;i < dt.length;i++) {
+                    if(dt[i].userid == parseInt(sessionStorage.id)){
+                        users.push(dt[i]);
+                    }
+                    if(dt[i].buytime) {
+                        dt[i].buytime = formateTimeStamp(dt[i].buytime + 1*24*60*60*1000) + '之前';
+                    } else {
+                        dt[i].buytime = '';
+                    }
+                }
+                console.log(users[0].status);
+                integral_list.items = users;
+            });
+        }, 3000);
+
+        // 首页公告
+        flow.load({
+            elem:'#bulletinList',
+            done:function(page,next){
+                var lis = [];
+                $.get("http://39.108.55.80:8081" + '/home/getNotice?page='+page, function(res){
+                    layui.each(res.result, function(index, item){
+                        lis.push('<li class="div_li">'+ 
+                        '<div class="data_base_div">' +
+                            '<span class="div_left_title">'+ item.title +'</span>' +
+                            '<span class="div_right_date">'+ item.createDate +'</span>' +
+                        '</div>'+
+                        '<div class="data_base_div">' +
+                            '<a class="div_base_detail div_detail">' +
+                                '<span class="link_span">'+ item.content + '</span>' +
+                                '<i class="link_icon_right main_link_icon_right"></i>' +
+                            '</a>'+
+                        '</div>'
+                        +'</li>');
+                    }); 
+                    next(lis.join(''), page < res.pages);    
+                });
+            }
+        });
+
+        // 网站公告
+        flow.load({
+            elem:'#webBulletinList',
+            done:function(page,next){
+                var lis = [];
+                $.get("http://39.108.55.80:8081" + '/home/getNotice?page='+page, function(res){
+                    layui.each(res.result, function(index, item){
+                        lis.push('<li class="div_li">'+ 
+                        '<div class="data_base_div">' +
+                            '<span class="div_left_title">'+ item.title +'</span>' +
+                            '<span class="div_right_date">'+ item.createDate +'</span>' +
+                        '</div>'+
+                        '<div class="data_base_div">' +
+                            '<a class="div_base_detail div_detail">' +
+                                '<span class="link_span">'+ item.content + '</span>' +
+                                '<i class="link_icon_right main_link_icon_right"></i>' +
+                            '</a>'+
+                        '</div>'
+                        +'</li>');
+                    }); 
+                    next(lis.join(''), page < res.pages);    
+                });
+            }
+        });
     });
 });

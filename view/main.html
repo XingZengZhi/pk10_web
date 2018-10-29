@@ -429,7 +429,7 @@
                                 <i class="icon-li data_base_icon6"></i>
                                 需确认时间
                             </span>
-                            <span class="data_base_span data_base_titleRight" >{{item.configtime}}</span>
+                            <span class="data_base_span data_base_titleRight" >{{item.buytime}}</span>
                         </li>
                         <li>
                             <span class="data_base_span data_base_titleLeft">
@@ -463,71 +463,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- <div class="data_base">
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                挂卖用户
-                            </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                挂卖积分数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                挂卖时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon7"></i>
-                                操作
-                            </span>
-                            <button type="button" class="hang_btn" id="confirm_hang">购买</button>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="data_base">
-                    <ul class="data_base_list">
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon2"></i>
-                                挂卖用户
-                            </span>
-                            <span class="data_base_span data_base_titleRight">周欣欣</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon3"></i>
-                                挂卖积分数量
-                            </span>
-                            <span class="data_base_span data_base_titleRight">1200</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon4"></i>
-                                挂卖时间
-                            </span>
-                            <span class="data_base_span data_base_titleRight">2018.08.08</span>
-                        </li>
-                        <li>
-                            <span class="data_base_span data_base_titleLeft">
-                                <i class="icon-li data_base_icon7"></i>
-                                操作
-                            </span>
-                            <span class="data_base_span data_base_titleRight fontWeightBold">交易进行中</span>
-                        </li>
-                    </ul>
-                </div> -->
             </div>
             <!-- 积分转换中心 -->
             <div class="data_content integral_conversion">
@@ -660,8 +595,8 @@
                         </div>
                         <div class="leader_list_item" v-for="item in items">
                             <div>{{item.account}}</div>
-                            <div>{{item.tokennum}}</div>
-                            <div>{{item.create_date | formateDate}}</div>
+                            <div>{{item.num}}</div>
+                            <div>{{item.createdate | formateDate}}</div>
                         </div>
                     </div>
                 </div>
@@ -679,7 +614,7 @@
                             <div>转入时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>{{item.type}}</div>
+                            <div>{{item.status}}</div>
                             <div>{{item.num}}</div>
                             <div>{{item.createdate | formatDate}}</div>
                         </div>
@@ -696,7 +631,7 @@
                             <div>转入时间</div>
                         </div>
                         <div class="leader_list_item" v-for="item in items">
-                            <div>{{item.type}}</div>
+                            <div>{{item.status}}</div>
                             <div>{{item.num}}</div>
                             <div>{{item.createdate | formatDate}}</div>
                         </div>
@@ -712,6 +647,9 @@
                     <div class="createAccountItem">
                         <div>
                             <input type="text" placeholder="账号" class="input_controle" v-model="account" />
+                        </div>
+                        <div>
+                            <input type="text" placeholder="真实名称" class="input_controle" v-model="username" />
                         </div>
                         <div>
                             <input type="password" placeholder="登录密码" class="input_controle" v-model="password" />
@@ -1162,7 +1100,7 @@
                                     <li>
                                         <p>
                                             <span class="lottery_title lottery_color marginRight5">可赢积分</span>
-                                            <span class="lottery_title fontWeightBold">{{winscore}}</span>
+                                            <span class="lottery_title fontWeightBold">{{sumwin}}</span>
                                         </p>
                                     </li>
                                 </ul>
@@ -1335,6 +1273,7 @@
                                     </span>
                                 </div>
                             </li>
+                            <li><p style="font-size:1rem;color:#ccc;margin-top:20px;">*二维码图片尽量展示二维码部分</p></li>
                         </ul>
                     </form>
                     <div class="editButtonBox">
@@ -1678,10 +1617,9 @@
 </script>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="/js/global.js"></script>
 <script src="/js/operator.js"></script>
+<script src="/js/global.js"></script>
 <script src="/layui/layui.js"></script>
-<!-- <script src="/js/time.js"></script> -->
 <script src="/js/bet.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/score.js"></script>

@@ -140,7 +140,7 @@ var globalInfo = {
             // 已使用密钥
             sessionStorage.usedtoken = data.result['usedtoken'];
             // 原注册积分
-            sessionStorage.jfold =data.result['jfold'];
+            sessionStorage.jfold = parseInt(data.result['jfold']);
 
             updateUserInfo();
         });
@@ -221,13 +221,13 @@ var globalInfo = {
         $.post("http://39.108.55.80:8081/home/getTokens",{
             account:sessionStorage.account
         }, function(data){
-            console.log(data);
+            // console.log(data);
             if(data.code != '000000') {
                 layui.use('layer', function(){
                     var layer = layui.layer;
                     layer.msg('任务密钥转入数据加载失败，请重试');
                 });
-                console.error('挂卖数据加载失败');
+                console.error('任务密钥转入数据加载失败');
                 return;
             }
             renwuinputList.items = data.result;
@@ -236,12 +236,13 @@ var globalInfo = {
         $.post("http://39.108.55.80:8081/home/getTokens",{
             userId:sessionStorage.id
         }, function(data){
+            // console.log(data);
             if(data.code != '000000') {
                 layui.use('layer', function(){
                     var layer = layui.layer;
                     layer.msg('任务密钥转出数据加载失败，请重试');
                 });
-                console.error('挂卖数据加载失败');
+                console.error('任务密钥转出数据加载失败');
                 return;
             }
             renwuoutputList.items = data.result;
@@ -316,10 +317,13 @@ function updateUserInfo() {
 
 setInterval(globalInfo.updateSession, 2000);
 
-globalInfo.centerPage();
-globalInfo.renwumiyao();
-globalInfo.renwujifen();
-globalInfo.jiaoyijifen();
+if(sessionStorage.id) {
+    globalInfo.centerPage();
+    globalInfo.renwumiyao();
+    globalInfo.renwujifen();
+    globalInfo.jiaoyijifen();
+}
+
 
 // 警告制表符
 console.warn(

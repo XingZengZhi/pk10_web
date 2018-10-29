@@ -18,7 +18,7 @@
 .prepage img{margin-bottom:12px;display: inline-block;width:20px;height:20px;}
 #userInfoList li span:last-child{display:none;}
 #userInfoDeatil{display:none;}
-#userInfoDetailAliPay img, #userInfoDetailWxPay img{width:100px;height:100px;display:block;}
+#userInfoDetailAliPay img, #userInfoDetailWxPay img{width:150px;height:200px;display:block;}
 #test1, #test2{display:none;}
 /* 基础信息 */
 .data_base_icon{display:inline-block;width:20px;height:15px;background-size:100% 15px;background-repeat: no-repeat;background-position: 0 0;position: relative;top:2px;right:5px;}

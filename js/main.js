@@ -56,7 +56,11 @@ window.onload = function(){
         $(".prepage")[0].setAttribute("id", "");
         $("." + pageId).fadeIn(0.3).siblings().fadeOut(0);
         if(pageId === 'missed_details'){
-            var loadIndex = layer.load(2);
+            var loadIndex;
+            layui.use('layer', function(){
+                var layer = layui.layer;
+                loadIndex = layer.load(2);
+            });
             $(".prepage").fadeIn(0);
             $(".prepage")[0].setAttribute("id", "recreation_platform");
             // 未结明细
@@ -66,7 +70,7 @@ window.onload = function(){
             },function(data){
                 layer.close(loadIndex);
                 var dt = data.result;
-                console.log(dt);
+                // console.log(dt);
                 for(var i = 0;i < dt.length;i++) {
                     dt[i].buyinfo = numNames[dt[i].buyinfo];
                 }
@@ -96,7 +100,13 @@ window.onload = function(){
             });
         } else {
             // 改变选中字体颜色
-            $("#" + pageId).css('color', '#EA4758').siblings().css('color', '#535353');
+            if(pageId == 'index_data' || pageId == 'recreation_platform' || pageId == 'personal_data') {
+                $("#" + pageId).css('color', '#EA4758').siblings().css('color', '#535353');
+            } else {
+                $("#index_data").css('color', '#535353');
+                $("#recreation_platform").css('color', '#535353');
+                $("#personal_data").css('color', '#535353');
+            }
             // 改变icon图标
             $.each($(".footer a"), function(i, n){
                 var id_item_v = $(n).prop('id');
@@ -107,6 +117,7 @@ window.onload = function(){
                 }
             });
             clearTimeout(timer);
+
             // 切换顶部标题
             switch(pageId) {
                 case 'index_data': 
@@ -147,12 +158,26 @@ window.onload = function(){
                         long:"",
                         hu:"",
                         allscore:0,
-                        winscore:0,
+                        winscore:[0,0,0,0,0,0],
+                        sumwin:0,
                         showbet:false,
                         jf:"",
                         type:""
                     },
                     methods:{
+                        computercore:function(bgm, sgm, single, double, long, hu) {
+                            var pl = parseFloat(lottery_box.pl);
+                            if(bgm == '') bgm = 0;
+                            if(sgm == '') sgm = 0;
+                            if(single == '') single = 0;
+                            if(double == '') double = 0;
+                            if(long == '') long = 0;
+                            if(hu == '') hu = 0;
+                            var score1 = parseInt(bgm) > parseInt(sgm)? parseInt(bgm) * pl - parseInt(sgm) : parseInt(bgm) == parseInt(sgm)?parseInt(bgm) * pl - parseInt(sgm) : parseInt(sgm) * pl - parseInt(bgm);
+                            var score2 = parseInt(single) > parseInt(double)? parseInt(single) * pl - parseInt(double) : parseInt(single) == parseInt(double)?parseInt(single) * pl - parseInt(double) : parseInt(double) * pl - parseInt(single);
+                            var lh = parseInt(long) > parseInt(hu)? parseInt(long) * pl - parseInt(hu) : parseInt(long) == parseInt(hu)?parseInt(long) * pl - parseInt(hu): parseInt(hu) * pl - parseInt(long);
+                            return score1 + score2 + lh;
+                        },
                         betSubmit:function(event){
                             this.showbet = true;
                             var setV = event.target.getAttribute("data-set");
@@ -166,144 +191,174 @@ window.onload = function(){
                                 // 确认下注
                                 if(this.bgm1 != '') {
                                     this.allscore += parseInt(this.bgm1);
+                                    this.winscore[0] = this.computercore(this.bgm1, this.sgm1, this.single1, this.double1, '', '');
                                     jf.push(this.bgm1);
                                     type.push('big1');
                                 }
                                 if(this.bgm2 != '') {
                                     this.allscore += parseInt(this.bgm2);
+                                    this.winscore[1] = this.computercore(this.bgm2, this.sgm2, this.single2, this.double2, '', '');
                                     jf.push(this.bgm2);
                                     type.push('big2');
                                 }
                                 if(this.bgm3 != '') {
                                     this.allscore += parseInt(this.bgm3);
+                                    this.winscore[2] = this.computercore(this.bgm3, this.sgm3, this.single3, this.double3, '', '');
                                     jf.push(this.bgm3);
                                     type.push('big3');
                                 }
                                 if(this.bgm4 != '') {
                                     this.allscore += parseInt(this.bgm4);
+                                    this.winscore[3] = this.computercore(this.bgm4, this.sgm4, this.single4, this.double4, '', '');
                                     jf.push(this.bgm4);
                                     type.push('big4');
                                 }
                                 if(this.bgm5 != '') {
                                     this.allscore += parseInt(this.bgm5);
+                                    this.winscore[4] = this.computercore(this.bgm5, this.sgm5, this.single5, this.double5, '', '');
                                     jf.push(this.bgm5);
                                     type.push('big5');
                                 }
 
                                 if(this.sgm1 != '') {
                                     this.allscore += parseInt(this.sgm1);
+                                    this.winscore[0] = this.computercore(this.bgm1, this.sgm1, this.single1, this.double1, '', '');
                                     jf.push(this.sgm1);
                                     type.push('small1');
                                 }
                                 if(this.sgm2 != '') {
                                     this.allscore += parseInt(this.sgm2);
+                                    this.winscore[1] = this.computercore(this.bgm2, this.sgm2, this.single2, this.double2, '', '');
                                     jf.push(this.sgm2);
                                     type.push('small2');
                                 }
                                 if(this.sgm3 != '') {
                                     this.allscore += parseInt(this.sgm3);
+                                    this.winscore[2] = this.computercore(this.bgm3, this.sgm3, this.single3, this.double3, '', '');
                                     jf.push(this.sgm3);
                                     type.push('small3');
                                 }
                                 if(this.sgm4 != '') {
                                     this.allscore += parseInt(this.sgm4);
+                                    this.winscore[3] = this.computercore(this.bgm4, this.sgm4, this.single4, this.double4, '', '');
                                     jf.push(this.sgm4);
                                     type.push('small4');
                                 }
                                 if(this.sgm5 != '') {
                                     this.allscore += parseInt(this.sgm5);
+                                    this.winscore[4] = this.computercore(this.bgm5, this.sgm5, this.single5, this.double5, '', '');
                                     jf.push(this.sgm5);
                                     type.push('small5');
                                 }
 
                                 if(this.single1 != '') {
                                     this.allscore += parseInt(this.single1);
+                                    this.winscore[0] = this.computercore(this.bgm1, this.sgm1, this.single1, this.double1, '', '');
                                     jf.push(this.single1);
                                     type.push('single1');
                                 }
                                 if(this.single2 != '') {
                                     this.allscore += parseInt(this.single2);
+                                    this.winscore[1] = this.computercore(this.bgm2, this.sgm2, this.single2, this.double2, '', '');
                                     jf.push(this.single2);
                                     type.push('single2');
                                 }
                                 if(this.single3 != '') {
                                     this.allscore += parseInt(this.single3);
+                                    this.winscore[2] = this.computercore(this.bgm3, this.sgm3, this.single3, this.double3, '', '');
                                     jf.push(this.single3);
                                     type.push('single3');
                                 }
                                 if(this.single4 != '') {
                                     this.allscore += parseInt(this.single4);
+                                    this.winscore[3] = this.computercore(this.bgm4, this.sgm4, this.single4, this.double4, '', '');
                                     jf.push(this.single4);
                                     type.push('single4');
                                 }
                                 if(this.single5 != '') {
                                     this.allscore += parseInt(this.single5);
+                                    this.winscore[4] = this.computercore(this.bgm5, this.sgm5, this.single5, this.double5, '', '');
                                     jf.push(this.single5);
                                     type.push('single5');
                                 }
 
                                 if(this.double1 != '') {
                                     this.allscore += parseInt(this.double1);
+                                    this.winscore[0] = this.computercore(this.bgm1, this.sgm1, this.single1, this.double1, '', '');
                                     jf.push(this.double1);
                                     type.push('doub1');
                                 }
                                 if(this.double2 != '') {
                                     this.allscore += parseInt(this.double2);
+                                    this.winscore[1] = this.computercore(this.bgm2, this.sgm2, this.single2, this.double2, '', '');
                                     jf.push(this.double2);
                                     type.push('doub2');
                                 }
                                 if(this.double3 != '') {
                                     this.allscore += parseInt(this.double3);
+                                    this.winscore[2] = this.computercore(this.bgm3, this.sgm3, this.single3, this.double3, '', '');
                                     jf.push(this.double3);
                                     type.push('doub3');
                                 }
                                 if(this.double4 != '') {
                                     this.allscore += parseInt(this.double4);
+                                    this.winscore[3] = this.computercore(this.bgm4, this.sgm4, this.single4, this.double4, '', '');
                                     jf.push(this.double4);
                                     type.push('doub4');
                                 }
                                 if(this.double5 != '') {
                                     this.allscore += parseInt(this.double5);
+                                    this.winscore[4] = this.computercore(this.bgm5, this.sgm5, this.single5, this.double5, '', '');
                                     jf.push(this.double5);
                                     type.push('doub5');
                                 }
 
                                 if(this.sumbig != '') {
                                     this.allscore += parseInt(this.sumbig);
+                                    this.winscore[5] = this.computercore(this.sumbig, this.sumsmall, this.sumsingle, this.sumdoub, this.long, this.hu);
                                     jf.push(this.sumbig);
                                     type.push('sumbig');
                                 }
                                 if(this.sumsmall != '') {
                                     this.allscore += parseInt(this.sumsmall);
+                                    this.winscore[5] = this.computercore(this.sumbig, this.sumsmall, this.sumsingle, this.sumdoub, this.long, this.hu);
                                     jf.push(this.sumsmall);
                                     type.push('sumsmall');
                                 }
                                 if(this.sumsingle != '') {
                                     this.allscore += parseInt(this.sumsingle);
+                                    this.winscore[5] = this.computercore(this.sumbig, this.sumsmall, this.sumsingle, this.sumdoub, this.long, this.hu);
                                     jf.push(this.sumsingle);
                                     type.push('sumsingle');
                                 }
                                 if(this.sumdoub != '') {
                                     this.allscore += parseInt(this.sumdoub);
+                                    this.winscore[5] = this.computercore(this.sumbig, this.sumsmall, this.sumsingle, this.sumdoub, this.long, this.hu);
                                     jf.push(this.sumdoub);
                                     type.push('sumdoub');
                                 }
                                 if(this.long != '') {
                                     this.allscore += parseInt(this.long);
+                                    this.winscore[5] = this.computercore(this.sumbig, this.sumsmall, this.sumsingle, this.sumdoub, this.long, this.hu);
                                     jf.push(this.long);
                                     type.push('long');
                                 }
                                 if(this.hu != '') {
                                     this.allscore += parseInt(this.hu);
+                                    this.winscore[5] = this.computercore(this.sumbig, this.sumsmall, this.sumsingle, this.sumdoub, this.long, this.hu);
                                     jf.push(this.hu);
                                     type.push('hu');
                                 }
-                                this.winscore = (this.allscore * parseFloat(this.pl)).toFixed(1);
-                                // console.log(jf.join(','));
-                                // console.log(type.join(','));
                                 this.jf = jf.join(',');
                                 this.type = type.join(',');
-                                // console.log(this.jf);
+                                console.log(this.sumwin);
+                                for(var i = 0;i < this.winscore.length;i++) {
+                                    // console.log(parseFloat(this.winscore[i]));
+                                    this.sumwin += parseFloat(this.winscore[i]);
+                                }
+                                this.sumwin = this.sumwin.toFixed(1);
+                                // console.log(this.winscore);
+                                // console.log(this.sumwin);
                             } else {
                                 // console.log(lottery_box.jf);
                                 var indexLoad = layer.load(2);
@@ -330,48 +385,56 @@ window.onload = function(){
                                             layer.msg('下注失败'); 
                                         }
                                     }
+                                    for(var i = 0;i < lottery_box.winscore.length;i++) {
+                                        lottery_box.winscore[i] = 0;
+                                    }
                                     lottery_box.allscore = 0;
-                                    lottery_box.winscore = 0;
-                                    this.showbet = false;
+                                    lottery_box.sumwin = 0;
+                                    lottery_box.showbet = false;
                                 })
                             }
                         },
                         resetBet:function(event){
                             $("#betSubmit")[0].setAttribute("data-set", 1);
                             $("#betSubmit").text("确认");
-                            this.showbet = false;
-                            this.bgm1 = "";
-                            this.bgm2 = "";
-                            this.bgm3 = "";
-                            this.bgm4 = "";
-                            this.bgm5 = "";
+                            for(var i = 0;i < lottery_box.winscore.length;i++) {
+                                lottery_box.winscore[i] = 0;
+                            }
+                            lottery_box.allscore = 0;
+                            lottery_box.sumwin = 0;
+                            lottery_box.showbet = false;
+                            lottery_box.bgm1 = "";
+                            lottery_box.bgm2 = "";
+                            lottery_box.bgm3 = "";
+                            lottery_box.bgm4 = "";
+                            lottery_box.bgm5 = "";
 
-                            this.sgm1 = "";
-                            this.sgm2 = "";
-                            this.sgm3 = "";
-                            this.sgm4 = "";
-                            this.sgm5 = "";
+                            lottery_box.sgm1 = "";
+                            lottery_box.sgm2 = "";
+                            lottery_box.sgm3 = "";
+                            lottery_box.sgm4 = "";
+                            lottery_box.sgm5 = "";
 
-                            this.single1 = "";
-                            this.single2 = "";
-                            this.single3 = "";
-                            this.single4 = "";
-                            this.single5 = "";
+                            lottery_box.single1 = "";
+                            lottery_box.single2 = "";
+                            lottery_box.single3 = "";
+                            lottery_box.single4 = "";
+                            lottery_box.single5 = "";
 
-                            this.double1 = "";
-                            this.double2 = "";
-                            this.double3 = "";
-                            this.double4 = "";
-                            this.double5 = "";
+                            lottery_box.double1 = "";
+                            lottery_box.double2 = "";
+                            lottery_box.double3 = "";
+                            lottery_box.double4 = "";
+                            lottery_box.double5 = "";
 
-                            this.sumbig = "";
-                            this.sumsmall = "";
-                            this.sumsingle = "";
-                            this.sumdoub = "";
-                            this.long = "";
-                            this.hu = "";
-                            this.jf = "";
-                            this.type = "";
+                            lottery_box.sumbig = "";
+                            lottery_box.sumsmall = "";
+                            lottery_box.sumsingle = "";
+                            lottery_box.sumdoub = "";
+                            lottery_box.long = "";
+                            lottery_box.hu = "";
+                            lottery_box.jf = "";
+                            lottery_box.type = "";
                         }
                     }
                 });
@@ -480,26 +543,6 @@ window.onload = function(){
                 topTitle.text('挂卖交易积分');
                 break;
                 case 'buy_integral':
-                // 购买积分列表
-                var loadIndex = layer.load(2);
-                var goumailist = new Vue({
-                    el:"#goumailist",
-                    data:{
-                        items:""
-                    }
-                });
-                $.post("http://39.108.55.80:8081/home/getBusiness", {
-                    userid:sessionStorage.id,
-                    type:2
-                    // status:1
-                },function(data){
-                    console.log(data);
-                    layer.close(loadIndex);
-                    goumailist.items = data.result;
-                    if(data.code != '000000') {
-                        layer.msg('加载失败，请重试');
-                    }
-                });
                 topTitle.text('购买积分列表');
                 break;
                 case 'hang_integral':
@@ -511,7 +554,7 @@ window.onload = function(){
                 case 'createAccount':
                 // 查询开通账号积分
                 $.post("http://39.108.55.80:8081/jf/getJf?number=001", function(data){
-                    console.log(data)
+                    // console.log(data)
                     var jf = data.result.data;
                     var selectBox = new Vue({
                         el:"#selectBox",
@@ -594,12 +637,14 @@ window.onload = function(){
                 break;
                 case 'task_gift':
                 topTitle.text('转赠任务密钥');
+                $("#taskGiftToken").text(sessionStorage.taskToken);
                 break;
                 case 'integral_conversion':
                 topTitle.text('积分转换');
                 break;
                 case 'task_application':
                 topTitle.text('任务申请');
+                $("#taskTokenApply").text(sessionStorage.taskToken);
                 break;
                 case 'bulletin':
                 topTitle.text('网站公告');
