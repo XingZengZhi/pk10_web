@@ -451,6 +451,29 @@ window.onload = function(){
                 topTitle.text('PK10');
                 showOrHideEditButton($("#" + pageId).prop('class'));
                 break;
+                case 'createAccount':
+                // 查询开通账号积分
+                $.post("http://39.108.55.80:8081/jf/getJf?number=001", function(data){
+                    // console.log(data)
+                    var jf = data.result.data;
+                    var selectBox = new Vue({
+                        el:"#selectBox",
+                        data:{
+                            items:jf.split(',')
+                        }
+                    });
+                    $("#selectBox").on("click", "div", function(){
+                        var cls = $(this).prop("class");
+                        if(cls === 'select_score'){
+                            $("#register_core input").val($(this).text());
+                        }else{
+                            $("#register_core input").val('');
+                        }
+                        hideMaskAndContentTopBottom();
+                    });
+                });
+                topTitle.text('开通账号');
+                break;
             }
         }
     }

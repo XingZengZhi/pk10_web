@@ -77,19 +77,28 @@ $(function(){
     });
     // 修改安全码
     $("#confirmChangeSecuritycode").on('click', function(){
-        $.post("http://39.108.55.80:8081" + "/user/fogetPwd",{
-            "id":sessionStorage.id,
-            "safepwd":$("#oldSecuritycode").val(),
-            "newsafepwd":$("#newSecuritycode").val()
-        },function(data){
-            if(data.code === '000000') {
-                $(".code_tip9").text("修改成功！");
-                $(".hang_detail10").fadeIn(0);
-            } else {
-                $(".code_tip9").text("修改失败！");
-                $(".hang_detail10").fadeIn(0);
-            }
-        });
+        var newS = $("#newSecuritycode").val();
+        var confirmS = $("#confirmSecuritycode").val();
+        var oldS = $("#oldSecuritycode").val();
+        if(newS === confirmS) {
+            $.post("http://39.108.55.80:8081" + "/user/fogetPwd",{
+                "id":sessionStorage.id,
+                "safepwd":oldS,
+                "newsafepwd":newS
+            },function(data){
+                console.log(data);
+                if(data.code === '000000') {
+                    $(".code_tip9").text("修改成功！");
+                    $(".hang_detail10").fadeIn(0);
+                } else {
+                    $(".code_tip9").text("修改失败！");
+                    $(".hang_detail10").fadeIn(0);
+                }
+            });
+        } else {
+            layer.msg("确认密码和新密码不相同，请检查！");
+        }
+        
     });
     // 首页公告数据
     layui.use(['flow', 'layer'], function(){
@@ -364,7 +373,7 @@ $(function(){
         // 获取开奖信息
         function getGmnum(){
             $.post("http://39.108.55.80:8081/home/getData", function(data){
-                console.log(data);
+                // console.log(data);
                 if(data.code === '111111') {
                     return;
                 }
@@ -625,33 +634,40 @@ $(function(){
                             }
                             $(".code_tip9").text(tips);
                         } else {
-                            $.post("http://39.108.55.80:8081" + "/user/register",{
-                                account:this.account,
-                                jfzhuce:this.jfzhuce,
-                                password:this.password,
-                                safepwd:this.safepwd,
-                                username:this.username,
-                                pid:sessionStorage.id
-                            }, function(data){
-                                // console.log(data);
-                                if(data.code === '000000') {
-                                    sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) - parseInt(openAccount.jfzhuce);
-                                    updateUserCoreInfo();
-                                    openAccount.account = "";
-                                    openAccount.jfzhuce = "";
-                                    openAccount.password = "";
-                                    openAccount.safepwd = "";
-                                    openAccount.username = "";
-                                    $(".hang_detail10").fadeIn(.3);
-                                    $(".code_tip9").text("账号开通成功！");
-                                } else if(data.code === '000002'){
-                                    $(".hang_detail10").fadeIn(.3);
-                                    $(".code_tip9").text("账号已存在！");
-                                } else {
-                                    $(".hang_detail10").fadeIn(.3);
-                                    $(".code_tip9").text("账号开通失败！");
+                            layer.confirm("安全密码奖作为交易密码使用，请牢记！", {icon:3, title:"提示"}, function(index){
+                                if(index > 0) {
+                                    $.post("http://39.108.55.80:8081" + "/user/register",{
+                                        account:this.account,
+                                        jfzhuce:this.jfzhuce,
+                                        password:this.password,
+                                        safepwd:this.safepwd,
+                                        username:this.username,
+                                        pid:sessionStorage.id
+                                    }, function(data){
+                                        // console.log(data);
+                                        if(data.code === '000000') {
+                                            sessionStorage.jfcenter = parseInt(sessionStorage.jfcenter) - parseInt(openAccount.jfzhuce);
+                                            updateUserCoreInfo();
+                                            openAccount.account = "";
+                                            openAccount.jfzhuce = "";
+                                            openAccount.password = "";
+                                            openAccount.safepwd = "";
+                                            openAccount.username = "";
+                                            $(".hang_detail10").fadeIn(.3);
+                                            $(".code_tip9").text("账号开通成功！");
+                                        } else if(data.code === '000002'){
+                                            $(".hang_detail10").fadeIn(.3);
+                                            $(".code_tip9").text("账号已存在！");
+                                        } else {
+                                            $(".hang_detail10").fadeIn(.3);
+                                            $(".code_tip9").text("账号开通失败！");
+                                        }
+                                    });
+
                                 }
+                                layer.close(index);
                             });
+
                         }
                     }
                 },
@@ -895,6 +911,7 @@ $(function(){
                         users.push(dt[i]);
                     }
                 }
+                // console.log(users);
                 goumailist.items = users;
             });
         }, 3000);
@@ -919,7 +936,7 @@ $(function(){
                         dt[i].buytime = '';
                     }
                 }
-                console.log(users[0].status);
+                // console.log(users[0].status);
                 integral_list.items = users;
             });
         }, 3000);
